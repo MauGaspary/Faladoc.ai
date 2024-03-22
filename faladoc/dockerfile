@@ -1,0 +1,27 @@
+FROM node:20.11.1
+
+# Define o diretório de trabalho dentro do container
+WORKDIR /app
+
+# Copia os arquivos package.json e package-lock.json para o diretório de trabalho do container
+COPY package*.json ./
+
+# Instala as dependências do projeto e as copia para um diretório temporário
+RUN npm install --no-cache && cp -a node_modules /tmp/node_modules
+
+RUN npm install --save-dev @types/react-native
+
+# Copia o script de entrada e dá permissão de execução
+COPY entrypoint.sh /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
+
+# Copia os demais arquivos do projeto para o diretório de trabalho do container
+COPY . .
+
+EXPOSE 19000
+EXPOSE 19001
+EXPOSE 19002
+EXPOSE 8081
+
+# Define o script de entrada como o ponto de entrada do container
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]

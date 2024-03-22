@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Streamer voltou</Text>
+      <Text>Falta habilitar o live reload</Text>
       <StatusBar style="auto" />
     </View>
   );
