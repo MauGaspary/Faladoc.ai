@@ -5,8 +5,8 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-      - ./entrypoint.sh:/entrypoint.sh
-    entrypoint: /entrypoint.sh
+      - ./entrypoint.sh:/usr/src/app/entrypoint.sh
+    entrypoint: /usr/src/app/entrypoint.sh
     environment:
       - NODE_VERSION=20.11.1
     ports:

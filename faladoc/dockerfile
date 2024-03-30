@@ -11,20 +11,17 @@ RUN npm install --no-cache && cp -a node_modules /tmp/node_modules
 
 RUN npm install --save-dev @types/react-native
 
-# Copia o script de entrada para a raiz do diretório de trabalho do container
-COPY entrypoint.sh /entrypoint.sh
-
-# Dá permissão de execução ao script de entrada
-RUN chmod +x /entrypoint.sh
+# Copia o script de entrada e dá permissão de execução
+COPY entrypoint.sh /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
 
 # Copia os demais arquivos do projeto para o diretório de trabalho do container
 COPY . .
 
-# Expõe as portas necessárias
 EXPOSE 19000
 EXPOSE 19001
 EXPOSE 19002
 EXPOSE 8081
 
 # Define o script de entrada como o ponto de entrada do container
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
