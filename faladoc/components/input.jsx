@@ -2,17 +2,14 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const Input = () => {
-  const [pressed, setPressed] = useState(false)
+const Input = ({iconName,placeolder}) => {
 
   return (
     <View style={styles.inputContainer}>
-      <Ionicons name= "key" size={24} color="Black" />
+      <Ionicons name= {iconName} size={24} color="black" style={styles.icon}/>
       <TextInput
-        onFocus={()=> setPressed(true)}
-        onBlur={()=> setPressed(false)}
-        placeholder='leonardo'
-        style={pressed ? styles.inputPressed : styles.input}
+      style={styles.input}
+        placeholder= {placeholder}
         placeholderTextColor="gray"
       />
     </View>
@@ -25,20 +22,21 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#6495ED',
     borderRadius: 50,
-    paddingHorizontal:10,
+    paddingVertical:3,
     margin: 10,
+    
   },
   input: {
-    flex: 1,
-    height: 35,
-    color: 'black',
-    marginLeft: 15,
+    borderRadius: 50,
+    paddingVertical:5,
+    margin:10,
+    left:10,
+    width:350,
+    fontSize:17,
   },
-  inputPressed:{
-    flex: 1,
-    height: 35,
-    backgroundColor: 'blue',
-    marginLeft: 15,
+  icon: {
+    marginTop: 13,
+    left:12,
   }
 });
 
