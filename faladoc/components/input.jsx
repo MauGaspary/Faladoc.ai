@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const Input = ({iconName,placeolder}) => {
+const Input = ({iconName,placeholder}) => {
 
   return (
     <View style={styles.inputContainer}>
