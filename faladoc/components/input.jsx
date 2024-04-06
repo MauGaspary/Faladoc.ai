@@ -1,43 +1,21 @@
-import React, { useState } from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const Input = ({iconName,placeholder}) => {
 
+
+
+const Input = ({ iconName, placeholder }) => {
   return (
-    <View style={styles.inputContainer}>
-      <Ionicons name= {iconName} size={24} color="black" style={styles.icon}/>
+    <View className="flex-row br-15 border-2 border-blue-500 rounded-full p-3 m-3">
+      <Ionicons name={iconName} size={24} color="black" className="mt-1 ml-2" />
       <TextInput
-      style={styles.input}
-        placeholder= {placeholder}
+        className="flex-100 ml-200"
+        placeholder={placeholder}
         placeholderTextColor="gray"
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    flexDirection: 'row',
-    borderWidth: 2,
-    borderColor: '#6495ED',
-    borderRadius: 50,
-    paddingVertical:3,
-    margin: 10,
-    
-  },
-  input: {
-    borderRadius: 50,
-    paddingVertical:5,
-    margin:10,
-    left:10,
-    width:350,
-    fontSize:17,
-  },
-  icon: {
-    marginTop: 13,
-    left:12,
-  }
-});
 
 export default Input;
