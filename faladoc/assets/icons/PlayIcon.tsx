@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import * as Svg from 'react-native-svg';
 
 export function PlayIcon() {

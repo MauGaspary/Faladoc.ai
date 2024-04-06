@@ -1,4 +1,4 @@
-import { TouchableOpacity} from "react-native";
+import { Pressable, TouchableOpacity} from "react-native";
 import { PauseIcon } from "../assets/icons/PauseIcon";
 import { StopIcon } from "../assets/icons/StopIcon";
 import { PlayIcon } from "../assets/icons/PlayIcon";
@@ -19,8 +19,8 @@ export function StopPauseButton({ type, onPress }: StopPauseButtonProps) {
     onPress();
   };
   return (
-    <TouchableOpacity onPress={handlePress} className={`flex flex-row w-[140px] h-[120px] items-center rounded-[12px] justify-center ${type === 'stop' ? 'bg-[#B42512]' : 'bg-[#12B418]'}`  }>
+    <Pressable onPress={handlePress} className={`flex flex-row w-[140px] h-[120px] items-center rounded-[12px] justify-center ${type === 'stop' ? 'bg-[#B42512]' : 'bg-[#12B418]'}`  }>
       {type === 'pause' ? (buttonPressed ? <PlayIcon /> : <PauseIcon />) : <StopIcon />}
-    </TouchableOpacity>
+    </Pressable>
   );
 }
