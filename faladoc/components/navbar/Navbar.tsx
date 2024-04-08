@@ -1,18 +1,23 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 const Navbar = () => {
   return (
     <View style={styles.navbar}>
       <TouchableOpacity>
-        <Feather name="home" size={24} color="#12ADB4" />
+        <Image
+        source={require('../../assets/icons/Home Selected.png')}
+        />
       </TouchableOpacity>
       <TouchableOpacity>
-        <Feather name="mic" size={24} color="#12ADB4" />
+      <Image
+        source={require('../../assets/icons/icon _mic_.png')}
+        />
       </TouchableOpacity>
       <TouchableOpacity>
-        <Feather name="user" size={24} color="#12ADB4" />
+      <Image
+        source={require('../../assets/icons/User Unselected.png')}
+        />
       </TouchableOpacity>
     </View>
   );

@@ -3,6 +3,7 @@
     "name": "faladoc",
     "slug": "faladoc",
     "version": "1.0.0",
+    "liveReload": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
