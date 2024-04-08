@@ -1,23 +1,20 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { House, Person, Mic } from 'react-bootstrap-icons';
 
 const Navbar = () => {
   return (
     <View style={styles.navbar}>
       <TouchableOpacity>
-        <Image
-        source={require('../../assets/icons/Home Selected.png')}
-        />
+          <House size={36}/>
       </TouchableOpacity>
+
       <TouchableOpacity>
-      <Image
-        source={require('../../assets/icons/icon _mic_.png')}
-        />
+        <Mic size={36}/>
       </TouchableOpacity>
+
       <TouchableOpacity>
-      <Image
-        source={require('../../assets/icons/User Unselected.png')}
-        />
+          <Person size={36}/>
       </TouchableOpacity>
     </View>
   );
