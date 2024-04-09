@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import styles from './style';
+import { StopPauseButton } from '../../../components/StopPauseButton';
 
 export default function ConsultaAndamento() {
 
@@ -35,12 +36,6 @@ export default function ConsultaAndamento() {
     }
   };
 
-  const clear = () => {
-    stopTimer();
-    setSeconds(0);
-    setMinutes(0);
-  };
-
   const changeTime = () => {
     setSeconds((prevState) => {
       if(prevState + 1 === 60){
@@ -70,13 +65,12 @@ export default function ConsultaAndamento() {
         {minutes < 10 ? '0' + minutes : minutes}:
         {seconds < 10 ? '0' + seconds : seconds}
       </Text>
-      <View style={styles.buttonContainer}>
-        <Button title='Começar' onPress={handleStartButton} disabled={started}/>
-        <Button title='Parar' onPress={stopTimer}/>
-        <Button title='Limpar' onPress={clear}/>
+      <View>
+        <StopPauseButton onPress={started ? stopTimer : handleStartButton}  type='pause'/>
+        <StopPauseButton onPress={stopTimer} type='stop'/>
       </View>
 
-      <StatusBar style="auto" />
+      <StatusBar style="auto"/>
     </View>
   );
 }
