@@ -1,24 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, Text, View, Image } from 'react-native';
+import { Button, Text, View } from 'react-native';
 import styles from './style';
 
 export default function ConsultaAndamento() {
 
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
-  const [customInterval, setCustomInterval] = useState<NodeJS.Timeout>();
+  const [started, setStarted] = useState(false);
+  const [customInterval, setCustomInterval] = useState<NodeJS.Timeout | null>(null);
+  const [pausedSeconds, setPausedSeconds] = useState(0); 
+
+  useEffect(() => {
+    if (!started) {
+      const intervalId = startTimer();
+      setCustomInterval(intervalId);
+      setStarted(true);
+    }
+  }, []);
 
   const startTimer = () => {
     const intervalId = setInterval(() => {
       changeTime();
     }, 1000);
-    setCustomInterval(intervalId);
+    return intervalId;
   };
 
   const stopTimer = () => {
-    if(customInterval) {
+    if (customInterval) {
       clearInterval(customInterval);
+      setCustomInterval(null);
+      setStarted(false);
+      setPausedSeconds(seconds); 
     }
   };
 
@@ -26,7 +39,7 @@ export default function ConsultaAndamento() {
     stopTimer();
     setSeconds(0);
     setMinutes(0);
-  }
+  };
 
   const changeTime = () => {
     setSeconds((prevState) => {
@@ -36,7 +49,20 @@ export default function ConsultaAndamento() {
       }
       return prevState + 1;
     });
-  }
+  };
+
+  const handleStartButton = () => {
+    if (!started) {
+      const intervalId = startTimer();
+      setCustomInterval(intervalId);
+      setStarted(true);
+    } else {
+      setSeconds(pausedSeconds % 60);
+      setMinutes(Math.floor(pausedSeconds / 60));
+      startTimer();
+      setStarted(true);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -45,7 +71,7 @@ export default function ConsultaAndamento() {
         {seconds < 10 ? '0' + seconds : seconds}
       </Text>
       <View style={styles.buttonContainer}>
-        <Button title='Começar' onPress={startTimer}/>
+        <Button title='Começar' onPress={handleStartButton} disabled={started}/>
         <Button title='Parar' onPress={stopTimer}/>
         <Button title='Limpar' onPress={clear}/>
       </View>
