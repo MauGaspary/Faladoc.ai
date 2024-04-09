@@ -1,26 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
 
-// CREATE TABLE appointments (
-//     id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-//     doctor_id uuid NOT NULL,
-//     patient_id uuid NOT NULL,
-//     appointment_context TEXT,
-//     medical_record_original TEXT,
-//     medical_record_final TEXT,
-//     appointment_date DATE NOT NULL,
-//     duration integer NOT NULL,
-//     hospital varchar(255),
-//     appointment_status Status NOT NULL
-//   );
-
-// CREATE TYPE Status AS ENUM (
-//     'PROCESSING',
-//     'ERROR',
-//     'WAITING_APPROVAL',
-//     'APPROVED'
-//   );
-
 export class Appointment extends Model {
   public id!: string;
   public doctor_id!: string;
@@ -80,6 +60,5 @@ Appointment.init({
     sequelize,
     modelName: 'appointment',
     tableName: 'appointments',
-    timestamps: true,
+    timestamps: false,
     });
-    
