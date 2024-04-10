@@ -1,6 +1,7 @@
 import express from 'express';
 import doctorRoutes from './routes/DoctorRoute';
 import appointmentsRoutes from './routes/AppointmentsRoutes';
+import patientsRoutes from './routes/PatientsRoutes';
 import bodyParser from 'body-parser';
 
 const app = express();
@@ -10,5 +11,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(doctorRoutes);
 app.use(appointmentsRoutes);
+app.use(patientsRoutes);
 
 app.listen(PORT, () => console.log(`Server rodando na porta:  ${PORT}`));
