@@ -1,27 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, View, Text, Pressable, TextInput } from "react-native";
 import MaskInput from "react-native-mask-input";
 import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from "@expo/vector-icons";
 
-export function AddUserModal(this: any) {
+
+export function AddPatientModal(this: any) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [successModalVisible, setSuccessModalVisible] = useState(false);
 
   const [nome, setNome] = useState("");
-  const [nomeEmpty, setNomeEmpty] = useState(false);
-
   const [dataNascimento, setDataNascimento] = useState("");
-  const [dataNascimentoEmpty, setDataNascimentoEmpty] = useState(false);
-
   const [cpf, setCpf] = useState("");
-  const [cpfEmpty, setCpfEmpty] = useState(false);
 
   const handleSubmit = () => {
-    setNomeEmpty(nome === "");
-    setDataNascimentoEmpty(dataNascimento === "");
-    setCpfEmpty(cpf === "");
-    // ...resto do código de submissão
+    if (!nome || !dataNascimento || !cpf) {
+      return;
+    }
+
+    setSuccessModalVisible(true);
+
+    let patient = {
+      nome,
+      dataNascimento,
+      cpf,
+    };
+    console.log(patient);
   };
+
+  
+
+  useEffect(() => {
+    if (successModalVisible) {
+      setTimeout(() => {
+        setSuccessModalVisible(false);
+      }, 2500);
+    }
+  }, [successModalVisible]);
 
   return (
     <>
@@ -37,9 +53,7 @@ export function AddUserModal(this: any) {
           <View className="gap-5">
             <View>
               <View
-                className={`border rounded-full py-2 px-4 flex-row items-center ${
-                  nomeEmpty ? "border-[#F17777]" : "border-[#069696]"
-                }`}
+                className="border rounded-full py-2 px-4 flex-row items-center border-[#069696]"
               >
                 <AntDesign name="user" size={24} color="black" className="mr-2" />
                 <TextInput
@@ -50,14 +64,11 @@ export function AddUserModal(this: any) {
                   onChangeText={setNome}
                 />
               </View>
-              <Text className="text-[#F17777] text-[12px] ml-2">*Preencha o campo nome</Text>
             </View>
 
             <View>
               <View
-                className={`border rounded-full py-2 px-4 flex-row items-center ${
-                  dataNascimentoEmpty ? "border-[#F17777]" : "border-[#069696]"
-                }`}
+                className={`border rounded-full py-2 px-4 flex-row items-center`}
               >
                 <AntDesign name="user" size={24} color="black" className="mr-2" />
                 <MaskInput
@@ -71,16 +82,9 @@ export function AddUserModal(this: any) {
                   mask={[/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
                 />
               </View>
-              <Text className="text-[#F17777] text-[12px] ml-2">
-                *Preencha o campo data de nascimento data de nascimento inválida
-              </Text>
             </View>
 
-            <View
-              className={`border rounded-full py-2 px-4 flex-row items-center ${
-                cpfEmpty ? "border-[#F17777]" : "border-[#069696]"
-              }`}
-            >
+            <View className={`border rounded-full py-2 px-4 flex-row items-center`}>
               <AntDesign name="user" size={24} color="black" className="mr-2" />
               <MaskInput
                 className="flex-grow"
@@ -93,11 +97,13 @@ export function AddUserModal(this: any) {
                 mask={[/\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "-", /\d/, /\d/]}
               />
             </View>
+
             <View className="items-center">
-              <Pressable onPress={handleSubmit} className="bg-[#12ADB4] w-[80%] items-center p-2 rounded">
+              <Pressable onPress={() => {handleSubmit(); setModalVisible(false)}} disabled={cpf.length !== 14 || dataNascimento.length !== 10 || !nome} className={`bg-[#12ADB4] w-[80%] items-center p-2 rounded ${cpf.length !== 14 || dataNascimento.length !== 10 || !nome ? 'opacity-50' : ''}`}>
                 <FontAwesome name="check" size={24} color="white" />
               </Pressable>
             </View>
+
             <View className="items-center">
               <Pressable
                 onPress={() => setModalVisible(!modalVisible)}
@@ -109,8 +115,27 @@ export function AddUserModal(this: any) {
           </View>
         </View>
       </Modal>
-      <Pressable className="bg-slate-600 rounded text-white" onPress={() => setModalVisible(true)}>
-        <Text>Add User</Text>
+
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={successModalVisible}
+        onRequestClose={() => {
+          setSuccessModalVisible(false);
+        }}
+      >
+        <View className="flex self-center border-[1px] rounded-[15px] border-[#069696] my-auto bg-white w-[80%] p-5">
+          <View className="items-center gap-7">
+            <View className="bg-[#00E733] rounded-full w-[70px] h-[70px] justify-center items-center">
+              <FontAwesome5 name="check-circle" size={60} color="white" />
+            </View>
+            <Text className="text-lg text-center font-bold opacity-30" >Cadastro realizado com sucesso!</Text>
+          </View>
+        </View>
+      </Modal>
+
+      <Pressable className="bg-[#12ADB4] w-[282px] rounded-[15px] flex flex-row p-3 justify-around" onPress={() => setModalVisible(true)}>
+        <Text className="text-white font-bold">Cadastrar Novo Paciente</Text><FontAwesome name="plus" size={24} color="white" />
       </Pressable>
     </>
   );
