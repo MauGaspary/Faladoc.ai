@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Text, View, Alert, Share, Button } from "react-native";
-import styles from "./style";
+import { Text, View, Alert, Image } from "react-native";
 import { StopPauseButton } from "../../../components/StopPauseButton";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 import audioContext from "../../../provider/AudioContext";
@@ -10,11 +9,11 @@ export default function ConsultaAndamento() {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [started, setStarted] = useState(true);
-  const [stopped, setStopped] = useState(false); 
+  const [stopped, setStopped] = useState(false);
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
   const [recordingFileUri, setRecordingFileUri] = useState<string | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null); 
-  const {uriPath, setUri} = useContext(audioContext);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const { uriPath, setUri } = useContext(audioContext);
 
   useEffect(() => {
     Audio.requestPermissionsAsync().then(({ granted }) => {
@@ -31,7 +30,6 @@ export default function ConsultaAndamento() {
         handleRecordingStart();
       }
     });
-
 
     return () => {
       if (intervalRef.current !== null) {
@@ -128,7 +126,7 @@ export default function ConsultaAndamento() {
         if (intervalRef.current !== null) {
           clearInterval(intervalRef.current);
         }
-        setStopped(true); 
+        setStopped(true);
       }
     } catch (error) {
       console.log(error);
@@ -139,17 +137,33 @@ export default function ConsultaAndamento() {
     }
   };
 
-  console.log("Contexto: " + uriPath);
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.textTimer}>
-        {minutes < 10 ? "0" + minutes : minutes}:
-        {seconds < 10 ? "0" + seconds : seconds}
-      </Text>
-      <View style={styles.buttonContainer}>
-        <StopPauseButton onPress={handlePauseButton} type="pause" />
+    <View className="flex flex-col items-center justify-center h-full">
+      <Image
+        source={require("../../../assets/photoaudio.png")}
+        className="max-w-[400px] max-h-[130px] object-contain mb-10"
+      />
+      <View className="text-center">
+        {recording || !stopped ? (
+          started ? (
+            <Text className="text-2xl font-semibold">Gravando</Text>
+          ) : (
+            <Text className="text-2xl font-semibold">Pausado</Text>
+          )
+        ) : (
+          <Text className="text-2xl font-semibold">Áudio Finalizado</Text>
+        )}
+      </View>
+      <View className="mb-20">
+        <Text className="text-timer text-center font-bold text-4xl mt-4">
+          {minutes < 10 ? "0" + minutes : minutes}:
+          {seconds < 10 ? "0" + seconds : seconds}
+        </Text>
+      </View>
+      <View className="flex flex-row mt-10 items-center justify-center">
         <StopPauseButton onPress={handleRecordingStop} type="stop" />
+        <View className="mx-5" />
+        <StopPauseButton onPress={handlePauseButton} type="pause" />
       </View>
       <StatusBar style="auto" />
     </View>
