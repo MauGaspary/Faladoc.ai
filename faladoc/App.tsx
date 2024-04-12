@@ -1,22 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Navbar from './components/navbar/Navbar';
+import React from "react";
+import { View } from "react-native";
+import { MyContextProvider } from "./provider/AudioContext";
+import ConsultaAndamento from "./src/screens/ConsultaAndamento";
+import { NativeWindStyleSheet } from "nativewind";
+import Navbar from "./components/navbar/Navbar";
+
+NativeWindStyleSheet.setOutput({
+  default: "native",
+});
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Falta habilitar o live reload</Text>
-      <Navbar></Navbar>
-      <StatusBar style="auto" />
-    </View>
+    <MyContextProvider>
+      <View className="flex-1 items-center justify-center bg-background">
+        <View className="flex flex-row items-center bg-white">
+          <ConsultaAndamento/>
+        </View>
+      </View>
+      <Navbar />s
+    </MyContextProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
