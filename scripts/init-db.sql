@@ -40,7 +40,7 @@ CREATE TABLE patients (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   cpf VARCHAR(11) UNIQUE NOT NULL,
   name VARCHAR(255) NOT NULL,
-  Date_of_birth DATE NOT NULL
+  date_of_birth DATE NOT NULL
 );
 
 CREATE TABLE appointments (
@@ -70,9 +70,9 @@ insert into doctors (name, crm, hospital, specialty, userType) values ('
 Dr. José', '987654', 'Hospital C', 'Ortopedista', 'DOCTOR');
 insert into doctors (id, name, crm, hospital, specialty, userType) values ('add9827e-3107-4ce7-ab95-6bb140043835', 'Dr. Pedro', '1234567', 'Hospital A', 'Cardiologista', 'DOCTOR');
 
-insert into patients (cpf, name, Date_of_birth) values ('12345678901', 'João', '1990-01-01');
-insert into patients (cpf, name, Date_of_birth) values ('23456789012', 'Maria', '1991-02-02');
-insert into patients (cpf, name, Date_of_birth) values ('34567890123', 'José', '1992-03-03');
+insert into patients (id, cpf, name, Date_of_birth) values ('123e4567-e89b-12d3-a456-426614174004', '12345678901', 'João', '1990-01-01');
+insert into patients (id, cpf, name, Date_of_birth) values ('123e4567-e89b-12d3-a456-426614174003', '23456789012', 'Maria', '1991-02-02');
+insert into patients (id, cpf, name, Date_of_birth) values ('123e4567-e89b-12d3-a456-426614174002', '34567890123', 'José', '1992-03-03');
 insert into patients (id, cpf, name, Date_of_birth) values ('123e4567-e89b-12d3-a456-426614174001', '12345678902', 'Pedro', '1990-01-01');
 
 insert into appointments (doctor_id, patient_id, appointment_context, medical_record_original, medical_record_final, appointment_date, duration, hospital, appointment_status) values ('add9827e-3107-4ce7-ab95-6bb140043835', '123e4567-e89b-12d3-a456-426614174001', 'Consulta de rotina', 'Paciente com pressão alta', 'Paciente com pressão alta', '2021-01-01', '30', 'Hospital A', 'PROCESSING');
