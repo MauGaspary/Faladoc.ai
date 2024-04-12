@@ -23,5 +23,11 @@ EXPOSE 19001
 EXPOSE 19002
 EXPOSE 8081
 
+
+RUN npm install expo@latest
+
+RUN npx expo install --fix
+
+
 # Define o script de entrada como o ponto de entrada do container
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
