@@ -62,12 +62,9 @@ ALTER TABLE login ADD FOREIGN KEY (user_id) REFERENCES doctors (id);
 ALTER TABLE login ADD FOREIGN KEY (admin_id) REFERENCES admins (id);
 
 
-insert into doctors (name, crm, hospital, specialty, userType) values ('
-Dr. João', '123456', 'Hospital A', 'Cardiologista', 'DOCTOR');
-insert into doctors (name, crm, hospital, specialty, userType) values ('
-Dr. Maria', '654321', 'Hospital B', 'Pediatra', 'DOCTOR');
-insert into doctors (name, crm, hospital, specialty, userType) values ('
-Dr. José', '987654', 'Hospital C', 'Ortopedista', 'DOCTOR');
+insert into doctors (name, crm, hospital, specialty, userType) values ('Dr. João', '123456', 'Hospital A', 'Cardiologista', 'DOCTOR');
+insert into doctors (name, crm, hospital, specialty, userType) values ('Dr. Maria', '654321', 'Hospital B', 'Pediatra', 'DOCTOR');
+insert into doctors (name, crm, hospital, specialty, userType) values ('Dr. José', '987654', 'Hospital C', 'Ortopedista', 'DOCTOR');
 insert into doctors (id, name, crm, hospital, specialty, userType) values ('add9827e-3107-4ce7-ab95-6bb140043835', 'Dr. Pedro', '1234567', 'Hospital A', 'Cardiologista', 'DOCTOR');
 
 insert into patients (cpf, name, Date_of_birth) values ('12345678901', 'João', '1990-01-01');
