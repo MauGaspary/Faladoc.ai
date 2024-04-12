@@ -5,6 +5,7 @@ import { Colors } from '../../assets/colors';
 import { NavigationContainer } from '@react-navigation/native';
 import { Header, createStackNavigator } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
+import { Image } from 'react-native';
 
 
 
@@ -15,7 +16,7 @@ const StartSimpleScreen = () => {
       style={styles.container}
     >
       <View style={styles.content}>
-        <Text style={styles.textBig}>FALADOC</Text>
+      <Image source={require('../../assets/Group3.png')} style={styles.image} />
       </View>
     </LinearGradient>
   );
@@ -35,6 +36,10 @@ const styles = StyleSheet.create({
   textBig: {
     color: Colors.primary_white,
     fontSize: 40,
+  },
+  image: {
+    width: 200, 
+    height: 200, 
   },
 });
 
