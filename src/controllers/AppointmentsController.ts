@@ -14,4 +14,13 @@ export class AppointmentsController {
       res.status(500).json({ error: 'Erro ao criar consulta' });
     }
   }
+  public static async getAppointments(req: Request, res: Response) {
+    try {
+      const appointments = await Appointment.findAll();
+      res.status(200).json(appointments);
+    } catch (error) {
+      console.error("Erro ao buscar consultas", error);
+      res.status(500).json({ error: 'Erro ao buscar consultas' });
+    }
+  }
 }
