@@ -26,6 +26,9 @@ Patient.init(
     cpf: {
       type: DataTypes.STRING(255),
       allowNull: false,
+      validate: {
+        len: [11, 11],
+      },
     },
   },
   {
