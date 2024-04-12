@@ -7,4 +7,4 @@ if [ ! "$(ls -A /app/node_modules)" ]; then
   cp -a /tmp/node_modules/. /app/node_modules/
 fi
 
-exec npx expo start
+exec npm start
