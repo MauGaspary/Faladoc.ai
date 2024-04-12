@@ -11,11 +11,11 @@ export default function ConsultaAndamento() {
   const [started, setStarted] = useState(true);
   const [stopped, setStopped] = useState(false);
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
-  const [recordingFileUri, setRecordingFileUri] = useState<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const { uriPath, setUri } = useContext(audioContext);
+  const { setUri } = useContext(audioContext);
 
   useEffect(() => {
+    // Passar essa parte de autorização para a tela anterior
     Audio.requestPermissionsAsync().then(({ granted }) => {
       if (granted) {
         Audio.setAudioModeAsync({
@@ -77,7 +77,7 @@ export default function ConsultaAndamento() {
         await recordingObject.startAsync();
         setRecording(recordingObject);
       } catch (error) {
-        console.log(error);
+        console.error(error);
         Alert.alert(
           "Erro ao gravar",
           "Não foi possível iniciar a gravação do áudio"
@@ -92,10 +92,10 @@ export default function ConsultaAndamento() {
         await recording.pauseAsync();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Alert.alert(
         "Erro ao gravar",
-        "Não foi possível parar a gravação do áudio"
+        "Não foi possível pausar a gravação do áudio"
       );
     }
   };
@@ -106,21 +106,20 @@ export default function ConsultaAndamento() {
         await recording.startAsync();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Alert.alert(
         "Erro ao gravar",
-        "Não foi possível parar a gravação do áudio"
+        "Não foi possível continuar a gravação do áudio"
       );
     }
   };
 
   const handleRecordingStop = async () => {
+    // Adicionar depois um botão de confirmação para salvar o áudio
     try {
       if (recording) {
         await recording.stopAndUnloadAsync();
         const uri = recording.getURI();
-        console.log(uri);
-        setRecordingFileUri(uri);
         setRecording(null);
         setUri(uri ? uri : "");
         if (intervalRef.current !== null) {
@@ -129,20 +128,24 @@ export default function ConsultaAndamento() {
         setStopped(true);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       Alert.alert(
         "Erro ao gravar",
-        "Não foi possível parar a gravação do áudio"
+        "Não foi possível salvar a gravação do áudio"
       );
     }
   };
 
   return (
     <View className="flex flex-col items-center justify-center h-full">
-      <Image
-        source={require("../../../assets/photoaudio.png")}
-        className="max-w-[400px] max-h-[130px] object-contain mb-10"
-      />
+      <View className="w-[400px] h-[130px] object-contain mb-10">
+        {started && (
+          <Image
+            source={require("../../../assets/photoaudio.png")}
+            className="max-w-[400px] max-h-[130px] object-contain mb-10"
+          />
+        )}
+      </View>
       <View className="text-center">
         {recording || !stopped ? (
           started ? (
@@ -161,9 +164,9 @@ export default function ConsultaAndamento() {
         </Text>
       </View>
       <View className="flex flex-row mt-10 items-center justify-center">
-        <StopPauseButton onPress={handleRecordingStop} type="stop" />
-        <View className="mx-5" />
         <StopPauseButton onPress={handlePauseButton} type="pause" />
+        <View className="mx-5" />
+        <StopPauseButton onPress={handleRecordingStop} type="stop" />
       </View>
       <StatusBar style="auto" />
     </View>
