@@ -1,20 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
+import { StopPauseButton } from './components/StopPauseButton';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Falta habilitar o live reload</Text>
+    <View className="flex-1 items-center justify-center bg-white">
+      <View className="flex flex-row items-center">
+        <StopPauseButton type="stop" onPress={() => {}} />
+        <StopPauseButton type="pause" onPress={() => {}} />
+      </View>
       <StatusBar style="auto" />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
