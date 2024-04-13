@@ -139,8 +139,8 @@ export function AddPatientModal(this: any) {
                 onChangeText={handleCpfChange}
                 mask={[/\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "-", /\d/, /\d/]}
               />
-              {!isCpfValid && <Text className="text-red-500 text-xs">CPF inválido</Text>}
             </View>
+              {!isCpfValid && <Text className="text-red-500 text-xs pl-4">CPF inválido</Text>}
 
             <View className="items-center">
               <Pressable
