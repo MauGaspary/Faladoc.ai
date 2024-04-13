@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     colors: {
       background: '#D0EFF0',
-      timer: '#12ADB4'
+      timer: '#12ADB4',
+      invalid: '#F17777',
     }
   },
   plugins: [],
