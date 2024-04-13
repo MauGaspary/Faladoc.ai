@@ -60,11 +60,6 @@ export function AddPatientModal(this: any) {
       return;
     }
 
-    if (!isValidCPF(cpf)) {
-      alert("CPF inválido");
-      return;
-    }
-
     setSuccessModalVisible(true);
 
     let patient = {
@@ -75,12 +70,10 @@ export function AddPatientModal(this: any) {
 
     try {
       const response = await axios.post(`${process.env.urlbase}/patients`, patient);
-      console.log(response.data);
       setSuccessModalVisible(true);
     } catch (error) {
       console.error(error);
     }
-    console.log(patient);
   };
 
   useEffect(() => {
