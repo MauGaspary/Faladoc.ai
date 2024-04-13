@@ -14,4 +14,17 @@ export class AppointmentsController {
       res.status(500).json({ error: 'Erro ao criar consulta' });
     }
   }
+
+  public static async updateAppointment (req: Request, res: Response){
+    try{
+      const {id} = req.params;
+      const appointment = req.body;
+      const linesChanged = await Appointment.update(appointment, { where: {id}});
+      const updateAppointment = await Appointment.findOne({ where: {id}});
+      res.status(200).json(updateAppointment);
+    } catch (error){
+      console.log("Erro ao atualizar consulta", error);
+      res.status(500).json({ error: 'Erro ao atualizar consulta'});
+    }
+  }
 }
