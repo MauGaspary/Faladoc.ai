@@ -188,7 +188,7 @@ export function AddPatientModal(this: any) {
       </Modal>
 
       <Pressable
-        className="bg-[#12ADB4] w-[282px] rounded-[15px] flex flex-row p-3 justify-around"
+        className="bg-[#12ADC4] w-[282px] rounded-[15px] flex flex-row p-3 justify-around"
         onPress={() => setModalVisible(true)}
       >
         <Text className="text-white font-bold">Cadastrar Novo Paciente</Text>
