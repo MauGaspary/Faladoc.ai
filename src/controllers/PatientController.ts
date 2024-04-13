@@ -11,7 +11,7 @@ export class PatientsController {
         where: {
           name: {[Op.iLike]: `${name}%`}
         },
-        attributes: ['name', 'date_of_birth', 'cpf']
+        attributes: ['id', 'name', 'date_of_birth', 'cpf']
       });
       return res.status(200).json(patients);
     } catch (error) {
