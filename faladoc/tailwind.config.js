@@ -1,13 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./App.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
+  content: ["./components/**/*.{js,jsx,ts,tsx}","./App/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {
-      colors: {
-        'invalid': '#F17777',
-      }
-    },
+    extend: {},
   },
-  plugins: [],
+  plugins: ["nativewind/babel"],
+  colors: {
+    'invalid': '#F17777',
+  }
 }
 
