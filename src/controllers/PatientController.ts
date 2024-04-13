@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Patient } from '../models/Patient';
+import { Op } from 'sequelize';
 
 export class PatientsController {
 
@@ -8,7 +9,7 @@ export class PatientsController {
       const { name } = req.body;
       const patients = await Patient.findAll({
         where: {
-          name: name
+          name: {[Op.iLike]: `${name}%`}
         },
         attributes: ['name', 'date_of_birth', 'cpf']
       });
