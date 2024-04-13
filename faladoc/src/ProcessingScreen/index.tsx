@@ -1,6 +1,5 @@
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import {styles} from './styles'
-
 import { HomeButton } from "../../components/homebutton";
 
 type props = {
@@ -19,6 +18,10 @@ export function ProcessingScreen( { patient, hospital, contexto, duration}: prop
                      Hospital: {hospital}{"\n"}
                      Contexto: {contexto}{"\n \n"}
                      Duração: {duration}
+            </Text>
+            <ActivityIndicator size={70} color={'grey'}/>
+            <Text>
+                {"\n \n"}
             </Text>
             <HomeButton name='Voltar para a tela inicial'/>
         </View>

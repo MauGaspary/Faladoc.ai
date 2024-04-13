@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
         alignContent: 'center',
-        color: '#afeeee'
+        color: '#afeeee',
+        alignItems: 'center',
     },
     text: {
         
