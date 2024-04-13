@@ -2,49 +2,45 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
 
 export class Doctor extends Model {
-  public id!: number;
-  public password!: string;
+  public id!: string;
   public name!: string;
-  public email!: string;
   public crm!: string;
-  public hospital!: string | null;
+  public hospital!: string; 
+  public specialty!: string;
   public userType!: string;
 }
 
 Doctor.init({
   id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  password: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
   },
   name: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
+    type: DataTypes.STRING,
+    allowNull: false
   },
   crm: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.STRING,
     allowNull: false,
+    unique: true
   },
   hospital: {
-    type: DataTypes.STRING(255),
-    allowNull: true,
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  specialty: {
+    type: DataTypes.STRING,
+    allowNull: true
   },
   userType: {
+    field: 'usertype',
     type: DataTypes.ENUM('ADMIN', 'DOCTOR'),
-    allowNull: false,
-    field: 'usertype'
-  },
+    allowNull: false
+  }
 }, {
-    tableName: 'doctors',
-    sequelize,
-    timestamps: false,
-    underscored: true,
-  });
+  sequelize,
+  modelName: 'Doctor',
+  tableName: 'doctors',
+  timestamps: false
+});

@@ -1,3 +1,12 @@
+DROP TABLE IF EXISTS appointments;
+DROP TABLE IF EXISTS patients;
+DROP TABLE IF EXISTS admins;
+DROP TABLE IF EXISTS login;
+DROP TABLE IF EXISTS doctors;
+DROP TYPE IF EXISTS Status;
+DROP TYPE IF EXISTS UserType;
+
+
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TYPE UserType AS ENUM (
@@ -62,12 +71,10 @@ ALTER TABLE login ADD FOREIGN KEY (user_id) REFERENCES doctors (id);
 ALTER TABLE login ADD FOREIGN KEY (admin_id) REFERENCES admins (id);
 
 
-insert into doctors (name, crm, hospital, specialty, userType) values ('
-Dr. João', '123456', 'Hospital A', 'Cardiologista', 'DOCTOR');
-insert into doctors (name, crm, hospital, specialty, userType) values ('
-Dr. Maria', '654321', 'Hospital B', 'Pediatra', 'DOCTOR');
-insert into doctors (name, crm, hospital, specialty, userType) values ('
-Dr. José', '987654', 'Hospital C', 'Ortopedista', 'DOCTOR');
+insert into doctors (name, crm, hospital, specialty, userType) values ('Dr. João', '123456', 'Hospital A', 'Cardiologista', 'DOCTOR');
+insert into doctors (name, crm, hospital, specialty, userType) values ('Dr. Maria', '654321', 'Hospital B', 'Pediatra', 'DOCTOR');
+insert into doctors (name, crm, hospital, specialty, userType) values ('Dr. José', '987654', 'Hospital C', 'Ortopedista', 'DOCTOR');
+insert into doctors (name, crm, hospital, specialty, userType) values ('Dr. Julia', '456789', 'Hospital D', 'Oftalmologista', 'DOCTOR');
 insert into doctors (id, name, crm, hospital, specialty, userType) values ('add9827e-3107-4ce7-ab95-6bb140043835', 'Dr. Pedro', '1234567', 'Hospital A', 'Cardiologista', 'DOCTOR');
 
 insert into patients (id, cpf, name, Date_of_birth) values ('123e4567-e89b-12d3-a456-426614174004', '12345678901', 'João', '1990-01-01');
