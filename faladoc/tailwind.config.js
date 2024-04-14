@@ -5,6 +5,8 @@ module.exports = {
     extend: {
       colors: {
         'invalid': '#F17777',
+        background: '#D0EFF0',
+        timer: '#12ADB4'
       }
     },
   },
