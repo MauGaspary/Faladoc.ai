@@ -15,9 +15,9 @@ const ConsultButton = ({ onPress }) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 125,
+    height: 125,
+    borderRadius: 150,
     backgroundColor: '#069696',
     justifyContent: 'center',
     alignItems: 'center',
