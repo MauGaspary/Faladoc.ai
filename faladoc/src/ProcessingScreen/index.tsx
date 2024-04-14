@@ -39,12 +39,13 @@ export function ProcessingScreen( {patient, hospital, contexto, duration, appoin
                      Paciente: {patient}{"\n"}
                      Hospital: {hospital}{"\n"}
                      Contexto: {contexto}{"\n"}
-                     ID: {appointment_id}{"\n \n"}
-                     Duração: {duration}
+                     ID: {appointment_id}{"\n\n"}
+                     Duração: {duration}{"\n\n\n  "}
+                     Processando
             </Text>
             <ActivityIndicator size={70} color={'grey'}/>
             <Text>
-                {"\n \n"}
+                {"\n\n\n\n"}
             </Text>
             <HomeButton name='Voltar para a tela inicial'/>
         </View>

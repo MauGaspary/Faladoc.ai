@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         
         color: '#000000',
         marginVertical:1,
-        padding:   50,
+        padding:   40,
         textAlign: 'left',
         fontSize : 20,
     }
