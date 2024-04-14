@@ -5,7 +5,7 @@ import { ProcessingScreen } from './src/ProcessingScreen';
 export default function App() {
   return (
     <View style={styles.container}>
-      <ProcessingScreen patient="" hospital="" contexto="" duration= "12:38"/>
+      <ProcessingScreen patient="" appointment_id='' hospital="" contexto="" duration= "12:38"/>
       <StatusBar style="auto"/>
     </View>
   );

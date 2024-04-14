@@ -2,7 +2,7 @@ import { View, Text, ActivityIndicator } from "react-native";
 import {styles} from './styles'
 import { HomeButton } from "../../components/homebutton";
 import { useEffect } from "react";
-import axios from "axios";
+import axios from 'axios';
 
 type props = {
     patient : string
@@ -38,7 +38,8 @@ export function ProcessingScreen( {patient, hospital, contexto, duration, appoin
             <Text style={styles.text}>
                      Paciente: {patient}{"\n"}
                      Hospital: {hospital}{"\n"}
-                     Contexto: {contexto}{"\n \n"}
+                     Contexto: {contexto}{"\n"}
+                     ID: {appointment_id}{"\n \n"}
                      Duração: {duration}
             </Text>
             <ActivityIndicator size={70} color={'grey'}/>
