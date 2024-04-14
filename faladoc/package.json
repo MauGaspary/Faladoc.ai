@@ -24,7 +24,8 @@
     "react-native-mask-input": "^1.2.3",
     "react-native-svg": "14.1.0",
     "react-native-web": "~0.19.6",
-    "react-native-gesture-handler": "~2.14.0"
+    "react-native-gesture-handler": "~2.14.0",
+    "expo-av": "~13.10.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
