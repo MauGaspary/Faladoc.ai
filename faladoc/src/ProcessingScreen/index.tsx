@@ -1,4 +1,4 @@
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, Dimensions } from "react-native";
 import {styles} from './styles'
 import { HomeButton } from "../../components/homebutton";
 import { useEffect } from "react";
@@ -33,21 +33,27 @@ export function ProcessingScreen( {patient, hospital, contexto, duration, appoin
         }
     }
 
+    const { width, height } = Dimensions.get('window');
+
     return(
-        <View style={styles.container}>
+        <View style={[styles.container, {width, height}]}>
             <Text style={styles.text}>
+                    {"\n\n"}
                      Paciente: {patient}{"\n"}
                      Hospital: {hospital}{"\n"}
                      Contexto: {contexto}{"\n"}
                      ID: {appointment_id}{"\n\n"}
-                     Duração: {duration}{"\n\n\n  "}
+                     Duração: {duration}{"\n\n\n "}
                      Processando
             </Text>
             <ActivityIndicator size={70} color={'grey'}/>
             <Text>
-                {"\n\n\n\n"}
+                {"\n\n"}
             </Text>
             <HomeButton name='Voltar para a tela inicial'/>
+            <Text>
+                {"\n\n"}
+            </Text>
         </View>
     )
 }
