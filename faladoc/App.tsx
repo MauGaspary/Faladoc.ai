@@ -43,22 +43,23 @@ NativeWindStyleSheet.setOutput({
 export default function App() {
   return (
 
-    
-    <NavigationContainer>
-      <Stack.Navigator>
-        
-        
-        <Stack.Screen name='Consulta Andamento' component={ConsultaAndamentoScreen} options={{ headerShown: false }}/>
+    <MyContextProvider>
+      <NavigationContainer>
+        <Stack.Navigator>
+          
+          
+          <Stack.Screen name='Consulta Andamento' component={ConsultaAndamentoScreen} options={{ headerShown: false }}/>
 
-        <Stack.Screen name='Simple Screen' component={StartSimpleScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name='Simple Screen' component={StartSimpleScreen} options={{ headerShown: false }}/>
 
-        <Stack.Screen name='SignInScreen' component={SignInScreen}/>
-        
-        
-        {/* Add more screens here */}
-        
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen name='SignInScreen' component={SignInScreen}/>
+          
+          
+          {/* Add more screens here */}
+          
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MyContextProvider>
 
 
   );
