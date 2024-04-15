@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text } from 'react-native';
 import ConsultButton from './components/homeButton';
 import Input from './components/input';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,33 +9,16 @@ import NewPatient from './components/newPatient';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <NewPatient/>
-      <Text>ou</Text>
-      <Text>pesquise pelo nome</Text>
+    <View className='flex-1 bg-blue-200 items-center justify-center pt-14'>
+      <NewPatient />
+      <Text className="mt-2">ou</Text>
+      <Text className="mt-2">pesquise pelo nome</Text>
       <Input iconName={"person"} placeholder={"Nome do Paciente"} />
-      <View style={styles.line} />
+      <View className="border-b-2 border-teal-600 w-4/5 my-2" />
       <Input iconName={"location-sharp"} placeholder={"Local da consulta"} />
       <Input iconName={"list-outline"} placeholder={"Contexto da Consulta"} />
-      <ConsultButton onPress={undefined}></ConsultButton>
+      <ConsultButton onPress={undefined} />
       <StatusBar style="auto" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#D0EFF0',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 100, 
-  },
-  line: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#069696',
-    width: '80%', 
-    marginHorizontal: '5%', 
-    marginBottom: 10, 
-  },
-});
