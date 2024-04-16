@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import Navigation from '../navigation/Navigation';
 
 const StartConsultationButton = ({ onPress }) => {
   return (
