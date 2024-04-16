@@ -5,6 +5,7 @@ import { Colors } from '../../assets/colors';
 import { NavigationContainer } from '@react-navigation/native';
 import { Header, createStackNavigator } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
+import Navbar from "../../components/Navbar";
 
 
 
@@ -25,9 +26,11 @@ const StartSimpleScreen = () => {
         <AddPatientModal/>
         
 
-
+        
       </View>
+      <Navbar/>  
     </LinearGradient>
+    
   );
 };
 

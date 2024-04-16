@@ -137,7 +137,7 @@ export default function ConsultaAndamentoScreen() {
   };
 
   return (
-    <View className="flex flex-col items-center justify-center h-full">
+    <View className="flex flex-col items-center justify-center h-full bg-[#D0EFF0]">
       <View className="w-[400px] h-[130px] object-contain mb-10">
         {started && (
           <Image
@@ -170,5 +170,6 @@ export default function ConsultaAndamentoScreen() {
       </View>
       <StatusBar style="auto" />
     </View>
+    
   );
 }

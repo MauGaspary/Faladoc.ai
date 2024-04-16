@@ -2,6 +2,8 @@ import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Navigation from '../navigation/Navigation';
+import Navbar from "../components/Navbar";
+
 
 const StartConsultationButton = ({ onPress }) => {
   return (
@@ -11,6 +13,7 @@ const StartConsultationButton = ({ onPress }) => {
         <Text className="text-white mt-1 text-sm">Iniciar Consulta</Text>
       </View>
     </TouchableOpacity>
+    
   );
 };
 

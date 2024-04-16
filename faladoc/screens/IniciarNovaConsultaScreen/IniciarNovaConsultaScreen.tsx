@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
 import Input from '../../components/Input';
 import { Ionicons } from '@expo/vector-icons';
 import StartConsultationButton from '../../components/StartConsultationButton';
 import { AddPatientModal } from '../../components/AddPatientModal';
+import Navbar from "../../components/Navbar";
 
 
 
@@ -28,7 +29,11 @@ const IniciarNovaConsultaScreen = ({navigation}:any) => {
 
 
   return (
-    <View className='flex-1 bg-blue-200 items-center justify-center pt-14'>
+    
+    <KeyboardAvoidingView className='flex-1'>
+      <ScrollView contentContainerStyle={{ flexGrow: 2 }}>
+    <View className='flex-1 bg-[#D0EFF0] items-center justify-center pt-12'>
+      
       <AddPatientModal/>
       <Text className="mt-2">ou</Text>
       <Text className="mt-2">pesquise pelo nome</Text>
@@ -39,11 +44,21 @@ const IniciarNovaConsultaScreen = ({navigation}:any) => {
       <Input iconName={"location-sharp"} placeholder={"Local da consulta"} value={LocalConsulta} onChangeText={setLocalConsulta}/>
 
       <Input iconName={"list-outline"} placeholder={"Contexto da Consulta"} value={ContextoConsulta} onChangeText={setContextoConsulta} />
+      
+      <View className='pt-2'>
 
       <StartConsultationButton onPress={StartNewAppointment} />
 
+      </View>
+      
+
       <StatusBar style="auto" />
+      
     </View>
+    </ScrollView>
+    <Navbar/>
+    </KeyboardAvoidingView>
+
   );
 }
 
