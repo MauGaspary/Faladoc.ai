@@ -23,6 +23,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 //import CSS
 import { NativeWindStyleSheet } from 'nativewind';
 import ConsultaAndamentoScreen from './screens/ConsultaAndamento/ConsultaAndamentoScreen';
+import IniciarNovaConsultaScreen from './screens/IniciarNovaConsultaScreen/IniciarNovaConsultaScreen';
 
 
 
@@ -47,7 +48,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           
-          
+          <Stack.Screen name='Iniciar nova Consulta' component={IniciarNovaConsultaScreen} options={{ headerShown: false }}/>
+
           <Stack.Screen name='Consulta Andamento' component={ConsultaAndamentoScreen} options={{ headerShown: false }}/>
 
           <Stack.Screen name='Simple Screen' component={StartSimpleScreen} options={{ headerShown: false }}/>

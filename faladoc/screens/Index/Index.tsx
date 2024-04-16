@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppRegistry } from 'react-native';
-import App from '../../App'; 
+import App from '../../navigation/Navigation'; 
+import Navigation from '../../navigation/Navigation';
 
-AppRegistry.registerComponent('Faladoc', () => App);
+AppRegistry.registerComponent('Faladoc', () => Navigation);
