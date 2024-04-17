@@ -7,7 +7,8 @@ module.exports = {
         invalid: '#F17777',
         background: '#D0EFF0',
         timer: '#12ADB4',
-        lightGreen: '#069696'
+        lightGreen: '#069696',
+        gray: '#808080',
       }
     },
   },

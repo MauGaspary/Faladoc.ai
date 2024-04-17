@@ -2,12 +2,12 @@ import { FlatList, Text, TextInput, View } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import SessionContext from "../provider/sessionContext";
 
 export function FilterInput() {
   const [searchTerm, setSearchTerm] = useState("");
-  const {selectedPatient, setSelectedPatient} = useContext(SessionContext);
+  const { selectedPatient, setSelectedPatient } = useContext(SessionContext);
   const [patients, setPatients] = useState<{ name: string; cpf: string }[]>([]);
   const timeoutId = useRef(null);
 
@@ -39,8 +39,6 @@ export function FilterInput() {
     setSearchTerm("");
     setPatients([]);
   };
-  
-  console.log("selectedPatient", selectedPatient)
 
   return (
     <View className="border-2 border-lightGreen rounded-[30px] py-3 px-4 mb-3 flex-col items-center bg-white">
@@ -56,30 +54,35 @@ export function FilterInput() {
           <View className="flex flex-row">
             <AntDesign name="user" size={24} color="black" className="mr-2" />
             <TextInput
-              className="flex-grow ml-2"
+              className="flex-grow ml-2 text-gray"
               placeholder="Pesquisar paciente..."
+              placeholderTextColor="gray"
               value={searchTerm}
               onChangeText={handleSearch}
             />
           </View>
 
-          <View>
-            {searchTerm !== "" &&
-              (patients.length ? (
-                <FlatList
-                  data={patients}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity className="border-y-1 border-[#95CACA]" onPress={() => selectPatient(item.name)}>
-                      <Text>Nome: {item.name}</Text>
-                      <Text>CPF: {item.cpf}</Text>
-                    </TouchableOpacity>
-                  )}
-                />
+          {searchTerm !== "" && (
+            <ScrollView
+              className="w-full mt-1 border-t border-lightGreen max-h-32"
+              showsVerticalScrollIndicator={false}
+            >
+              {patients.length ? (
+                patients.map((patient) => (
+                  <TouchableOpacity
+                    className="w-full border-b border-lightGreen"
+                    onPress={() => selectPatient(patient.name)}
+                    key={patient.name}
+                  >
+                    <Text className="ml-7">Nome: {patient.name}</Text>
+                    <Text className="ml-7">CPF: {patient.cpf}</Text>
+                  </TouchableOpacity>
+                ))
               ) : (
-                <Text className="my-2">Nenhum paciente encontrado</Text>
-              ))}
-          </View>
+                <Text className="my-1 w-[190px] text-nowrap">Nenhum paciente encontrado</Text>
+              )}
+            </ScrollView>
+          )}
         </>
       )}
     </View>
