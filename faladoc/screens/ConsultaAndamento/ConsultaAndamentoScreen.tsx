@@ -5,7 +5,8 @@ import { StopPauseButton } from "../../components/StopPauseButton";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 import audioContext from "../../provider/AudioContext";
 
-export default function ConsultaAndamentoScreen() {
+export default function ConsultaAndamentoScreen({navigation}:any) {
+
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [started, setStarted] = useState(true);
@@ -126,6 +127,8 @@ export default function ConsultaAndamentoScreen() {
           clearInterval(intervalRef.current);
         }
         setStopped(true);
+        navigation.navigate('Processando Consulta');
+        console.log("Processando Consulta");
       }
     } catch (error) {
       console.error(error);
