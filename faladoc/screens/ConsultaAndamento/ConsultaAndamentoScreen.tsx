@@ -3,17 +3,22 @@ import { StatusBar } from "expo-status-bar";
 import { Text, View, Alert, Image } from "react-native";
 import { StopPauseButton } from "../../components/StopPauseButton";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
-import audioContext from "../../provider/AudioContext";
+import SessionContext from "../../provider/sessionContext";
 
 export default function ConsultaAndamentoScreen({navigation}:any) {
 
+<<<<<<< HEAD
+export default function ConsultaAndamentoScreen({navigation}:any) {
+
+=======
+>>>>>>> feature/filter_input
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [started, setStarted] = useState(true);
   const [stopped, setStopped] = useState(false);
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const { setUri } = useContext(audioContext);
+  const { setUri } = useContext(SessionContext);
 
   useEffect(() => {
     // Passar essa parte de autorização para a tela anterior

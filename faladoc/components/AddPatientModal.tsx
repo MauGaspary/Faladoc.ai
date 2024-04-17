@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Modal, View, Text, Pressable, TextInput } from "react-native";
 import MaskInput from "react-native-mask-input";
 import { FontAwesome } from "@expo/vector-icons";
@@ -6,6 +6,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 import axios from "axios";
+import SessionContext from "../provider/sessionContext";
 
 export function AddPatientModal(this: any) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -16,6 +17,8 @@ export function AddPatientModal(this: any) {
 
   const [cpf, setCpf] = useState("");
   const [isCpfValid, setIsCpfValid] = useState(true);
+  
+  const {setSelectedPatient} = useContext(SessionContext);
 
   const handleCpfChange = (masked: string, unmasked: string) => {
     setCpf(masked);
@@ -63,13 +66,20 @@ export function AddPatientModal(this: any) {
     setSuccessModalVisible(true);
 
     let patient = {
-      nome,
-      dataNascimento: dataNascimento,
-      cpf: cpf,
+      name: nome,
+      date_of_birth: dataNascimento.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$2-$1'),
+      cpf: cpf.replace(/[\s.-]*/gim, ""),
     };
 
     try {
-      const response = await axios.post(`${process.env.urlbase}/patients`, patient);
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/patients`, patient);
+      if (response.status !== 201) {
+        throw new Error("Failed to create patient");
+      }
+      setCpf("");
+      setNome("");
+      setDataNascimento("");
+      setSelectedPatient(response.data.name);
       setSuccessModalVisible(true);
     } catch (error) {
       console.error(error);
@@ -97,10 +107,10 @@ export function AddPatientModal(this: any) {
         <View className="flex self-center border-[1px] rounded-[15px] border-[#069696] my-auto bg-white w-[80%] p-5 pt-10">
           <View className="gap-5">
             <View>
-              <View className="border rounded-full py-2 px-4 flex-row items-center border-[#069696]">
+              <View className="border-2 rounded-full py-2 px-4 flex-row items-center border-[#069696]">
                 <AntDesign name="user" size={24} color="black" className="mr-2" />
                 <TextInput
-                  className="flex-grow"
+                  className="flex-grow ml-2"
                   placeholder="Nome"
                   placeholderTextColor={`rgba(${0}, ${0}, ${0}, ${0.3})`}
                   value={nome}
@@ -110,27 +120,27 @@ export function AddPatientModal(this: any) {
             </View>
 
             <View>
-              <View className={`border rounded-full py-2 px-4 flex-row items-center`}>
-                <AntDesign name="user" size={24} color="black" className="mr-2" />
+              <View className={`border-2 rounded-full py-2 px-4 flex-row items-center border-lightGreen`}>
+                <AntDesign name="calendar" size={24} color="black" className="mr-2" />
                 <MaskInput
-                  className="flex-grow"
+                  className="flex-grow ml-2"
                   placeholderTextColor={`rgba(${0}, ${0}, ${0}, ${0.3})`}
                   maxLength={10}
                   placeholder="Data de Nascimento"
                   keyboardType="numeric"
                   value={dataNascimento}
                   onChangeText={(masked: string, unmasked: string) => setDataNascimento(masked)}
-                  mask={[/\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+                  mask={[/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
                 />
               </View>
             </View>
 
             <View
-              className={`border rounded-full py-2 px-4 flex-row items-center ${isCpfValid ? "" : "border-invalid"}`}
+              className={`border-2 rounded-full py-2 px-4 flex-row items-center ${isCpfValid ? "border-lightGreen" : "border-invalid"}`}
             >
-              <AntDesign name="user" size={24} color="black" className="mr-2" />
+              <AntDesign name="idcard" size={24} color="black" className="mr-2" />
               <MaskInput
-                className="flex-grow"
+                className="flex-grow ml-2"
                 placeholderTextColor={`rgba(${0}, ${0}, ${0}, ${0.3})`}
                 maxLength={14}
                 placeholder="CPF"
@@ -160,7 +170,7 @@ export function AddPatientModal(this: any) {
             <View className="items-center">
               <Pressable
                 onPress={() => setModalVisible(!modalVisible)}
-                className="bg-[#F17777] w-[50%] items-center p-2 rounded"
+                className="bg-invalid w-[50%] items-center p-2 rounded"
               >
                 <FontAwesome name="close" size={24} color="white" />
               </Pressable>
@@ -177,7 +187,7 @@ export function AddPatientModal(this: any) {
           setSuccessModalVisible(false);
         }}
       >
-        <View className="flex self-center border-[1px] rounded-[15px] border-[#069696] my-auto bg-white w-[80%] p-5">
+        <View className="flex self-center border-[1px] rounded-[15px] border-lightGreen my-auto bg-white w-[80%] p-5">
           <View className="items-center gap-7">
             <View className="bg-[#00E733] rounded-full w-[70px] h-[70px] justify-center items-center">
               <FontAwesome5 name="check-circle" size={60} color="white" />

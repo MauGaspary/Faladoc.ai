@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import { MyContextProvider } from "../provider/AudioContext";
+import { SessionProvider } from "../provider/sessionContext";
 
 
 //import Screens
@@ -45,7 +45,7 @@ export default function Navigation() {
     
   return (
 
-    <MyContextProvider>
+    <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
           
@@ -59,7 +59,7 @@ export default function Navigation() {
           
         </Stack.Navigator>
       </NavigationContainer>
-    </MyContextProvider>
+    </SessionProvider>
 
 
   );
