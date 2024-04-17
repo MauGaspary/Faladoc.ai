@@ -7,11 +7,6 @@ import SessionContext from "../../provider/sessionContext";
 
 export default function ConsultaAndamentoScreen({navigation}:any) {
 
-<<<<<<< HEAD
-export default function ConsultaAndamentoScreen({navigation}:any) {
-
-=======
->>>>>>> feature/filter_input
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [started, setStarted] = useState(true);
