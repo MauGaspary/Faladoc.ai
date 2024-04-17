@@ -23,7 +23,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 //import CSS
 import { NativeWindStyleSheet } from 'nativewind';
 import ConsultaAndamentoScreen from '../screens/ConsultaAndamento/ConsultaAndamentoScreen';
-import IniciarNovaConsultaScreen from '../screens/IniciarNovaConsultaScreen/IniciarNovaConsultaScreen';
+import IniciarNovaConsultaScreen from '../screens/IniciarNovaConsulta/IniciarNovaConsultaScreen';
 
 
 

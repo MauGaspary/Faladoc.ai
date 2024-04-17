@@ -8,7 +8,9 @@ import { MyContextProvider } from "./provider/AudioContext";
 //import Screens
 import StartSimpleScreen from './screens/StartSimpleScreen/StartSimpleScreen';
 import SignInScreen from './screens/SignInScreen/SignInScreen';
-import ConsultaAndamento from "./screens/ConsultaAndamento/ConsultaAndamentoScreen";
+import ConsultaAndamentoScreen from "./screens/ConsultaAndamento/ConsultaAndamentoScreen";
+import IniciarNovaConsultaScreen from './screens/IniciarNovaConsulta/IniciarNovaConsultaScreen';
+import ProcessandoConsultaScreen from "./screens/ProcessandoConsulta/ProcessandoConsultaScreen";
 
 
 //import Components
@@ -22,8 +24,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 //import CSS
 import { NativeWindStyleSheet } from 'nativewind';
-import ConsultaAndamentoScreen from './screens/ConsultaAndamento/ConsultaAndamentoScreen';
-import IniciarNovaConsultaScreen from './screens/IniciarNovaConsultaScreen/IniciarNovaConsultaScreen';
+
 
 
 
@@ -52,12 +53,24 @@ export default function App() {
 
           <Stack.Screen name='Consulta Andamento' component={ConsultaAndamentoScreen} options={{ headerShown: false }}/>
 
+          <Stack.Screen name="Processando Consulta" 
+
+            component={ProcessandoConsultaScreen} 
+              initialParams={{ 
+                patient: '', 
+                hospital: '', 
+                contexto: '', 
+                duration: '', 
+                appointment_id: ''
+              }}
+            options={{ headerShown: false }}
+
+          />
+
           <Stack.Screen name='Simple Screen' component={StartSimpleScreen} options={{ headerShown: false }}/>
 
           <Stack.Screen name='SignInScreen' component={SignInScreen}/>
           
-          
-          {/* Add more screens here */}
           
         </Stack.Navigator>
       </NavigationContainer>
