@@ -1,6 +1,7 @@
 import { FlatList, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import axios from "axios"
 
 const data = [
   {
@@ -31,28 +32,26 @@ const data = [
     name: "João Pedro",
     cpf: "321.654.987-00",
   },
-  { 
+  {
     name: "João Paulo",
     cpf: "654.987.321-00",
   },
   {
     name: "João Lucas",
     cpf: "987.321.654-00",
-  }
+  },
 ];
 
 export function FilterInput() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const filteredData = data
-    .filter(patient =>
-      patient.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .slice(0, 3); // Only take the first 3 items
+    .filter((patient) => patient.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .slice(0, 3);
 
   return (
-    <View className="border rounded-[30px] py-2 px-4 flex-col items-center border-[#069696]">
-        <View className="flex flex-row">
+    <View className="border rounded-[30px] max-h-48 py-2 px-4 flex-col items-center border-[#069696] bg-[#fff]">
+      <View className="flex flex-row">
         <AntDesign name="user" size={24} color="black" className="mr-2" />
         <TextInput
           className="flex-grow"
@@ -60,21 +59,21 @@ export function FilterInput() {
           value={searchTerm}
           onChangeText={setSearchTerm}
         />
-        </View>
-      
+      </View>
+
       <View>
-      {searchTerm !== '' && (
-        <FlatList
-          data={filteredData}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View className="bg-blue">
-              <Text>Name: {item.name}</Text>
-              <Text>CPF: {item.cpf}</Text>
-            </View>
-          )}
-        />
-      )}
+        {searchTerm !== "" && (
+          <FlatList
+            data={filteredData}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View className="border-t mt-1 border-[#069696]">
+                <Text>Nome: {item.name}</Text>
+                <Text>CPF:    {item.cpf}</Text>
+              </View>
+            )}
+          />
+        )}
       </View>
     </View>
   );
