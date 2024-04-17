@@ -6,7 +6,7 @@ export class PatientsController {
 
   public static async getPatientsByName(req: Request, res: Response) {
     try {
-      const { name } = req.body;
+      const {name} = req.params;
       const patients = await Patient.findAll({
         where: {
           name: {[Op.iLike]: `${name}%`}
