@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import { MyContextProvider } from "./provider/AudioContext";
+import { SessionProvider } from "./provider/sessionContext";
 
 
 //import Screens
@@ -45,7 +45,7 @@ NativeWindStyleSheet.setOutput({
 export default function App() {
   return (
 
-    <MyContextProvider>
+    <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
           
@@ -74,9 +74,8 @@ export default function App() {
           
         </Stack.Navigator>
       </NavigationContainer>
-    </MyContextProvider>
+    </SessionProvider>
 
 
   );
 }
-

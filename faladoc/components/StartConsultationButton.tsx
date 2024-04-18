@@ -2,10 +2,10 @@ import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Navigation from '../navigation/Navigation';
-import Navbar from "../components/Navbar";
+import Navbar from "./Navbar";
 
 
-const StartConsultationButton = ({ onPress }) => {
+const StartConsultationButton = ({ onPress }: { onPress: () => void }) => {
   return (
     <TouchableOpacity onPress={onPress} className="w-32 h-32 rounded-full bg-teal-600 justify-center items-center shadow-lg">
       <View className="items-center">
