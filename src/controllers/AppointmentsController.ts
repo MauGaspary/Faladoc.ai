@@ -6,6 +6,9 @@ export class AppointmentsController {
   public static async createAppointment(req: Request, res: Response) {
     try {
         const appointment = req.body;
+        appointment.doctor_id = 'add9827e-3107-4ce7-ab95-6bb140043835'
+        appointment.appointment_date = Date.now();
+        appointment.duration = 0;
         appointment.appointment_status = 'PROCESSING';
         const newAppointment = await Appointment.create(appointment);
         res.status(201).json(newAppointment);
