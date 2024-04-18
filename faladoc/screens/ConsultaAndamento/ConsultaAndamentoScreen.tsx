@@ -1,23 +1,20 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, Alert, Image } from "react-native";
 import { StopPauseButton } from "../../components/StopPauseButton";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 import SessionContext from "../../provider/sessionContext";
 
-export default function ConsultaAndamentoScreen({navigation}:any) {
-
-  const [seconds, setSeconds] = useState(0);
+export default function ConsultaAndamento({navigation}:any) {
   const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
   const [started, setStarted] = useState(true);
   const [stopped, setStopped] = useState(false);
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const { setUri } = useContext(SessionContext);
+  const { setUri, patientInfo, appoitmentInfos, setAppoitmentInfos } = useContext(SessionContext);
 
   useEffect(() => {
-    // Passar essa parte de autorização para a tela anterior
-    Audio.requestPermissionsAsync().then(({granted}:any) => {
+    Audio.requestPermissionsAsync().then(({ granted }) => {
       if (granted) {
         Audio.setAudioModeAsync({
           allowsRecordingIOS: true,
@@ -27,44 +24,41 @@ export default function ConsultaAndamentoScreen({navigation}:any) {
           interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
           playThroughEarpieceAndroid: false,
         });
-        startTimer();
         handleRecordingStart();
       }
     });
-
-    return () => {
-      if (intervalRef.current !== null) {
-        clearInterval(intervalRef.current);
-      }
-    };
   }, []);
 
-  const startTimer = () => {
-    intervalRef.current = setInterval(() => {
-      setSeconds((prevSeconds) => {
-        if (prevSeconds === 59) {
-          setMinutes((prevMinutes) => prevMinutes + 1);
-          return 0;
-        } else {
-          return prevSeconds + 1;
-        }
-      });
-    }, 1000);
-  };
+  useEffect(() => {
+    if (recording) {
+      const timer = setInterval(() => {
+        recording
+          .getStatusAsync()
+          .then(function (result) {
+            if (result.isRecording) {
+              const totalSeconds = Math.floor(result.durationMillis / 1000);
+              const newMinutes = Math.floor(totalSeconds / 60);
+              const newSeconds = totalSeconds % 60;
+              setMinutes(newMinutes);
+              setSeconds(newSeconds);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [recording]);
 
   const handlePauseButton = () => {
     if (!stopped) {
       if (started) {
-        if (intervalRef.current !== null) {
-          clearInterval(intervalRef.current);
-        }
-        setStarted(false);
         handleRecordingPause();
       } else {
-        startTimer();
-        setStarted(true);
         handleRecordingContinue();
       }
+      setStarted(!started);
     }
   };
 
@@ -116,17 +110,17 @@ export default function ConsultaAndamentoScreen({navigation}:any) {
   };
 
   const handleRecordingStop = async () => {
-    // Adicionar depois um botão de confirmação para salvar o áudio
     try {
       if (recording) {
         await recording.stopAndUnloadAsync();
         const uri = recording.getURI();
         setRecording(null);
         setUri(uri ? uri : "");
-        if (intervalRef.current !== null) {
-          clearInterval(intervalRef.current);
-        }
         setStopped(true);
+        setAppoitmentInfos({
+          ...appoitmentInfos,
+          duration: (`${minutes}:${seconds}`).toString(),
+        });
         navigation.navigate('Processando Consulta');
         console.log("Processando Consulta");
       }
@@ -140,31 +134,29 @@ export default function ConsultaAndamentoScreen({navigation}:any) {
   };
 
   return (
-    <View className="flex flex-col items-center justify-center h-full bg-[#D0EFF0]">
+    <View className="flex flex-col items-center justify-center h-full">
       <View className="w-[400px] h-[130px] object-contain mb-10">
         {started && (
           <Image
             source={require("../../assets/photoaudio.png")}
-            className="max-w-[400px] max-h-[130px] object-contain mb-10"
+            className="w-full h-full object-contain"
           />
         )}
       </View>
       <View className="text-center">
-        {recording || !stopped ? (
-          started ? (
-            <Text className="text-2xl font-semibold">Gravando</Text>
-          ) : (
-            <Text className="text-2xl font-semibold">Pausado</Text>
-          )
+        {recording && started ? (
+          <Text className="text-2xl font-semibold">Gravando</Text>
         ) : (
-          <Text className="text-2xl font-semibold">Áudio Finalizado</Text>
+          !stopped && <Text className="text-2xl font-semibold">Pausado</Text>
         )}
       </View>
       <View className="mb-20">
-        <Text className="text-timer text-center font-bold text-4xl mt-4">
-          {minutes < 10 ? "0" + minutes : minutes}:
-          {seconds < 10 ? "0" + seconds : seconds}
-        </Text>
+        {(recording || !stopped) && (
+          <Text className="text-timer text-center font-bold text-4xl mt-4">
+            {minutes < 10 ? "0" + minutes : minutes}:
+            {seconds < 10 ? "0" + seconds : seconds}
+          </Text>
+        )}
       </View>
       <View className="flex flex-row mt-10 items-center justify-center">
         <StopPauseButton onPress={handlePauseButton} type="pause" />
@@ -173,6 +165,5 @@ export default function ConsultaAndamentoScreen({navigation}:any) {
       </View>
       <StatusBar style="auto" />
     </View>
-    
   );
 }

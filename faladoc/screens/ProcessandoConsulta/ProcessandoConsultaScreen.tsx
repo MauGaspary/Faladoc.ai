@@ -1,18 +1,13 @@
 import { View, Text, ActivityIndicator, Dimensions } from "react-native";
 import {styles} from './styles'
 import  HomeButton  from "../../components/Homebutton";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import axios from 'axios';
+import SessionContext from "../../provider/sessionContext";
 
-type props = {
-    patient : string
-    hospital: string;
-    contexto : string;
-    duration : string;
-    appointment_id: string;
-};
-
-export default function ProcessandoConsultaScreen( {patient, hospital, contexto, duration, appointment_id,navigation}:any){
+export default function ProcessandoConsultaScreen( {navigation}:any){
+  
+  const { appoitmentInfos, patientInfo, setAppoitmentInfos, setPatientInfo } = useContext(SessionContext);
 
     useEffect(() => {
         updateAppointment()
@@ -25,8 +20,7 @@ export default function ProcessandoConsultaScreen( {patient, hospital, contexto,
                 duration: 35
             }
             // const res = await axios.patch(`http://localhost:3000/appointments/${appointment_id}`, body)
-            const res = await axios.patch(`http://localhost:3000/appointments/580f652d-7db8-4354-aebf-dcdd16639674`, body)
-            console.log(res.data)
+            const res = await axios.patch(`http://localhost:3000/appointments/${appoitmentInfos.id}`, body)
             return res.data
         } catch (error) {
             console.log(error)
@@ -34,23 +28,38 @@ export default function ProcessandoConsultaScreen( {patient, hospital, contexto,
     }
 
     const { width, height } = Dimensions.get('window');
+    
+    const handleHomeButton = () => {
+      setAppoitmentInfos({
+        id: '',
+        duration: '',
+        hospital: '',
+        contexto: '',
+      });
+      setPatientInfo({
+        id: '',
+        name: '',
+        date_of_birth: '',
+        cpf: '',
+      });
+        navigation.navigate('Iniciar nova Consulta')
+    }
 
     return(
         <View style={[styles.container, {width, height}]}>
             <Text style={styles.text}>
                     {"\n\n"}
-                     Paciente: {patient}{"\n"}
-                     Hospital: {hospital}{"\n"}
-                     Contexto: {contexto}{"\n"}
-                     ID: {appointment_id}{"\n\n"}
-                     Duração: {duration}{"\n\n\n "}
+                     Paciente: {patientInfo.name}{"\n"}
+                     Hospital: {appoitmentInfos.hospital}{"\n"}
+                     Contexto: {appoitmentInfos.contexto}{"\n"}
+                     Duração: {appoitmentInfos.duration}{"\n\n\n "}
                      Processando
             </Text>
             <ActivityIndicator size={70} color={'grey'}/>
             <Text>
                 {"\n\n"}
             </Text>
-            <HomeButton name='Voltar para a tela inicial' onPress={navigation.navigate('Iniciar nova Consulta')} />
+            <HomeButton name='Voltar para a tela inicial' onPress={handleHomeButton} />
             <Text>
                 {"\n\n"}
             </Text>

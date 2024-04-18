@@ -18,7 +18,7 @@ export function AddPatientModal(this: any) {
   const [cpf, setCpf] = useState("");
   const [isCpfValid, setIsCpfValid] = useState(true);
   
-  const {setSelectedPatient} = useContext(SessionContext);
+  const {setPatientInfo} = useContext(SessionContext);
 
   const handleCpfChange = (masked: string, unmasked: string) => {
     setCpf(masked);
@@ -72,14 +72,15 @@ export function AddPatientModal(this: any) {
     };
 
     try {
-      const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/patients`, patient);
+      // const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/patients`, patient);
+      const response = await axios.post(`http://localhost:3000/patients`, patient);
       if (response.status !== 201) {
         throw new Error("Failed to create patient");
       }
       setCpf("");
       setNome("");
       setDataNascimento("");
-      setSelectedPatient(response.data.name);
+      setPatientInfo(response.data);
       setSuccessModalVisible(true);
     } catch (error) {
       console.error(error);
