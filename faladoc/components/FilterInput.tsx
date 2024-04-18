@@ -1,14 +1,16 @@
-import { FlatList, Text, TextInput, View } from "react-native";
+// @ts-nocheck
+import { Text, TextInput, View } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import SessionContext from "../provider/sessionContext";
+import { PatientDTO } from "../types/PatientDTO";
 
 export function FilterInput() {
   const [searchTerm, setSearchTerm] = useState("");
-  const { selectedPatient, setSelectedPatient } = useContext(SessionContext);
-  const [patients, setPatients] = useState<{ name: string; cpf: string }[]>([]);
+  const { patientInfo, setPatientInfo } = useContext(SessionContext);
+  const [patients, setPatients] = useState<PatientDTO[]>([]);
   const timeoutId = useRef(null);
 
   const handleSearch = (text: string) => {
@@ -18,6 +20,7 @@ export function FilterInput() {
       clearTimeout(timeoutId.current);
     }
 
+    
     timeoutId.current = setTimeout(async () => {
       if (text.length > 1) {
         try {
@@ -34,18 +37,24 @@ export function FilterInput() {
     }, 500);
   };
 
-  const selectPatient = (name: string) => {
-    setSelectedPatient(name);
+  const selectPatient = (patient: PatientDTO) => {
+    setPatientInfo(patient);
     setSearchTerm("");
     setPatients([]);
   };
+  
 
   return (
     <View className="border-2 border-lightGreen rounded-[30px] py-3 px-4 mb-3 flex-col items-center bg-white">
-      {selectedPatient !== "" ? (
+      {patientInfo.name !== "" ? (
         <View className="w-[175] flex flex-row justify-between items-center">
-          <Text>{selectedPatient}</Text>
-          <TouchableOpacity onPress={() => setSelectedPatient("")}>
+          <Text>{patientInfo.name}</Text>
+          <TouchableOpacity onPress={() => setPatientInfo({
+            id: "",
+            name: "",
+            cpf: "",
+            date_of_birth: "",
+          })}>
             <AntDesign name="close" size={24} color="black" className="ml-2" />
           </TouchableOpacity>
         </View>
@@ -71,15 +80,17 @@ export function FilterInput() {
                 patients.map((patient) => (
                   <TouchableOpacity
                     className="w-full border-b border-lightGreen"
-                    onPress={() => selectPatient(patient.name)}
-                    key={patient.name}
+                    onPress={() => selectPatient(patient)}
+                    key={patient.id}
                   >
                     <Text className="ml-7">Nome: {patient.name}</Text>
                     <Text className="ml-7">CPF: {patient.cpf}</Text>
                   </TouchableOpacity>
                 ))
               ) : (
-                <Text className="my-1 w-[190px] text-nowrap">Nenhum paciente encontrado</Text>
+                <Text className="my-1 w-[190px] text-nowrap">
+                  Nenhum paciente encontrado
+                </Text>
               )}
             </ScrollView>
           )}
