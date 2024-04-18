@@ -29,7 +29,7 @@ const SessionContext = createContext<ContextType>({
     id: "",
     hospital: "",
     contexto: "",
-    duration: "",
+    duration: 0,
   },
   setAppoitmentInfos: () => {},
 });
@@ -51,7 +51,7 @@ export const SessionProvider = ({
     id: "",
     hospital: "",
     contexto: "",
-    duration: "",
+    duration: 0,
   });
 
   return (

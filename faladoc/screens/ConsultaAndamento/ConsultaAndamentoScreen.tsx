@@ -119,7 +119,7 @@ export default function ConsultaAndamento({navigation}:any) {
         setStopped(true);
         setAppoitmentInfos({
           ...appoitmentInfos,
-          duration: (`${minutes}:${seconds}`).toString(),
+          duration: minutes * 60 + seconds,
         });
         navigation.navigate('Processando Consulta');
         console.log("Processando Consulta");

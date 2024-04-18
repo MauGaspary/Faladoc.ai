@@ -55,14 +55,7 @@ export default function App() {
 
           <Stack.Screen name="Processando Consulta" 
 
-            component={ProcessandoConsultaScreen} 
-              initialParams={{ 
-                patient: '', 
-                hospital: '', 
-                contexto: '', 
-                duration: '', 
-                appointment_id: ''
-              }}
+            component={ProcessandoConsultaScreen}
             options={{ headerShown: false }}
 
           />
