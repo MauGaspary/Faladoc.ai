@@ -22,7 +22,7 @@ export function FilterInput() {
 
     
     timeoutId.current = setTimeout(async () => {
-      if (text.length > 1) {
+      if (text.length >= 1) {
         try {
           const response = await axios.get(
             // `${process.env.EXPO_PUBLIC_API_URL}/patients/${text}`

@@ -17,9 +17,6 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
     loggedDoctor,
   } = useContext(SessionContext);
 
-  const isInputsFilled =
-    appoitmentInfos.hospital.length >= 2 &&
-    appoitmentInfos.contexto.length >= 2;
 
   const handleLocation = (text: string) => {
     setAppoitmentInfos({
@@ -36,7 +33,6 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
   };
 
   const handleStartRecording = async () => {
-    if (isInputsFilled) {
       const appoitment = {
         patient_id: patientInfo.id,
         doctor_id: loggedDoctor,
@@ -63,9 +59,7 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
         console.error(error);
       }
       navigation.navigate("Consulta Andamento");
-    } else {
-      alert("Por favor, preencha os campos com pelo menos duas letras.");
-    }
+    
   };
 
   return (
