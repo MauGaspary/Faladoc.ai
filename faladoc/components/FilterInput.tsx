@@ -45,9 +45,11 @@ export function FilterInput() {
   
 
   return (
-    <View className="border-2 border-lightGreen rounded-[30px] py-3 px-4 mb-3 flex-col items-center bg-white">
+
+    <View className="border-2 border-lightGreen rounded-[30px] py-3 px-4 mb-3 w-2/3 flex-col items-left bg-white">
       {patientInfo.name !== "" ? (
-        <View className="w-[175] flex flex-row justify-between items-center">
+        <View className="flex-auto flex-row justify-between items-center">
+
           <Text>{patientInfo.name}</Text>
           <TouchableOpacity onPress={() => setPatientInfo({
             id: "",
@@ -63,7 +65,7 @@ export function FilterInput() {
           <View className="flex flex-row">
             <AntDesign name="user" size={24} color="black" className="mr-2" />
             <TextInput
-              className="flex-grow ml-2 text-gray"
+              className="ml-2 text-gray"
               placeholder="Pesquisar paciente..."
               placeholderTextColor="gray"
               value={searchTerm}

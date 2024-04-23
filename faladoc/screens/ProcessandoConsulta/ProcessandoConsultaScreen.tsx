@@ -1,5 +1,4 @@
 import { View, Text, ActivityIndicator, Dimensions } from "react-native";
-import { styles } from "./styles";
 import HomeButton from "../../components/Homebutton";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
@@ -59,8 +58,12 @@ export default function ProcessandoConsultaScreen({ navigation }: any) {
   };
 
   return (
-    <View style={[styles.container, { width, height }]}>
-      <Text style={styles.text}>
+
+
+    <View className="flex flex-col h-screen items-center bg-background">
+
+
+      <Text className="mt-10 text-black text-left text-lg py-screen">
         {"\n\n"}
         Paciente: {patientInfo.name}
         {"\n"}
@@ -69,16 +72,17 @@ export default function ProcessandoConsultaScreen({ navigation }: any) {
         Contexto: {appoitmentInfos.contexto}
         {"\n"}
         Duração: {formattedTime}
-        {"\n\n\n "}
+        {"\n\n "}
         Processando
       </Text>
-      <ActivityIndicator size={70} color={"grey"} />
-      <Text>{"\n\n"}</Text>
+
+      <ActivityIndicator size={70} color={"grey"}  className="mt-10 mb-10"/>
+      
       <HomeButton
         name="Voltar para a tela inicial"
         onPress={handleHomeButton}
       />
-      <Text>{"\n\n"}</Text>
+
     </View>
   );
 }

@@ -11,9 +11,9 @@ type props = {
 const HomeButton =({ name ,onPress}: any)=> {
   return (
     <View>
-      <TouchableOpacity onPress={onPress} style={styles.button} >
+      <TouchableOpacity onPress={onPress} className="w-2/3 h-3/6 rounded-lg bg-teal-600 flex items-center justify-center p-6" >
         <Feather name="home" size={70} color="white" />
-        <Text style={styles.text}>{name}</Text>
+        <Text className="mt-3 text-center text-white text-lg">{name}</Text>
       </TouchableOpacity>
     </View>
   );
