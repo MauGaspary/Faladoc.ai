@@ -64,11 +64,14 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
 
   return (
     <KeyboardAvoidingView className="flex-1">
-      <ScrollView className="h-full flex align-bottom" contentContainerStyle={{ flexGrow: 2 }}>
+      <ScrollView className="flex align-bottom" contentContainerStyle={{ flexGrow: 2 }}>
+
         <View className="flex-1 bg-[#D0EFF0] items-center justify-center pt-12">
           <AddPatientModal />
-          <Text className="mt-2">ou</Text>
-          <Text className="mt-2 mb-2">pesquise pelo nome</Text>
+
+          <Text className="mt-3">ou</Text>
+          <Text className="mt-1 mb-3">Pesquise pelo Nome</Text>
+
           <FilterInput />
 
           <View className="border-b-2 border-teal-600 w-4/5 my-2" />
@@ -87,7 +90,7 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
             onChangeText={handleContext}
           />
 
-          <View className="pt-2">
+          <View className="mt-3">
             <StartConsultationButton onPress={handleStartRecording} />
           </View>
 

@@ -15,7 +15,8 @@ const Navbar = () => {
   return (
     <KeyboardAvoidingView className='flex-1'>
 
-    <View className='flex-row justify-around items-center bg-[#F7FFFF] py-4 px-10 shadow-md absolute bottom-0 left-0 right-0 w-full'>
+    <View className='flex-row justify-around items-center bg-[#F7FFFF] py-4 px-8 shadow-md absolute bottom-0 left-0 w-full'>
+
       <TouchableOpacity onPress={()=> handleIconPress('home')}>
         {selectedIcon === 'home' ? (
           <Ionicons name="home-sharp" size={35} color="#12ADB4" />

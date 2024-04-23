@@ -134,7 +134,8 @@ export default function ConsultaAndamento({navigation}:any) {
   };
 
   return (
-    <View className="flex flex-col items-center justify-center h-full">
+    <View className="flex flex-col items-center justify-center h-full bg-background">
+
       <View className="w-[400px] h-[130px] object-contain mb-10">
         {started && (
           <Image
