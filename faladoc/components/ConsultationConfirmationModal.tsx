@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Text, View, Button } from 'react-native';
+import { Modal, Text, View, Pressable } from 'react-native';
 
 interface Props {
   isVisible: boolean;
@@ -15,13 +15,17 @@ const ConsultationConfirmationModal: React.FC<Props> = ({ isVisible, onClose, on
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
-        <View style={{ backgroundColor: "white", borderRadius: 10, padding: 20 }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10, textAlign: "center" }}>Confirmação de Consulta</Text>
-          <Text style={{ fontSize: 16, marginBottom: 20, textAlign: "center" }}>Deseja realmente iniciar a consulta?</Text>
-          <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-            <Button title="Confirmar" onPress={onConfirm} />
-            <Button title="Cancelar" onPress={onClose} color="#e71d36" />
+      <View className="flex-1 justify-center items-center bg-opacity-50">
+        <View className="bg-white rounded-lg p-6">
+          <Text className="text-lg font-bold mb-2 text-center">Confirmação de Consulta</Text>
+          <Text className="text-base mb-6 text-center">Deseja realmente iniciar a consulta?</Text>
+          <View className="flex flex-row justify-around">
+            <Pressable onPress={onConfirm} className="bg-[#88D6D9] py-2 px-4 rounded-md">
+              <Text className="text-white font-bold">Confirmar</Text>
+            </Pressable>
+            <Pressable onPress={onClose} className="bg-[#F17777] py-2 px-4 rounded-md">
+              <Text className="text-white font-bold">Cancelar</Text>
+            </Pressable>
           </View>
         </View>
       </View>
