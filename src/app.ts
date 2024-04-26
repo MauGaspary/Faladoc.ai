@@ -2,6 +2,7 @@ import express from 'express';
 import doctorRoutes from './routes/DoctorRoute';
 import appointmentsRoutes from './routes/AppointmentsRoutes';
 import patientsRoutes from './routes/PatientsRoutes';
+import authRoutes from './routes/AuthRoutes';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -19,5 +20,6 @@ app.use(
 app.use(doctorRoutes);
 app.use(appointmentsRoutes);
 app.use(patientsRoutes);
+app.use('/auth', authRoutes);
 
 app.listen(PORT, () => console.log(`Server rodando na porta:  ${PORT}`));
