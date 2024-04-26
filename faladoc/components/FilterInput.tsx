@@ -6,8 +6,11 @@ import axios from "axios";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import SessionContext from "../provider/sessionContext";
 import { PatientDTO } from "../types/PatientDTO";
+type FilterInputType = {
+  isPatientSelected: boolean
+};
 
-export function FilterInput() {
+export function FilterInput({ isPatientSelected }: FilterInputType) {
   const [searchTerm, setSearchTerm] = useState("");
   const { patientInfo, setPatientInfo } = useContext(SessionContext);
   const [patients, setPatients] = useState<PatientDTO[]>([]);
@@ -43,10 +46,11 @@ export function FilterInput() {
     setPatients([]);
   };
   
+  console.log(isPatientSelected);
 
   return (
 
-    <View className="border-2 border-lightGreen rounded-[30px] py-3 px-4 mb-3 w-2/3 flex-col items-left bg-white">
+    <View className={`border-2 rounded-[30px] py-3 px-4 mb-3 w-2/3 flex-col items-left bg-white ${isPatientSelected ? 'border-lightGreen' : 'border-invalid'}`}>
       {patientInfo.name !== "" ? (
         <View className="flex-auto flex-row justify-between items-center">
 

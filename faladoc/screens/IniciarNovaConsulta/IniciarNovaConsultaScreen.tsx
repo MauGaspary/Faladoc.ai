@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
 import Input from "../../components/Input";
 import StartConsultationButton from "../../components/StartConsultationButton";
@@ -10,6 +10,9 @@ import SessionContext from "../../provider/sessionContext";
 import axios from "axios";
 
 const IniciarNovaConsultaScreen = ({ navigation }: any) => {
+
+  const [isPatientSelected, setIsPatientSelected] = useState(true);
+
   const {
     appoitmentInfos,
     setAppoitmentInfos,
@@ -32,7 +35,18 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
     });
   };
 
+  useEffect(() => {
+    if(patientInfo.id){
+      setIsPatientSelected(true);
+    }
+  },[patientInfo])
+
   const handleStartRecording = async () => {
+
+      if(!patientInfo.id){
+        setIsPatientSelected(false);
+        return;
+    } 
       const appoitment = {
         patient_id: patientInfo.id,
         doctor_id: loggedDoctor,
@@ -72,7 +86,7 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
           <Text className="mt-3">ou</Text>
           <Text className="mt-1 mb-3">Pesquise pelo Nome</Text>
 
-          <FilterInput />
+          <FilterInput isPatientSelected={isPatientSelected}/>
 
           <View className="border-b-2 border-teal-600 w-4/5 my-2" />
 
