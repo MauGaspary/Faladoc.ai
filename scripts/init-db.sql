@@ -27,7 +27,7 @@ CREATE TABLE doctors (
   name VARCHAR(255) NOT NULL,
   crm VARCHAR(255) UNIQUE NOT NULL,
   hospital VARCHAR(255),
-  specialty VARCHAR(255)
+  specialty VARCHAR(255),
 );
 
 CREATE TABLE users (
