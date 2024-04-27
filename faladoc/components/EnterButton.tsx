@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 
 const EnterButton = ({ onPress, text }: { onPress: () => void, text: string }) => {
     return (

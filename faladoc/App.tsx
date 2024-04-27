@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 //import CSS
 import { NativeWindStyleSheet } from 'nativewind';
 import { PasswordInput } from './components/PasswordInput';
-import { View } from 'react-native';
+import { Button, View } from 'react-native';
 
 
 const StackNavigator: React.FC = () => (
@@ -15,16 +15,24 @@ NativeWindStyleSheet.setOutput({
 });
 
 
+
 export default function App() {
+  const [getPassword, setGetPassword] = useState<string>('');
+
+  const defPassword = (password: string) => {
+    setGetPassword(password);
+  }
+
+  const handleClick = () => {
+    console.log(getPassword);
+  };
+
   return (
     <>
-    {/* <View className="flex items-center my-auto"> */}
-      <PasswordInput mode="register"/>
-
-    {/* </View> */}
+      <View className="my-auto">
+        <PasswordInput mode="login" getPassword={defPassword} />
+        <Button onPress={handleClick} title="Login" />
+      </View>
     </>
-
-
-
   );
 }

@@ -3,7 +3,7 @@ import { Text, TextInput, View } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native";
 import SessionContext from "../provider/sessionContext";
 import { PatientDTO } from "../types/PatientDTO";
 
