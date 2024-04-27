@@ -3,8 +3,8 @@ import sequelize from '../db';
 
 export class Admin extends Model {
   public id!: string;
+  public user_id!: string;
   public name!: string;
-  public userType!: string;
 }
 
 Admin.init({
@@ -13,13 +13,12 @@ Admin.init({
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
-  name: {
-    type: DataTypes.STRING,
+  user_id: {
+    type: DataTypes.UUID,
     allowNull: false
   },
-  userType: {
-    field: 'usertype',
-    type: DataTypes.ENUM('ADMIN', 'DOCTOR'),
+  name: {
+    type: DataTypes.STRING,
     allowNull: false
   }
 }, {

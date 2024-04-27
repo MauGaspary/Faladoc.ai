@@ -1,13 +1,14 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
 
-export class Doctor extends Model {
+
+class Doctor extends Model {
   public id!: string;
+  public user_id!: string;
   public name!: string;
   public crm!: string;
-  public hospital!: string; 
+  public hospital!: string;
   public specialty!: string;
-  public userType!: string;
 }
 
 Doctor.init({
@@ -15,6 +16,10 @@ Doctor.init({
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
+  },
+  user_id: {
+    type: DataTypes.UUID,
+    allowNull: false
   },
   name: {
     type: DataTypes.STRING,
@@ -32,15 +37,10 @@ Doctor.init({
   specialty: {
     type: DataTypes.STRING,
     allowNull: true
-  },
-  userType: {
-    field: 'usertype',
-    type: DataTypes.ENUM('ADMIN', 'DOCTOR'),
-    allowNull: false
   }
 }, {
   sequelize,
-  modelName: 'Doctor',
+  modelName: 'doctor',
   tableName: 'doctors',
   timestamps: false
 });
