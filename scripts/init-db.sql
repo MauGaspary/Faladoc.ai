@@ -35,7 +35,7 @@ CREATE TABLE users (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   email VARCHAR(255) NOT NULL,
   passwordHash VARCHAR(255) NOT NULL,
-  passwordSalt VARCHAR(255) NOT NULL
+  passwordSalt VARCHAR(255) NOT NULL,
   userType UserType NOT NULL
 );
 
@@ -54,7 +54,7 @@ CREATE TABLE patients (
 
 CREATE TABLE appointments (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  doctor uuid NOT NULL,
+  doctor_id uuid NOT NULL,
   patient_id uuid NOT NULL,
   appointment_context TEXT,
   medical_record_original TEXT,
@@ -75,6 +75,6 @@ CREATE TABLE PasswordReset (
 
 ALTER TABLE doctors ADD CONSTRAINT fk_doctors_user_id FOREIGN KEY (user_id) REFERENCES users(id);
 ALTER TABLE admins ADD CONSTRAINT fk_admins_user_id FOREIGN KEY (user_id) REFERENCES users(id);
-ALTER TABLE appointments ADD FOREIGN KEY (doctor_id) REFERENCES doctors (id);
+ALTER TABLE appointments ADD FOREIGN KEY (doctor_id) REFERENCES doctors (id); 
 ALTER TABLE appointments ADD FOREIGN KEY (patient_id) REFERENCES patients (id);
 ALTER TABLE PasswordReset ADD FOREIGN KEY (user_id) REFERENCES users (id);
