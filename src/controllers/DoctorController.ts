@@ -11,4 +11,18 @@ export class DoctorController {
       res.status(500).json({ error: 'Deu ruim' });
     }
   }
+  public static async createDoctor(req: Request, res: Response){
+    try{
+      const doctor = req.body;
+      doctor.setType = "Doctor";
+      const newDoctor = await Doctor.create(doctor);
+      res.status(200).json(newDoctor);
+    }
+    catch(error){
+      console.error("erro no create doctor", error);
+      res.status(500).json({error:'erro'});
+    }
+    
+  }
+  
 }
