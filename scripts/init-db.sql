@@ -68,6 +68,7 @@ CREATE TABLE PasswordReset (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   user_id uuid NOT NULL,
   token VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   expiration_date DATE NOT NULL
 );
 
