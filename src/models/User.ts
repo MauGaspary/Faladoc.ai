@@ -1,7 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
 
-class User extends Model {
+export class User extends Model {
   public id!: string;
   public email!: string;
   public passwordHash!: string;

@@ -23,7 +23,7 @@ Admin.init({
   }
 }, {
   sequelize,
-  modelName: 'Admin',
+  modelName: 'admin',
   tableName: 'admins',
   timestamps: false
 });

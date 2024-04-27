@@ -2,7 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
 
 
-class Doctor extends Model {
+export class Doctor extends Model {
   public id!: string;
   public user_id!: string;
   public name!: string;
