@@ -24,6 +24,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 //import CSS
 import { NativeWindStyleSheet } from 'nativewind';
+import teste from './screens/teste/teste';
 
 
 
@@ -48,6 +49,8 @@ export default function App() {
     <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
+
+          <Stack.Screen name="teste" component={teste} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Iniciar nova Consulta' component={IniciarNovaConsultaScreen} options={{ headerShown: false }}/>
 
