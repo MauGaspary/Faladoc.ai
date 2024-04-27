@@ -1,19 +1,29 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
 
-export class Admin extends Model {
+export class User extends Model {
   public id!: string;
-  public name!: string;
+  public email!: string;
+  public passwordHash!: string;
+  public passwordSalt!: string;
   public userType!: string;
 }
 
-Admin.init({
+User.init({
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
-  name: {
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  passwordHash: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  passwordSalt: {
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -22,9 +32,10 @@ Admin.init({
     type: DataTypes.ENUM('ADMIN', 'DOCTOR'),
     allowNull: false
   }
-}, {
-  sequelize,
-  modelName: 'Admin',
-  tableName: 'admins',
-  timestamps: false
-});
+}
+  ,{
+    sequelize,
+    modelName: 'user',
+    tableName: 'users',
+    timestamps: false
+  });
