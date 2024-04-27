@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS appointments;
 DROP TABLE IF EXISTS patients;
 DROP TABLE IF EXISTS admins;
-DROP TABLE IF EXISTS login;
+DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS doctors;
 DROP TYPE IF EXISTS Status;
 DROP TYPE IF EXISTS UserType;
@@ -23,26 +23,25 @@ CREATE TYPE Status AS ENUM (
 
 CREATE TABLE doctors (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_id uuid NOT NULL,
   name VARCHAR(255) NOT NULL,
   crm VARCHAR(255) UNIQUE NOT NULL,
   hospital VARCHAR(255),
   specialty VARCHAR(255),
-  userType UserType NOT NULL
 );
 
-CREATE TABLE login (
+CREATE TABLE users (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  user_id uuid,
-  admin_id uuid,
   email VARCHAR(255) NOT NULL,
   passwordHash VARCHAR(255) NOT NULL,
   passwordSalt VARCHAR(255) NOT NULL
+  userType UserType NOT NULL
 );
 
 CREATE TABLE admins (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  userType UserType NOT NULL
+  user_id uuid NOT NULL,
+  name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE patients (
@@ -54,7 +53,7 @@ CREATE TABLE patients (
 
 CREATE TABLE appointments (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  doctor_id uuid NOT NULL,
+  doctor uuid NOT NULL,
   patient_id uuid NOT NULL,
   appointment_context TEXT,
   medical_record_original TEXT,
@@ -65,10 +64,10 @@ CREATE TABLE appointments (
   appointment_status Status NOT NULL
 );
 
+ALTER TABLE doctors ADD CONSTRAINT fk_doctors_user_id FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE admins ADD CONSTRAINT fk_admins_user_id FOREIGN KEY (user_id) REFERENCES users(id);
 ALTER TABLE appointments ADD FOREIGN KEY (doctor_id) REFERENCES doctors (id);
 ALTER TABLE appointments ADD FOREIGN KEY (patient_id) REFERENCES patients (id);
-ALTER TABLE login ADD FOREIGN KEY (user_id) REFERENCES doctors (id);
-ALTER TABLE login ADD FOREIGN KEY (admin_id) REFERENCES admins (id);
 
 
 insert into doctors (name, crm, hospital, specialty, userType) values ('Dr. João', '123456', 'Hospital A', 'Cardiologista', 'DOCTOR');
