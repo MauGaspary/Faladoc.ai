@@ -4,8 +4,8 @@ import sequelize from '../db';
 export class User extends Model {
   public id!: string;
   public email!: string;
-  public passwordHash!: string;
-  public passwordSalt!: string;
+  public passwordhash!: string;
+  public passwordsalt!: string;
   public userType!: string;
 }
 
@@ -19,11 +19,11 @@ User.init({
     type: DataTypes.STRING,
     allowNull: false
   },
-  passwordHash: {
+  passwordhash: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  passwordSalt: {
+  passwordsalt: {
     type: DataTypes.STRING,
     allowNull: false
   },
