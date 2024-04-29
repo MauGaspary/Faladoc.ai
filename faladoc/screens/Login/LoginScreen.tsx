@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Image } from "react-native";
 import Input from "../../components/Input";
+import EnterButton from "../../components/EnterButton";
 
 export default function LoginScreen() {
   return (
@@ -13,6 +14,23 @@ export default function LoginScreen() {
         <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30]">
           Login
         </Text>
+        <View className="items-center mt-[100]">
+          <Input
+            iconName={"person-outline"}
+            placeholder={"Email"}
+          />
+          <EnterButton
+            onPress={() => console.log("Button pressed")}
+            text="Entrar"
+          />
+          <Text>Não possui conta? </Text>
+          <Text
+            className="text-link underline cursor-pointer"
+            onPress={() => console.log("Button pressed")}
+          >
+            Cadastre-se
+          </Text>
+        </View>
       </View>
     </View>
   );
