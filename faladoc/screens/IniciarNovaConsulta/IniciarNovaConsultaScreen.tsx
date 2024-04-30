@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
 import Input from "../../components/Input";
 import StartConsultationButton from "../../components/StartConsultationButton";
@@ -11,6 +11,9 @@ import SessionContext from "../../provider/sessionContext";
 import axios from "axios";
 
 const IniciarNovaConsultaScreen = ({ navigation }: any) => {
+
+  const [isPatientSelected, setIsPatientSelected] = useState(true);
+
   const {
     appoitmentInfos,
     setAppoitmentInfos,
@@ -34,36 +37,46 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
     });
   };
 
-  const handleConfirmConsultation = async () => {
+  useEffect(() => {
+    if (patientInfo.id) {
+      setIsPatientSelected(true);
+    }
+  }, [patientInfo])
 
+  const handleStartRecording = async () => {
     const appoitment = {
       patient_id: patientInfo.id,
       doctor_id: loggedDoctor,
       hospital: appoitmentInfos.hospital,
       appointment_context: appoitmentInfos.contexto,
     };
-  
-    navigation.navigate("Consulta Andamento");
-    setModalVisible(false);
 
     try {
-      const response = await axios.post(`http://localhost:3000/appointments`, appoitment);
+      // const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/patients`, patient);
+      const response = await axios.post(
+        `http://localhost:3000/appointments`,
+        appoitment
+      );
       if (response.status !== 201) {
         throw new Error("Failed to create appointment");
       }
-  
+
       setAppoitmentInfos({
         ...appoitmentInfos,
         id: response.data.id,
         duration: response.data.duration,
       });
-  
+
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleStartRecording = async () => {
+  const handleModalRecording = async () => {
+    if (!patientInfo.id) {
+      setIsPatientSelected(false);
+      return;
+    }
     setModalVisible(true);
   };
 
@@ -77,7 +90,7 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
           <Text className="mt-3">ou</Text>
           <Text className="mt-1 mb-3">Pesquise pelo Nome</Text>
 
-          <FilterInput />
+          <FilterInput isPatientSelected={isPatientSelected} />
 
           <View className="border-b-2 border-teal-600 w-4/5 my-2" />
 
@@ -96,7 +109,7 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
           />
 
           <View className="mt-3">
-            <StartConsultationButton onPress={handleStartRecording} />
+            <StartConsultationButton onPress={handleModalRecording} />
           </View>
 
           <StatusBar style="auto" />
@@ -104,10 +117,10 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
       </ScrollView>
       <Navbar />
       <ConsultationConfirmationModal
-          isVisible={isModalVisible}
-          onClose={() => setModalVisible(false)}
-          onConfirm={handleConfirmConsultation}
-        />
+        isVisible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        onConfirm={handleStartRecording}
+      />
 
     </KeyboardAvoidingView>
   );
