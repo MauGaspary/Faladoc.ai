@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../models/User';
+import { PasswordReset } from '../models/PasswordReset';
 import bcrypt from "bcrypt";
 
 
@@ -28,7 +29,7 @@ export class UserController{
             const request = PasswordReset.findOne({where: {token: token}});
 
             const actualDate = new Date();
-            const requestDate = request.request_date;
+            const requestDate = request.expiration_date;
             const isExpirationDateValid = requestDate === actualDate;
 
             if(!isExpirationDateValid){ 
