@@ -33,4 +33,22 @@ export class UserController {
             res.status(500).json({ error: "Erro ao buscar usuário" });
         }
     }
+
+    public static async passwordReset(req: Request, res: Response){ 
+        try {
+            const { token } = req.query;
+            const { email, password } = req.body;
+            const user = await User.findOne({where: {email: email}});
+            if(user){
+                const salt = await bcrypt.genSalt();
+                const passwordHash = await bcrypt.hash(password, salt);
+                user.passwordhash = passwordHash;
+                user.passwordsalt = salt;
+                await user.save();
+                res.status(200).json({message: "Senha alterada com sucesso."});
+            }
+        } catch (error){ 
+            res.status(500).json({error: "Erro ao alterar senha."});
+        }
+    }
 }
