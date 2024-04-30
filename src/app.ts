@@ -20,6 +20,7 @@ app.use(
 app.use(doctorRoutes);
 app.use(appointmentsRoutes);
 app.use(patientsRoutes);
-app.use(userRoutes);
+// TODO: trocar "users" para "user"
+app.use('/users', userRoutes);
 
 app.listen(PORT, () => console.log(`Server rodando na porta:  ${PORT}`));
