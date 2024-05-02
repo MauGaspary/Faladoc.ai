@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView, View, Text } from "react-native"
+import { KeyboardAvoidingView, View, Text, TouchableHighlight } from "react-native"
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import { ScrollView } from "react-native-gesture-handler";
@@ -23,9 +23,9 @@ const RegisterScreen = () => {
         <ScrollView className="pb-8">
             <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30]">Cadastro</Text>
             <View className="flex-1 bg-[#D0EFF0] items-center justify-center">
-                <View className="flex-row w-max flex align-bottom">
-                <Input iconName={''} placeholder={"ESTADO"} value={estado}    onChangeText={setEstado}/>
-                <Input iconName={''} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
+                <View className="flex-row">
+                <Input iconName={'medkit-outline'} placeholder={"ESTADO"} value={estado}    onChangeText={setEstado}/>
+                <Input iconName={'medkit-outline'} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
                 </View>
                 <View className="border-b-2 border-teal-600 w-4/5 my-2" />
                 <Input iconName={'mail-outline'} placeholder={'Hospital'} className={'px-15'}/>
@@ -33,6 +33,9 @@ const RegisterScreen = () => {
                 <PasswordInput mode="register"  getPassword={getPassword}/>    
                 <EnterButton onPress={()=>console.log('click')} text="Cadastrar"/>
                 <Text>Ja possui uma conta?</Text>
+                <TouchableHighlight onPress={() => console.log('link')}>
+                        <Text className={"underline text-sky-600"}>Entre</Text>
+                </TouchableHighlight>
             </View>
         </ScrollView>       
     </KeyboardAvoidingView>
