@@ -9,6 +9,10 @@ RUN npm install
 RUN npm install -g ts-node typescript
 RUN npm install --save-dev @types/express
 RUN npm install pg --save
+RUN npm install --save-dev @types/cors
+RUN npm install bcrypt
+RUN npm install --save-dev @types/bcrypt
+
 
 COPY . .
 

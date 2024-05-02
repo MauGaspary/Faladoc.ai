@@ -25,4 +25,7 @@ npm install sequelize pg pg-hstore
 npm install -g ts-node typescript
 npm install --save-dev @types/express
 npm install pg --save
+npm install --save-dev @types/cors
+npm install bcrypt
+npm install --save-dev @types/bcrypt
 ```
