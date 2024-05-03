@@ -26,11 +26,11 @@ export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
   }, [password]);
 
   return (
-    <View className="flex items-center">
-      <View className="flex-row border-2 border-lightGreen w-2/3 rounded-full justify-between p-3 m-3 bg-white">
-        <View className="flex-row items-center gap-1">
+    <View className="w-full flex items-center">
+      <View className="flex-row border-2 border-lightGreen w-full rounded-full justify-between p-3 m-3 bg-white">
+        <View className="flex-row items-center gap-2">
           <Feather name="lock" size={24} color="black" />
-          <TextInput secureTextEntry={hidePassword} onChangeText={setPassword} placeholder="Senha" />
+          <TextInput secureTextEntry={hidePassword} onChangeText={setPassword} placeholder="Senha" className="text-subtitle ml-2" placeholderTextColor="gray"/>
         </View>
         <Feather
           name={hidePassword ? "eye-off" : "eye"}
@@ -50,13 +50,14 @@ export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
             ))}
           </View>
 
-          <View className="flex-row border-2 border-lightGreen w-2/3 rounded-full justify-between p-3 m-3 bg-white">
-            <View className="flex-row items-center gap-1">
+          <View className="flex-row border-2 border-lightGreen w-full rounded-full justify-between p-3 m-3 bg-white">
+            <View className="flex-row items-center gap-2">
               <Feather name="lock" size={24} color="black" />
               <TextInput
                 secureTextEntry={hidePassword}
                 onChangeText={setConfirmPassword}
                 placeholder="Confirmar senha"
+                className="ml-2 text-subtitle"
               />
             </View>
             <Feather

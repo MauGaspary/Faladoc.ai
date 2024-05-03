@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native';
 
 const EnterButton = ({ onPress, text }: { onPress: () => void, text: string }) => {
     return (
-      <TouchableOpacity onPress={onPress} className="flex-row rounded-full p-3 m-3 bg-teal-600 justify-center shadow-lg w-[280px]">
+      <TouchableOpacity onPress={onPress} className="flex-row rounded-full p-3 m-3 bg-teal-600 justify-center shadow-lg w-full">
         <View className="w-full justify-center items-center">
           <Text className="text-white mt-1 justify-center items-center">{text}</Text>
         </View>
