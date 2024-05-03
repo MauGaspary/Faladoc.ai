@@ -11,6 +11,7 @@ import SignInScreen from './screens/SignInScreen/SignInScreen';
 import ConsultaAndamentoScreen from "./screens/ConsultaAndamento/ConsultaAndamentoScreen";
 import IniciarNovaConsultaScreen from './screens/IniciarNovaConsulta/IniciarNovaConsultaScreen';
 import ProcessandoConsultaScreen from "./screens/ProcessandoConsulta/ProcessandoConsultaScreen";
+import PasswordResetScreen from './screens/PasswordResetScreen/PasswordResetScreen';
 
 
 //import Components
@@ -24,7 +25,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 //import CSS
 import { NativeWindStyleSheet } from 'nativewind';
-import teste from './screens/teste/teste';
 
 
 
@@ -50,7 +50,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
 
-          <Stack.Screen name="teste" component={teste} options={{ headerShown: false }}/>
+          <Stack.Screen name="Redefinir Senha" component={PasswordResetScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Iniciar nova Consulta' component={IniciarNovaConsultaScreen} options={{ headerShown: false }}/>
 
