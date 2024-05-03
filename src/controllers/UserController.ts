@@ -22,6 +22,21 @@ export class UserController{
             res.status(500).json({ error: "Erro ao criar login de usuário" });
         }
     }
+
+    public static async getUser(req: Request, res: Response){
+        try{
+            const { email } = req.body;
+            const user = await User.findOne({ where: { email: email } });
+            if(user){
+                delete user.dataValues.passwordhash;
+                delete user.dataValues.passwordsalt;
+                res.status(200).json(user);
+            } else {
+                res.status(404).json({ error: "Usuário não encontrado" });
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Erro ao buscar usuário" });
+        }
+    }
 }
-
-
