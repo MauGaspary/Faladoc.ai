@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, Alert, Image } from "react-native";
 import { StopPauseButton } from "../../components/StopPauseButton";
+import { CancelConsultationButton } from "../../components/CancelConsultationButton";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 import SessionContext from "../../provider/sessionContext";
 
@@ -133,6 +134,10 @@ export default function ConsultaAndamento({navigation}:any) {
     }
   };
 
+  const handleCancelConsultation = async () =>{
+    console.log("Cancelar");
+  }
+
   return (
     <View className="flex flex-col items-center justify-center h-full bg-background">
 
@@ -163,6 +168,9 @@ export default function ConsultaAndamento({navigation}:any) {
         <StopPauseButton onPress={handlePauseButton} type="pause" />
         <View className="mx-5" />
         <StopPauseButton onPress={handleRecordingStop} type="stop" />
+      </View>
+      <View>
+        <CancelConsultationButton onPress={handleCancelConsultation}/>
       </View>
       <StatusBar style="auto" />
     </View>
