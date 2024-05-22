@@ -11,7 +11,7 @@ export class PasswordResetController {
                 token : token
             }
           });
-          res.status(200).json(PasswordReset);
+          res.status(200).json(passwordReset);
         } catch (error) {
           console.error("Erro ao buscar requisição de troca de senha", error);
           res.status(500).json({ error: 'Erro ao buscar requisição de troca de senha' });
