@@ -2,8 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, Alert, Image } from "react-native";
 import { StopPauseButton } from "../../components/StopPauseButton";
+import { CancelConsultationButton } from "../../components/CancelConsultationButton";
+import CancelConsultationModal from "../../components/CancelConsultationModal";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 import SessionContext from "../../provider/sessionContext";
+
 
 export default function ConsultaAndamento({navigation}:any) {
   const [minutes, setMinutes] = useState(0);
@@ -11,6 +14,7 @@ export default function ConsultaAndamento({navigation}:any) {
   const [started, setStarted] = useState(true);
   const [stopped, setStopped] = useState(false);
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const { setUri, patientInfo, appoitmentInfos, setAppoitmentInfos } = useContext(SessionContext);
 
   useEffect(() => {
@@ -133,6 +137,31 @@ export default function ConsultaAndamento({navigation}:any) {
     }
   };
 
+  const handleCancelConsultation = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleDiscardRecording = async () => {
+    try{
+      if (recording){
+        await recording.stopAndUnloadAsync();
+        setRecording(null);
+      }
+      setIsModalVisible(false);
+      navigation.navigate("Iniciar nova Consulta");
+    } catch (error) {
+      console.log(error);
+      Alert.alert(
+        "Erro ao descartar gravação",
+        "Não foi possível descartar a gravação do áudio"
+      );
+    }
+  };
+
   return (
     <View className="flex flex-col items-center justify-center h-full bg-background">
 
@@ -164,7 +193,15 @@ export default function ConsultaAndamento({navigation}:any) {
         <View className="mx-5" />
         <StopPauseButton onPress={handleRecordingStop} type="stop" />
       </View>
+      <View>
+        <CancelConsultationButton onPress={handleCancelConsultation}/>
+      </View>
       <StatusBar style="auto" />
+      <CancelConsultationModal
+        isVisible={isModalVisible}
+        onClose={handleModalClose}
+        onConfirm={handleDiscardRecording}
+      />
     </View>
   );
 }
