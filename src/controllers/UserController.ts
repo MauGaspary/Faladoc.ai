@@ -40,17 +40,17 @@ export class UserController {
             const { token } = req.query;
             const { password } = req.body;
 
-            const request = PasswordReset.findOne({where: {token: token}});
+            const request = await PasswordReset.findOne({where: {token: token}});
 
             const actualDate = new Date();
-            const requestDate = request.expiration_date;
+            const requestDate = request?.expiration_date; 
             const isExpirationDateValid = requestDate === actualDate;
 
             if(!isExpirationDateValid){ 
                 throw {error: "Solicitação expirada.", status: 400};
             }
-            
-            const user = await User.findOne({where: {id: request.user_id}});
+
+            const user = await User.findOne({where: {id: request!.user_id}});
 
             if(user){
                 const salt = await bcrypt.genSalt();
