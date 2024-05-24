@@ -50,8 +50,8 @@ export class UserController{
                 return res.status(200).json({message: "Senha alterada com sucesso."});
             }
         } catch (error){ 
-            const { status, message } = error;
-            res.status(status).json({error: message});
+            console.log("Erro ao atualizar user", error);
+            res.status(500).json({ error: 'Erro ao atualizar user'});
         }
     }
 }
