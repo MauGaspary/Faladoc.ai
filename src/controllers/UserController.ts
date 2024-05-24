@@ -36,70 +36,42 @@ export class UserController {
     }
 
     public static async passwordReset(req: Request, res: Response){ 
-        try {
-            const { token } = req.query;
-            const { password } = req.body;
+        try{
 
-            const request = await PasswordReset.findOne({where: {token: token}});
+        const { token } = req.params;
+        const { password } = req.body;
 
-            const actualDate = new Date();
-            const requestDate = request?.expiration_date; 
-            const isExpirationDateValid = requestDate === actualDate;
+        const passwordResetToken = await PasswordReset.findOne({ where: { token } });
 
-            if(!isExpirationDateValid){ 
-                throw {error: "Solicitação expirada.", status: 400};
-            }
-
-            const user = await User.findOne({where: {id: request!.user_id}});
-
-            if(user){
-                const salt = await bcrypt.genSalt();
-                const passwordHash = await bcrypt.hash(password, salt);
-
-                user.passwordhash = passwordHash;
-                user.passwordsalt = salt;
-
-                await user.save();
-
-                return res.status(200).json({message: "Senha alterada com sucesso."});
-            }
-        } catch (error){ 
-            console.log("Erro ao atualizar user", error);
-            res.status(500).json({ error: 'Erro ao atualizar user'});
+        if (!passwordResetToken) {
+            return res.status(400).json({ error: 'Token inválido.' });
         }
-    }
 
-    public static async passwordReset(req: Request, res: Response){ 
-        try {
-            const { token } = req.query;
-            const { password } = req.body;
 
-            const request = await PasswordReset.findOne({where: {token: token}});
-
-            const actualDate = new Date();
-            const requestDate = request?.expiration_date; 
-            const isExpirationDateValid = requestDate === actualDate;
-
-            if(!isExpirationDateValid){ 
-                throw {error: "Solicitação expirada.", status: 400};
-            }
-
-            const user = await User.findOne({where: {id: request!.user_id}});
-
-            if(user){
-                const salt = await bcrypt.genSalt();
-                const passwordHash = await bcrypt.hash(password, salt);
-
-                user.passwordhash = passwordHash;
-                user.passwordsalt = salt;
-
-                await user.save();
-
-                return res.status(200).json({message: "Senha alterada com sucesso."});
-            }
-        } catch (error){ 
-            console.log("Erro ao atualizar user", error);
-            res.status(500).json({ error: 'Erro ao atualizar user'});
+        const expirationDate = new Date(passwordResetToken.expiration_date);
+        if (expirationDate < new Date()) {
+            return res.status(400).json({ error: 'Solicitação expirada.' });
         }
+
+        const user = await User.findOne({ where: { id: passwordResetToken.user_id } });
+    
+        if (!user) {
+            return res.status(404).json({ error: 'Usuário não encontrado.' });
+        }
+    
+        const salt = await bcrypt.genSalt();
+        const passwordHash = await bcrypt.hash(password, salt);
+    
+        user.passwordhash = passwordHash;
+        user.passwordsalt = salt;
+    
+        await user.save();
+    
+        return res.status(200).json({ message: 'Senha alterada com sucesso.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao redefinir a senha.' });
     }
+    
+}
 }
