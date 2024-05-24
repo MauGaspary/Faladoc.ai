@@ -12,6 +12,7 @@ import LoginScreen from  './screens/Login/LoginScreen';
 import ConsultaAndamentoScreen from "./screens/ConsultaAndamento/ConsultaAndamentoScreen";
 import IniciarNovaConsultaScreen from './screens/IniciarNovaConsulta/IniciarNovaConsultaScreen';
 import ProcessandoConsultaScreen from "./screens/ProcessandoConsulta/ProcessandoConsultaScreen";
+import PasswordResetScreen from './screens/PasswordResetScreen/PasswordResetScreen';
 
 
 //import Components
@@ -49,6 +50,8 @@ export default function App() {
     <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
+
+          <Stack.Screen name="Redefinir Senha" component={PasswordResetScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
           
