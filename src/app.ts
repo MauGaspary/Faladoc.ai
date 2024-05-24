@@ -5,19 +5,19 @@ import patientsRoutes from './routes/PatientsRoutes';
 import userRoutes from './routes/UserRoutes';
 import bodyParser from 'body-parser';
 import loginRoutes from './routes/LoginRoutes';
-//import cors from 'cors';
+import cors from 'cors';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(
-//  cors({
-//    credentials: true,
-//    origin: process.env.CORS_ORIGIN
-//  })
-// );
+app.use(
+ cors({
+   credentials: true,
+   origin: process.env.CORS_ORIGIN
+ })
+);
 app.use(doctorRoutes);
 app.use(appointmentsRoutes);
 app.use(patientsRoutes);
