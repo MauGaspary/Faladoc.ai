@@ -23,10 +23,7 @@ app.use(doctorRoutes);
 app.use(appointmentsRoutes);
 app.use(patientsRoutes);
 app.use(userRoutes);
-<<<<<<< HEAD
 app.use(passwordResetRoutes);
-=======
 app.use(loginRoutes);
->>>>>>> fee513781c85f56a38cc16451d9de1f1386e9cd5
 
 app.listen(PORT, () => console.log(`Server rodando na porta:  ${PORT}`));
