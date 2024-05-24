@@ -54,7 +54,7 @@ CREATE TABLE patients (
 
 CREATE TABLE appointments (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  doctor uuid NOT NULL,
+  doctor_id uuid NOT NULL,
   patient_id uuid NOT NULL,
   appointment_context TEXT,
   medical_record_original TEXT,
