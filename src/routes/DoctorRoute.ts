@@ -5,5 +5,6 @@ const router = Router();
 
 router.get('/doctors', DoctorController.getAllDoctors);
 router.post('/doctors', DoctorController.createDoctor);
+router.post('/doctors/login', DoctorController.createDoctor);
 
 export default router;
