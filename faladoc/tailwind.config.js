@@ -9,6 +9,8 @@ module.exports = {
         timer: '#12ADB4',
         lightGreen: '#069696',
         gray: '#808080',
+        link: '#3B29FF',
+        subtitle: '#505050',
       }
     },
   },

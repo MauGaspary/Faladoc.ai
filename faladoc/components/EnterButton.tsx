@@ -12,5 +12,5 @@ const EnterButton = ({ onPress, text }: { onPress: () => void, text: string }) =
       
     );
   };
-  
-  export default EnterButton;
+
+  export default EnterButton
