@@ -26,8 +26,8 @@ export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
   }, [password]);
 
   return (
-    <View className="flex items-center">
-      <View className="flex-row border-2 border-lightGreen rounded-full justify-between p-3 m-3 bg-white">
+    <View className="flex items-center w-full">
+      <View className="flex-row w-full border-2 border-lightGreen rounded-full justify-between p-3 m-3 bg-white">
         <View className="flex-row items-center gap-1">
           <Feather name="lock" size={24} color="black" />
           <TextInput secureTextEntry={hidePassword} onChangeText={setPassword} placeholder="Senha" className="text-subtitle ml-2" placeholderTextColor="gray"/>
@@ -45,12 +45,12 @@ export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
             {passwordValidations.map(({ rule, isValid }, index) => (
               <View key={index} className={`flex-row justify-start`}>
                 <Feather name={isValid ? "check" : "x"} size={16} color={isValid ? "green" : "red"} />
-                <Text className={`${isValid ? "text-green-500" : "text-red-500"} text-[10px]`}>{rule}</Text>
+                <Text className={`${isValid ? "text-green-500" : "text-red-500"} text-[16px]`}>{rule}</Text>
               </View>
             ))}
           </View>
 
-          <View className="flex-row border-2 border-lightGreen rounded-full justify-between p-3 m-3 bg-white">
+          <View className="w-full flex-row border-2 border-lightGreen rounded-full justify-between p-3 m-3 bg-white">
             <View className="flex-row items-center gap-1">
               <Feather name="lock" size={24} color="black" />
               <TextInput
