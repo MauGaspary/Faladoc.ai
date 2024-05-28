@@ -1,5 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db';
+import { Patient } from './Patient'; 
 
 export class Appointment extends Model {
   public id!: string;
@@ -13,6 +14,7 @@ export class Appointment extends Model {
   public hospital!: string;
   public appointment_status!: string;
 }
+
 
 Appointment.init({
   id: {
@@ -62,3 +64,5 @@ Appointment.init({
     tableName: 'appointments',
     timestamps: false,
     });
+
+Appointment.belongsTo(Patient, { foreignKey: 'patient_id' });
