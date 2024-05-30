@@ -30,4 +30,19 @@ export class PatientsController {
       res.status(500).json({ error: 'Erro ao criar paciente' });
     }
   }
+  
+  public static async getPatientById(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const patient = await Patient.findByPk(id);
+      if (!patient) {
+        return res.status(400).json({ error: 'Paciente não encontrado' });
+      }
+      return res.status(200).json(patient);
+    } catch (error) {
+      console.error('Erro ao buscar paciente por id:', error);
+      return res.status(500).json({ error: 'Erro ao buscar paciente por id' });
+    }
+  }
+
 }
