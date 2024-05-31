@@ -13,7 +13,6 @@ import ConsultaAndamentoScreen from "./screens/ConsultaAndamento/ConsultaAndamen
 import IniciarNovaConsultaScreen from './screens/IniciarNovaConsulta/IniciarNovaConsultaScreen';
 import ProcessandoConsultaScreen from "./screens/ProcessandoConsulta/ProcessandoConsultaScreen";
 import PasswordResetScreen from './screens/PasswordResetScreen/PasswordResetScreen';
-import teste from './screens/teste/teste';
 
 
 //import Components
@@ -52,7 +51,6 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
 
-          <Stack.Screen name="teste" component={teste} options={{ headerShown: false }}/>
           <Stack.Screen name="Redefinir Senha" component={PasswordResetScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
