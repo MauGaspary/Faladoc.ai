@@ -20,4 +20,12 @@ export class AppointmentService {
 
         return appointments;
     }
+
+    static async deleteAppointment(id: string) {
+        const appointment = await Appointment.findByPk(id);
+        if (!appointment) {
+            throw new Error('Consulta não encontrada');
+        }
+        await appointment.destroy();
+    }
 }
