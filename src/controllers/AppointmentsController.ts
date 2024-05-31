@@ -1,6 +1,9 @@
 
 import { Request, Response } from 'express';
 import { Appointment } from '../models/Appointment';
+import { AppointmentService } from '../services/appointment-services';
+
+
 
 export class AppointmentsController {
   public static async createAppointment(req: Request, res: Response) {
@@ -33,11 +36,11 @@ export class AppointmentsController {
   
   public static async getAppointments(req: Request, res: Response) {
     try {
-      const appointments = await Appointment.findAll();
-      res.status(200).json(appointments);
+        const appointments = await AppointmentService.getAppointments(req.query);
+        res.status(200).json(appointments);
     } catch (error) {
-      console.error("Erro ao buscar consultas", error);
-      res.status(500).json({ error: 'Erro ao buscar consultas' });
+        console.error("Erro ao buscar consultas", error);
+        res.status(500).json({ error: 'Erro ao buscar consultas' });
     }
-  }
+}
 }
