@@ -62,7 +62,9 @@ CREATE TABLE appointments (
   appointment_date DATE NOT NULL,
   duration integer NOT NULL,
   hospital varchar(255),
-  appointment_status Status NOT NULL
+  appointment_status Status NOT NULL,
+  feedback_score integer,
+  feedback_text TEXT
 );
 
 CREATE TABLE password_resets (
