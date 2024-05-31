@@ -53,18 +53,21 @@ const RegisterScreen = ({navigation}:any) => {
     return(
     <KeyboardAvoidingView className="flex-1 bg-background rounded-t-[30px] pt-2 max-w-full px-4">
         <ScrollView className="pb-8">
-            <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30]">Cadastro</Text>
-            <View className="flex-1 bg-[#D0EFF0] items-center justify-center">
-                <View className="w-full">
-
-                <Input className="w-full mb-3" iconName={'medkit-outline'} placeholder={"ESTADO"} value={estado}    onChangeText={setEstado}/>
-                <Input className="w-full !m-0" iconName={'medkit-outline'} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
-
+            <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</Text>
+            <View className="flex-1 bg-[#D0EFF0] items-center">
+              <Text className="text-[20px] text-[#505050] leading-48 text-left ml-[30]">Digite o CRM e o Estado de Registro</Text>
+                <View className="w-full flex-row">
+                  <View className="w-2/5 mr-2">
+                  <Input className="w-full !m-0" iconName={'medkit-outline'} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
+                  </View>
+                  <View className="w-3/5">
+                  <Input className="mb-3" iconName={'medkit-outline'} placeholder={"ESTADO"} value={estado}    onChangeText={setEstado}/>
+                  </View>
                 </View>
                 <View className="border-b-2 border-teal-600 w-4/5 my-2" />
 
-                <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setName}/>
-                <Input iconName={'mail-outline'} placeholder={'EMAIL'}  value={email}   onChangeText={setEmail}/>
+                <Input iconName={'person-outline'} placeholder={'Hospital'} className={'px-15'} onChangeText={setName}/>
+                <Input iconName={'mail-outline'} placeholder={'Email'}  value={email}   onChangeText={setEmail}/>
 
                 <PasswordInput mode="register"  getPassword={getPassword}/>    
                 <EnterButton onPress={()=>handleRegister()} text="Cadastrar"/>
