@@ -3,7 +3,6 @@ import { KeyboardAvoidingView, View, Text, TouchableHighlight } from "react-nati
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import { ScrollView } from "react-native-gesture-handler";
-import HomeButton from "../../components/Homebutton";
 import { PasswordInput } from "../../components/PasswordInput";
 import {  } from "react-native-svg";
 import axios from "axios";
@@ -14,6 +13,7 @@ const RegisterScreen = ({navigation}:any) => {
     const [name,setName] = useState("")
     const [email,setEmail] = useState("")
     const [estado, setEstado] = useState("")
+    const [speciality, setSpeciality] = useState("")
     const [crm, setCRM] = useState("")
     const [error, setError] = useState("");
     const [emailError, setEmailError] = useState(false);
@@ -51,22 +51,24 @@ const RegisterScreen = ({navigation}:any) => {
 
 
     return(
-    <KeyboardAvoidingView className="flex-1 bg-background rounded-t-[30px] pt-2 max-w-full px-4">
+    <KeyboardAvoidingView className="bg-background rounded-t-[30px] pt-2 max-w-full px-3">
         <ScrollView className="pb-8">
             <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</Text>
-            <View className="flex-1 bg-[#D0EFF0] items-center">
-              <Text className="text-[20px] text-[#505050] leading-48 text-left ml-[30]">Digite o CRM e o Estado de Registro</Text>
-                <View className="w-full flex-row">
-                  <View className="w-2/5 mr-2">
-                  <Input className="w-full !m-0" iconName={'medkit-outline'} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
+            <Text className="text-[20px] text-[#505050] leading-48 text-left font-semibold">Digite o CRM e o Estado de Registro</Text>
+            <View className="bg-[#D0EFF0] items-center">
+                <View className="w flex-row">
+                  <View className="w-40 mr-[10]">
+                    <Input iconName={'medical-outline'} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
                   </View>
-                  <View className="w-3/5">
-                  <Input className="mb-3" iconName={'medkit-outline'} placeholder={"ESTADO"} value={estado}    onChangeText={setEstado}/>
+                  <View>
+                    <Input className="mb-3" iconName={'location-outline'} placeholder={"ESTADO"} value={estado}    onChangeText={setEstado}/>
                   </View>
                 </View>
+                <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setSpeciality}/>
+                <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality}/>
                 <View className="border-b-2 border-teal-600 w-4/5 my-2" />
 
-                <Input iconName={'person-outline'} placeholder={'Hospital'} className={'px-15'} onChangeText={setName}/>
+                <Input iconName={'business-outline'} placeholder={'Hospital'} className={'px-15'} onChangeText={setName}/>
                 <Input iconName={'mail-outline'} placeholder={'Email'}  value={email}   onChangeText={setEmail}/>
 
                 <PasswordInput mode="register"  getPassword={getPassword}/>    
