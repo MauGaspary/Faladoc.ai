@@ -25,6 +25,7 @@ export class AppointmentsController {
     try{
       const {id} = req.params;
       const appointment = req.body;
+      appointment.appointment_status = 'APPROVED';
       const linesChanged = await Appointment.update(appointment, { where: {id}});
       const updateAppointment = await Appointment.findOne({ where: {id}});
       res.status(200).json(updateAppointment);
