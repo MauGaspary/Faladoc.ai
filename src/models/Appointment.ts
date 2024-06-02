@@ -13,6 +13,8 @@ export class Appointment extends Model {
   public duration!: number;
   public hospital!: string;
   public appointment_status!: string;
+  public feedback_score!: number;
+  public feedback_text!: string;
 }
 
 
@@ -57,6 +59,14 @@ Appointment.init({
     appointment_status: {
         type: DataTypes.ENUM('PROCESSING', 'ERROR', 'WAITING_APPROVAL', 'APPROVED'),
         allowNull: false,
+    },
+    feedback_score: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    feedback_text: {
+        type: DataTypes.TEXT,
+        allowNull: true,
     },
 }, {
     sequelize,
