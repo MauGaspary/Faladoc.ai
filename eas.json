@@ -3,17 +3,10 @@
     "version": ">= 9.1.0"
   },
   "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "distribution": "internal"
-    },
     "production": {
       "android": {
         "buildType": "app-bundle",
-        "package": "com.faladoc.gigante"
+        "applicationId": "com.faladoc.gigante"
       },
       "ios": {
         "buildType": "app-store",
