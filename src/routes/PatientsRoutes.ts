@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import { PatientsController } from '../controllers/PatientController';
+import loginRequired from '../middlewares/loginRequired';
+
 const router = Router();
 
-router.get('/patients/:name', PatientsController.getPatientsByName);
-router.post('/patients', PatientsController.createPatient);
+router.get('/patients/:name', loginRequired, PatientsController.getPatientsByName);
+router.post('/patients', loginRequired, PatientsController.createPatient);
 
 export default router;
