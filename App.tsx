@@ -1,22 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Text, View } from 'react-native';
 
 import { SessionProvider } from "./provider/sessionContext";
 
 
 //import Screens
-import StartSimpleScreen from './screens/StartSimpleScreen/StartSimpleScreen';
-import SignInScreen from './screens/SignInScreen/SignInScreen';
 import LoginScreen from  './screens/Login/LoginScreen';
 import ConsultaAndamentoScreen from "./screens/ConsultaAndamento/ConsultaAndamentoScreen";
 import IniciarNovaConsultaScreen from './screens/IniciarNovaConsulta/IniciarNovaConsultaScreen';
 import ProcessandoConsultaScreen from "./screens/ProcessandoConsulta/ProcessandoConsultaScreen";
 import PasswordResetScreen from './screens/PasswordResetScreen/PasswordResetScreen';
-
-
-//import Components
-import { AddPatientModal } from './components/AddPatientModal';
 
 //import Navigation
 import { NavigationContainer } from '@react-navigation/native';
@@ -53,6 +45,8 @@ export default function App() {
         <Stack.Navigator>
           
           <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
+          
+          <Stack.Screen name='Cadastro' component={RegisterScreen}/>
 
           <Stack.Screen name="Redefinir Senha" component={PasswordResetScreen} options={{ headerShown: false }}/>
           
@@ -64,14 +58,6 @@ export default function App() {
             component={ProcessandoConsultaScreen}
             options={{ headerShown: false }}
           />
-
-          <Stack.Screen name='Simple Screen' component={StartSimpleScreen} options={{ headerShown: false }}/>
-
-          <Stack.Screen name='SignInScreen' component={SignInScreen}/>
-
-          <Stack.Screen name='Cadastro' component={RegisterScreen}/>
-
-          
           
         </Stack.Navigator>
       </NavigationContainer>

@@ -50,7 +50,7 @@ export function FilterInput({ isPatientSelected }: FilterInputType) {
 
   return (
     <>
-      <View className={`border-2 rounded-[30px] py-3 px-4 mb-3 w-2/3 flex-col items-left bg-white ${isPatientSelected ? 'border-lightGreen' : 'border-invalid'}`}>
+      <View className={`border-2 rounded-[30px] py-3 px-4 mb-3 w-full flex-col items-left bg-white ${isPatientSelected ? 'border-lightGreen' : 'border-invalid'}`}>
         {patientInfo.name !== "" ? (
           <View className="flex-auto flex-row justify-between items-center">
 

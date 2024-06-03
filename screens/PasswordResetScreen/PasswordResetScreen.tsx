@@ -11,7 +11,7 @@ export default function PasswordResetScreen() {
       <Image source={require("../../assets/splash.png")} className="w-[150] h-[150] absolute top-[30px] self-center" />
       <View className="flex-1 bg-background mt-[200] rounded-t-[30px] pt-12 h-full">
         <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30]">Redefinir senha</Text>
-        <View className="items-center mt-[100]">
+        <View className="items-center mt-[100] px-4">
           <PasswordInput mode="register" getPassword={setTeste} />
           <View className="w-3/4 p-0 my-3">
             <EnterButton
