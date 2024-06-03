@@ -11,15 +11,10 @@ import SessionContext from "../../provider/sessionContext";
 import axios from "axios";
 
 const IniciarNovaConsultaScreen = ({ navigation }: any) => {
-
   const [isPatientSelected, setIsPatientSelected] = useState(true);
 
-  const {
-    appoitmentInfos,
-    setAppoitmentInfos,
-    patientInfo,
-    loggedDoctor,
-  } = useContext(SessionContext);
+  const { appoitmentInfos, setAppoitmentInfos, patientInfo, loggedDoctor } =
+    useContext(SessionContext);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -41,7 +36,7 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
     if (patientInfo.id) {
       setIsPatientSelected(true);
     }
-  }, [patientInfo])
+  }, [patientInfo]);
 
   const handleStartRecording = async () => {
     const appoitment = {
@@ -66,7 +61,6 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
         id: response.data.id,
         duration: response.data.duration,
       });
-
     } catch (error) {
       console.error(error);
     }
@@ -81,47 +75,43 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
   };
 
   return (
-    <KeyboardAvoidingView className="flex-1">
-      <ScrollView className="flex align-bottom" contentContainerStyle={{ flexGrow: 2 }}>
+    <KeyboardAvoidingView className="h-full">
+      <View className="h-full bg-background items-center justify-center px-4">
+        <AddPatientModal />
 
-        <View className="flex-1 bg-[#D0EFF0] items-center justify-center pt-12">
-          <AddPatientModal />
+        <Text className="mt-3">ou</Text>
+        <Text className="mt-1 mb-3">Pesquise pelo Nome</Text>
 
-          <Text className="mt-3">ou</Text>
-          <Text className="mt-1 mb-3">Pesquise pelo Nome</Text>
+        <FilterInput isPatientSelected={isPatientSelected} />
 
-          <FilterInput isPatientSelected={isPatientSelected} />
+        <View className="border-b-2 border-teal-600 w-4/5 my-2" />
 
-          <View className="border-b-2 border-teal-600 w-4/5 my-2" />
+        <Input
+          iconName={"location-sharp"}
+          placeholder={"Local da consulta"}
+          value={appoitmentInfos.hospital}
+          onChangeText={handleLocation}
+        />
 
-          <Input
-            iconName={"location-sharp"}
-            placeholder={"Local da consulta"}
-            value={appoitmentInfos.hospital}
-            onChangeText={handleLocation}
-          />
+        <Input
+          iconName={"list-outline"}
+          placeholder={"Contexto da Consulta"}
+          value={appoitmentInfos.contexto}
+          onChangeText={handleContext}
+        />
 
-          <Input
-            iconName={"list-outline"}
-            placeholder={"Contexto da Consulta"}
-            value={appoitmentInfos.contexto}
-            onChangeText={handleContext}
-          />
-
-          <View className="mt-3">
-            <StartConsultationButton onPress={handleModalRecording} />
-          </View>
-
-          <StatusBar style="auto" />
+        <View className="mt-3">
+          <StartConsultationButton onPress={handleModalRecording} />
         </View>
-      </ScrollView>
+
+        <StatusBar style="auto" />
+      </View>
       <Navbar />
       <ConsultationConfirmationModal
         isVisible={isModalVisible}
         onClose={() => setModalVisible(false)}
         onConfirm={handleStartRecording}
       />
-
     </KeyboardAvoidingView>
   );
 };
