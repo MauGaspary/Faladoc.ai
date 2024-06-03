@@ -5,6 +5,8 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
+    env_file:
+      - ../.env
     volumes:
       - ../:/usr/src/app
       - /usr/src/app/node_modules
@@ -12,21 +14,21 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - RUNNING_IN_DOCKER=true
-      - CORS_ORIGIN=http://localhost:19006
+      - RUNNING_IN_DOCKER=false
+      - CORS_ORIGIN=http://localhost:8081
 
-  db:
-    image: postgres
-    container_name: expo-app-db
-    volumes:
-      - db-data:/var/lib/postgresql/data
-      - ../scripts:/docker-entrypoint-initdb.d
-    environment:
-      - POSTGRES_DB=faladoc
-      - POSTGRES_USER=ademir
-      - POSTGRES_PASSWORD=[REMOVED]
-    ports:
-      - "5432:5432"
+#   db:
+#     image: postgres
+#     container_name: expo-app-db
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+#       - ../../scripts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+#     environment:
+#       - POSTGRES_DB=faladoc
+#       - POSTGRES_USER=admin
+#       - POSTGRES_PASSWORD=[REMOVED]
+#     ports:
+#       - "5432:5432"
 
-volumes:
-  db-data:
+# volumes:
+#   db-data:
