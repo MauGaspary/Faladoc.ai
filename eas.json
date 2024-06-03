@@ -6,7 +6,8 @@
     "production": {
       "releaseChannel": "production",
       "android": {
-        "gradleCommand": ":app:bundleRelease"
+        "gradleCommand": ":app:bundleRelease",
+        "credentialsSource": "remote"
       },
       "ios": {
         "buildConfiguration": "Release"
