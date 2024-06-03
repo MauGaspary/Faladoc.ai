@@ -1,12 +1,13 @@
 version: '3.8'
+
 services:
   expo-app:
-    build: .
+    build: 
+      context: ../
+      dockerfile: docker/Dockerfile
     volumes:
-      - .:/app
+      - ..:/app
       - /app/node_modules
-      - ./entrypoint.sh:/usr/src/app/entrypoint.sh
-    entrypoint: /usr/src/app/entrypoint.sh
     environment:
       - NODE_VERSION=20.11.1
     ports:

@@ -4,18 +4,16 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --no-cache && cp -a node_modules /tmp/node_modules
-
-RUN npm install --save-dev @types/react-native
-
-COPY entrypoint.sh /usr/src/app/entrypoint.sh
-RUN chmod +x /usr/src/app/entrypoint.sh
+RUN npm install --no-cache
+RUN npm install @expo/ngrok
 
 COPY . .
+
+ENV CI=1
 
 EXPOSE 19000
 EXPOSE 19001
 EXPOSE 19002
 EXPOSE 8081
 
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+CMD ["npm", "start"]
