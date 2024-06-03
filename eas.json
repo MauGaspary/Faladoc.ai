@@ -12,10 +12,12 @@
     },
     "production": {
       "android": {
-        "package": "com.faladoc.yourapp"
+        "buildType": "app-bundle",
+        "package": "com.faladoc.gigante"
       },
       "ios": {
-        "bundleIdentifier": "com.faladoc.yourapp"
+        "buildType": "app-store",
+        "bundleIdentifier": "com.faladoc.dacolina"
       }
     }
   },
