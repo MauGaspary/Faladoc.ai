@@ -26,6 +26,6 @@ git commit -m "Prepare for EAS build" || echo "No changes to commit"
 
 eas build:configure --platform all
 
-eas build --platform android --profile production --non-interactive --android-package com.faladoc.gigante
+eas build --platform android --profile production --non-interactive
 
-eas build --platform ios --profile production --non-interactive --ios-bundle-identifier com.faladoc.dacolina
+eas build --platform ios --profile production --non-interactive

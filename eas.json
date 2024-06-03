@@ -10,7 +10,14 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "android": {
+        "package": "com.faladoc.yourapp"
+      },
+      "ios": {
+        "bundleIdentifier": "com.faladoc.yourapp"
+      }
+    }
   },
   "submit": {
     "production": {}
