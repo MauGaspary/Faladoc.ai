@@ -52,9 +52,9 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           
-          <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
+          {/* <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
 
-          <Stack.Screen name="Redefinir Senha" component={PasswordResetScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="Redefinir Senha" component={PasswordResetScreen} options={{ headerShown: false }}/> */}
           
           <Stack.Screen name='Iniciar nova Consulta' component={IniciarNovaConsultaScreen} options={{ headerShown: false }}/>
 
