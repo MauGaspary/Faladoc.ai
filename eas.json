@@ -4,13 +4,12 @@
   },
   "build": {
     "production": {
+      "releaseChannel": "production",
       "android": {
-        "buildType": "app-bundle",
-        "applicationId": "com.faladoc.gigante"
+        "buildType": "app-bundle"
       },
       "ios": {
-        "buildType": "app-store",
-        "bundleIdentifier": "com.faladoc.dacolina"
+        "buildType": "app-store"
       }
     }
   },
