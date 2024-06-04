@@ -9,7 +9,10 @@
     "sequelize": "^6.37.2"
   },
   "scripts": {
-    "start": "ts-node src/app.ts"
+    "start": "ts-node src/app.ts",
+    "docker-up": "cd docker && docker compose up",
+    "docker-build": "cd docker && docker compose build",
+    "docker-down": "cd docker && docker compose down"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
