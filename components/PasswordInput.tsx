@@ -16,8 +16,8 @@ export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
 
   const passwordValidations = [
     { rule: "A senha deve conter no mínimo 8 caracteres.", isValid: password.length >= 8 },
-    { rule: "Deve conter ao menos um caractere especial.", isValid: /\d/.test(password) },
-    { rule: "Deve conter ao menos um número.", isValid: /\W/.test(password) },
+    { rule: "Deve conter ao menos um caractere especial.", isValid: /\W/.test(password) },
+    { rule: "Deve conter ao menos um número.", isValid: /\d/.test(password) },
     { rule: "As senhas não coincidem.", isValid: password === confirmPassword && confirmPassword.length > 0 },
   ];
 
