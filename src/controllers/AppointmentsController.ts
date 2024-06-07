@@ -40,4 +40,15 @@ export class AppointmentsController {
       res.status(500).json({ error: 'Erro ao buscar consultas' });
     }
   }
+
+  public static async getAppointmentById(req: Request, res: Response) {
+    try {
+        const { id } = req.params;
+        const appointments = await Appointment.findOne({ where: {id}});
+        res.status(200).json(appointments);
+    } catch (error) {
+        console.error("Erro ao buscar consultas", error);
+        res.status(500).json({ error: 'Erro ao buscar consultas' });
+    }
+  }
 }
