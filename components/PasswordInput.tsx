@@ -45,7 +45,7 @@ export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
             {passwordValidations.map(({ rule, isValid }, index) => (
               <View key={index} className={`flex-row justify-start`}>
                 <Feather name={isValid ? "check" : "x"} size={16} color={isValid ? "green" : "red"} />
-                <Text className={`${isValid ? "text-green-500" : "text-red-500"} text-[16px]`}>{rule}</Text>
+                <Text className={`${isValid ? "text-green-600" : "text-red-600"} text-[16px]`}>{rule}</Text>
               </View>
             ))}
           </View>
