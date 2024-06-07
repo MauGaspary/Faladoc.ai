@@ -8,6 +8,10 @@ import { PasswordInput } from "../../components/PasswordInput";
 import {  } from "react-native-svg";
 import axios from "axios";
 
+import Config from 'react-native-config';
+
+const BASE_URL = Config.API_URL;
+
 const RegisterScreen = ({navigation}:any) => {
 
     const [password,setPassword] = useState("")
@@ -30,7 +34,7 @@ const RegisterScreen = ({navigation}:any) => {
         }
         console.log(name, email, password, crm);
         try {
-            const response = await axios.post('http://localhost:3000/doctors', {
+            const response = await axios.post('${BASE_URL}/doctors', {
               name, email, password, crm
             });
             if (response.status !== 200) {

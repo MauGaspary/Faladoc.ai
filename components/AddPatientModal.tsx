@@ -8,6 +8,10 @@ import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 import SessionContext from "../provider/sessionContext";
 
+import Config from 'react-native-config';
+
+const BASE_URL = Config.API_URL;
+
 export function AddPatientModal(this: any) {
   const [modalVisible, setModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
@@ -73,7 +77,7 @@ export function AddPatientModal(this: any) {
 
     try {
       // const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/patients`, patient);
-      const response = await axios.post(`http://localhost:3000/patients`, patient);
+      const response = await axios.post(`${BASE_URL}/patients`, patient);
       if (response.status !== 201) {
         throw new Error("Failed to create patient");
       }

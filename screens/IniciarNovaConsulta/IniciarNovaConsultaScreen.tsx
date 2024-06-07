@@ -10,6 +10,10 @@ import { FilterInput } from "../../components/FilterInput";
 import SessionContext from "../../provider/sessionContext";
 import axios from "axios";
 
+import Config from 'react-native-config';
+
+const BASE_URL = Config.API_URL;
+
 const IniciarNovaConsultaScreen = ({ navigation }: any) => {
 
   const [isPatientSelected, setIsPatientSelected] = useState(true);
@@ -54,7 +58,7 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
     try {
       // const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/patients`, patient);
       const response = await axios.post(
-        `http://localhost:3000/appointments`,
+        `${BASE_URL}/appointments`,
         appoitment
       );
       if (response.status !== 201) {

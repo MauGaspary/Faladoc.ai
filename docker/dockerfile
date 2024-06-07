@@ -7,6 +7,13 @@ COPY . .
 RUN npm install
 RUN npm install -g eas-cli
 
+COPY jdk-17_linux-x64_bin.tar.gz /opt/
+RUN tar -xzf /opt/jdk-17_linux-x64_bin.tar.gz -C /opt/
+RUN if [ -e /usr/bin/java ]; then rm /usr/bin/java; fi
+RUN ln -s /opt/jdk-17/bin/java /usr/bin/java
+
+RUN apt-get update && apt-get install -y python3
+
 EXPOSE 19000 19001 19002 8081
 
-CMD ["npm", "start"]
+CMD ["/bin/bash", "/app/docker/build.sh"]

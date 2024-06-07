@@ -5,6 +5,10 @@ import EnterButton from "../../components/EnterButton";
 import { PasswordInput } from "../../components/PasswordInput";
 import axios from "axios";
 
+import Config from 'react-native-config';
+
+const BASE_URL = Config.API_URL;
+
 
 export default function LoginScreen({navigation}:any) {
   const [email, setEmail] = useState("");
@@ -20,7 +24,7 @@ export default function LoginScreen({navigation}:any) {
     }
     try {
       const response = await axios.post(
-        `http://localhost:3000/login`,
+        `${BASE_URL}/login`,
         { email, password }
       );
       if (response.status !== 200) {

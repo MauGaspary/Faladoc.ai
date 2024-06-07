@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-native",
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./types", "./node_modules/@types"],
     "types": ["react", "react-native"]
   },
   "exclude": [

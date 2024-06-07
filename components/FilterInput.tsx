@@ -10,6 +10,10 @@ type FilterInputType = {
   isPatientSelected: boolean
 };
 
+import Config from 'react-native-config';
+
+const BASE_URL = Config.API_URL;
+
 export function FilterInput({ isPatientSelected }: FilterInputType) {
   const [searchTerm, setSearchTerm] = useState("");
   const { patientInfo, setPatientInfo } = useContext(SessionContext);
@@ -29,7 +33,7 @@ export function FilterInput({ isPatientSelected }: FilterInputType) {
         try {
           const response = await axios.get(
             // `${process.env.EXPO_PUBLIC_API_URL}/patients/${text}`
-            `http://localhost:3000/patients/${text}`
+            `${BASE_URL}/patients/${text}`
           );
           setPatients(response.data);
         } catch (error) {
