@@ -6,6 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { PasswordInput } from "../../components/PasswordInput";
 import {  } from "react-native-svg";
 import axios from "axios";
+import DropDownStates from "../../components/DropDown";
 
 const RegisterScreen = ({navigation}:any) => {
 
@@ -17,11 +18,11 @@ const RegisterScreen = ({navigation}:any) => {
     const [crm, setCRM] = useState("")
     const [error, setError] = useState("");
     const [emailError, setEmailError] = useState(false);
+    const [selectedState, setSelectedState] = useState('');
     const getPassword = (newPassword:string) => {
         setPassword(newPassword)
     }
-
-
+   
     const handleRegister = async () => {
         if (!email.trim()) {
           setError("Por gentileza, insira seu email");
@@ -61,7 +62,13 @@ const RegisterScreen = ({navigation}:any) => {
                     <Input iconName={'medical-outline'} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
                   </View>
                   <View>
-                    <Input className="mb-3" iconName={'location-outline'} placeholder={"ESTADO"} value={estado}    onChangeText={setEstado}/>
+                    <DropDownStates 
+                      iconName="person"
+                      placeholder="Selecione um estado"
+                      selectedValue={selectedState}
+                      onValueChange={(itemValue: React.SetStateAction<string>) => setSelectedState(itemValue)}
+                      variant={selectedState === '' ? 'error' : 'normal'}
+                    />
                   </View>
                 </View>
                 <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setSpeciality}/>
