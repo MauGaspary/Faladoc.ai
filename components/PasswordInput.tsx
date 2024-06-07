@@ -34,7 +34,7 @@ export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
         </View>
         <Feather
           name={hidePassword ? "eye-off" : "eye"}
-          size={24}
+          size={22}
           color="black"
           onPress={() => setHidePassword(!hidePassword)}
         />
