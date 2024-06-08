@@ -13,23 +13,22 @@ const statesOfBrazil = [
 
 
 
-const DropdownStates = ({ iconName, placeholder, selectedValue, onValueChange }:any) => {
+const Dropdown = ({ iconName, placeholder, selectedValue, onValueChange}:any) => {
   return (
-    <View className="w-full flex-row items-center border-2 rounded-full p-2 my-2 bg-white border-lightGreen">
+    <View className={`w-full flex-row border-2 rounded-full p-3 my-2 bg-white border-lightGreen`}>
       <Ionicons name={iconName} size={24} color="black" className="ml-2" />
       <Picker
         selectedValue={selectedValue}
         onValueChange={onValueChange}
-        style={{ flex: 1, marginLeft: 8 }}
         mode="dropdown"
       >
         <Picker.Item label={placeholder} value="" />
         {statesOfBrazil.map((state, index) => (
-          <Picker.Item key={index} label={state} value={state} />
+          <Picker.Item key={index} label={state} value={state} /> 
         ))}
       </Picker>
     </View>
   );
 };
 
-export default DropdownStates;
+export default Dropdown;

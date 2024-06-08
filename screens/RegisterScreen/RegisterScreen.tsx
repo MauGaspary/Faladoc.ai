@@ -6,7 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { PasswordInput } from "../../components/PasswordInput";
 import {  } from "react-native-svg";
 import axios from "axios";
-import DropDownStates from "../../components/DropDown";
+import Dropdown from "../../components/DropDown";
 
 const RegisterScreen = ({navigation}:any) => {
 
@@ -57,17 +57,16 @@ const RegisterScreen = ({navigation}:any) => {
             <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</Text>
             <Text className="text-[20px] text-[#505050] leading-48 text-left font-semibold">Digite o CRM e o Estado de Registro</Text>
             <View className="bg-[#D0EFF0] items-center">
-                <View className="w flex-row">
-                  <View className="w-40 mr-[10]">
+                <View className="w-full flex-row">
+                  <View className="w-1/2">
                     <Input iconName={'medical-outline'} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
                   </View>
-                  <View>
-                    <DropDownStates 
-                      iconName="person"
-                      placeholder="Selecione um estado"
+                  <View className="w-1/2">
+                    <Dropdown 
+                      iconName="map-outline"
+                      placeholder="ESTADO"
                       selectedValue={selectedState}
                       onValueChange={(itemValue: React.SetStateAction<string>) => setSelectedState(itemValue)}
-                      variant={selectedState === '' ? 'error' : 'normal'}
                     />
                   </View>
                 </View>
