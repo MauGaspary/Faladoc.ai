@@ -14,6 +14,7 @@ export class LoginController {
         const isMatch = await bcrypt.compare(password, findUser.passwordhash);
         if (isMatch) {
           const doctor = await Doctor.findOne({ where: { user_id: findUser.id } });
+          delete doctor?.dataValues.user_id;
           return res.status(200).json({ token: generateToken(findUser), doctor: doctor });
         } else {
           return res.status(401).json({ error: "Email ou senha inválidos" });
