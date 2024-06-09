@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   KeyboardAvoidingView,
   View,
@@ -8,8 +8,12 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import axios from 'axios';
+
+
 
 export default function ViewChart({ navigation }: any) {
+
   const calcularIdade = (dataNascimento: string) => {
     const hoje = new Date();
     const nascimento = new Date(dataNascimento);
@@ -26,6 +30,8 @@ export default function ViewChart({ navigation }: any) {
     return `${dia}/${mes}/${ano}`;
   };
 
+  const [patient, setPatient] = useState({ name: "", date_of_birth: "" });
+  const [appointment, setAppointment] = useState({ medical_record_final: "", patient_id: "", appointment_date: "" });
   const dataNascimento = "1978-07-24";
   const idade = calcularIdade(dataNascimento);
   const dataNascimentoFormatada = formatarData(dataNascimento);
@@ -35,14 +41,39 @@ export default function ViewChart({ navigation }: any) {
   const [isEditing, setIsEditing] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+
+        const appointmentResponse = await axios.get(`/appointment/${appointment}`);
+        setAppointment(appointmentResponse.data);
+      
+        const patientResponse = await axios.get(`/patients/${appointmentResponse.data.patient_id}`);
+        setPatient(patientResponse.data);
+        setDiagnostico(appointmentResponse.data.medical_record_final);
+        setTempDiagnostico(appointmentResponse.data.medical_record_final);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    };
+
+    fetchData();
+  }, [appointment]);
+
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleConfirm = () => {
-    setDiagnostico(tempDiagnostico);
-    setIsEditing(false);
-    setIsEdited(false);
+  const handleConfirm = async () => {
+    try {
+      const updatedAppointment = { ...appointment, medical_record_final: tempDiagnostico };
+      await axios.patch(`/appointments/${appointment}`, updatedAppointment);
+      setDiagnostico(tempDiagnostico);
+      setIsEditing(false);
+      setIsEdited(false);
+    } catch (error) {
+      console.error("Erro ao atualizar consulta", error);
+    }
   };
 
   const handleTextChange = (text: string) => {
@@ -59,7 +90,7 @@ export default function ViewChart({ navigation }: any) {
         <View className="flex-1 bg-[#D0EFF0] items-center justify-center mt-8">
           <View className="w-72 h-48 bg-white rounded-3xl">
             <Text className="text-sm text-gray-500 ml-5 mt-5">Nome</Text>
-            <Text className="text-sm text-timer ml-5">Andy Irons</Text>
+            <Text className="text-sm text-timer ml-5">{patient.name}</Text>
             <Text className="text-sm text-gray-500 ml-5 mt-3">Idade</Text>
             <Text className="text-sm text-timer ml-5">{idade}</Text>
             <Text className="text-sm text-gray-500 ml-5 mt-3">
