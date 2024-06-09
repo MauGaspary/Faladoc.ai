@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, Image } from "react-native";
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import { PasswordInput } from "../../components/PasswordInput";
+import SessionContext from "../../provider/sessionContext";
 import axios from "axios";
 
 
@@ -11,6 +12,7 @@ export default function LoginScreen({navigation}:any) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState(false);
+  const { setDoctorInfo } = useContext(SessionContext);
 
   const handleLogin = async () => {
     if (!email.trim()) {
@@ -26,9 +28,12 @@ export default function LoginScreen({navigation}:any) {
       if (response.status !== 200) {
         throw new Error("Falha ao realizar o login");
       }
+
+      const { name, crm, state } = response.data.doctor;
+      setDoctorInfo({ name, crm, state });
+
       console.log('Login realizado com sucesso!');
-      
-      navigation.navigate("Iniciar nova Consulta");  
+      navigation.navigate("Home"); 
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data.message || "Erro desconhecido");

@@ -1,38 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import { View, Text, ScrollView } from "react-native";
+import SessionContext from "../../provider/sessionContext";
 import HomeButtons from "../../components/ButtonsOnHome";
 import Navbar from "../../components/Navbar";
-import { PasswordInput } from "../../components/PasswordInput";
+import { AppointmentCard } from "../../components/AppointmentCard";
 import axios from "axios";
 
 export default function HomeScreen({ navigation }: any) {
+  const [appointments, setAppointments] = useState([]);
+  const { doctorInfo } = useContext(SessionContext);
+
   useEffect(() => {
-    getProcessingAppointments();
+    getAppointments();
   }, []);
 
-  const getProcessingAppointments = async () => {
+  const getAppointments = async () => {
     try {
-      // const res = await axios.patch(`http://localhost:3000/appointments/${appointment_id}`, body)
       const res = await axios.get(
         `http://localhost:3000/appointments?appointment_status=PROCESSING`
       );
       console.log(res);
-      return res.data;
+      setAppointments(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const getFirstAndLastName = (fullName: string): string => {
+    const names = fullName.split(" ");
+    if (names.length === 1) {
+      return names[0];
+    } else {
+      const firstName = names[0];
+      const lastName = names.pop();
+      return `${firstName} ${lastName}`;
+    }
+  };  
+
+  const formatDate = (dateString: string) => {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <View className="bg-background h-full">
       <View className="mx-11 mt-8">
-        <Text className="mb-2 mt-8 text-2xl text-timer leading-48 text-left">
-          Olá, <Text className="text-timer font-bold">Murilo </Text>
-        </Text>
-        <Text className="mb-5 text-2xl text-timer font-semibold leading-48 text-left">
-          CRM <Text className="text-timer font-semibold"> 12345</Text>
-        </Text>
-      </View>
+  <Text className="mb-2 mt-8 text-2xl text-timer leading-48 text-left">
+    Olá,{" "}
+    <Text className="text-timer font-bold">{doctorInfo.name}</Text>
+  </Text>
+  <Text className="mb-5 text-2xl text-timer font-semibold leading-48 text-left">
+    CRM <Text className="text-timer font-semibold">{doctorInfo.crm}</Text>{" "}
+    - <Text className="text-timer font-semibold">{doctorInfo.state}</Text>
+  </Text>
+</View>
       <View className="items-center mx-11">
         <HomeButtons
           text="Nova consulta"
@@ -63,65 +84,22 @@ export default function HomeScreen({ navigation }: any) {
         </Text>
         <ScrollView className="mt-3 w-full h-80">
           <View className="flex items-center justify-center">
-            <View
-              className={`bg-white w-full py-2 px-4 rounded-md shadow-sm mb-4 mt-2 border-r-[1rem]`}
-            >
-              <Text className="text-lg font-bold text-[1.125rem] text-gray-900">
-                Murilo - 11/11/1111
-              </Text>
-              <Text className="text-gray-700 text-[1rem]">
-                Consulta de Rotina
-              </Text>
-              <Text className="text-timer font-semibold">Clínico Geral</Text>
-            </View>
-            <View
-              className={`bg-white w-full py-2 px-4 rounded-md shadow-sm mb-4 mt-2 border-r-[1rem]`}
-            >
-              <Text className="text-lg font-bold text-[1.125rem] text-gray-900">
-                Murilo - 11/11/1111
-              </Text>
-              <Text className="text-gray-700 text-[1rem]">
-                Consulta de Rotina
-              </Text>
-              <Text className="text-timer font-semibold">Clínico Geral</Text>
-            </View>
-            <View
-              className={`bg-white w-full py-2 px-4 rounded-md shadow-sm mb-4 mt-2 border-r-[1rem]`}
-            >
-              <Text className="text-lg font-bold text-[1.125rem] text-gray-900">
-                Murilo - 11/11/1111
-              </Text>
-              <Text className="text-gray-700 text-[1rem]">
-                Consulta de Rotina
-              </Text>
-              <Text className="text-timer font-semibold">Clínico Geral</Text>
-            </View>
-            <View
-              className={`bg-white w-full py-2 px-4 rounded-md shadow-sm mb-4 mt-2 border-r-[1rem]`}
-            >
-              <Text className="text-lg font-bold text-[1.125rem] text-gray-900">
-                Murilo - 11/11/1111
-              </Text>
-              <Text className="text-gray-700 text-[1rem]">
-                Consulta de Rotina
-              </Text>
-              <Text className="text-timer font-semibold">Clínico Geral</Text>
-            </View>
-            <View
-              className={`bg-white w-full py-2 px-4 rounded-md shadow-sm mb-4 mt-2 border-r-[1rem]`}
-            >
-              <Text className="text-lg font-bold text-[1.125rem] text-gray-900">
-                Murilo - 11/11/1111
-              </Text>
-              <Text className="text-gray-700 text-[1rem]">
-                Consulta de Rotina
-              </Text>
-              <Text className="text-timer font-semibold">Clínico Geral</Text>
-            </View>
+            {appointments.map((appointment: any, index: number) => (
+              <View key={index} style={{ width: "100%" }}>
+                <AppointmentCard
+                  type="prontuario"
+                  pacientName={getFirstAndLastName(appointment.patient.name)}
+                  date={formatDate(appointment.appointment_date)}
+                  specialty={appointment.hospital}
+                  status={appointment.appointment_status}
+                  context={appointment.appointment_context}
+                />
+              </View>
+            ))}
           </View>
         </ScrollView>
-      </View> 
-    <Navbar/>
+      </View>
+      <Navbar />
     </View>
   );
 }
