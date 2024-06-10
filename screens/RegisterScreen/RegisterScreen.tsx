@@ -71,7 +71,7 @@ const RegisterScreen = ({navigation}:any) => {
                 <Text>Ja possui uma conta?</Text>
 
                 <TouchableHighlight onPress={() => navigation.navigate("Login")}>
-                        <Text className={"underline text-sky-600"}>Entre</Text>
+                        <Text className={"underline text-teal-600"}>Entre</Text>
                 </TouchableHighlight>
             </View>
         </ScrollView>       

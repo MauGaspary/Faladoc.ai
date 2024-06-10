@@ -61,6 +61,9 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
         id: response.data.id,
         duration: response.data.duration,
       });
+      
+      navigation.navigate("Consulta Andamento");
+      
     } catch (error) {
       console.error(error);
     }
