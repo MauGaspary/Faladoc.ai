@@ -4,6 +4,7 @@ import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import { PasswordInput } from "../../components/PasswordInput";
 import axios from "axios";
+import { ResetPasswordModal } from "../../components/ResetPasswordModal";
 
 
 export default function LoginScreen({navigation}:any) {
@@ -11,6 +12,8 @@ export default function LoginScreen({navigation}:any) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState(false);
+  
+  const [passwordResetModal, setPasswordResetModal] = useState(false);
 
   const handleLogin = async () => {
     if (!email.trim()) {
@@ -49,6 +52,7 @@ export default function LoginScreen({navigation}:any) {
   
   return (
     <View style={{ backgroundColor: "#069696", height: "100%", position: "relative" }}>
+      <ResetPasswordModal navigation={navigation} modalVisible={passwordResetModal} setModalVisible={setPasswordResetModal} />
       <Image
         source={require("../../assets/splash.png")}
         style={{ width: 144, height: 144, marginHorizontal: 28, position: 'absolute', top: 28, alignSelf: 'center' }}
@@ -74,7 +78,7 @@ export default function LoginScreen({navigation}:any) {
           <Text
             className="text-lightGreen underline cursor-pointer my-2"
             onPress={() =>
-              console.log("Button pressed")
+              setPasswordResetModal(true)
             } /* irá navegar para a tela (ou modal) da solicitação de redefinição de senha */
           >
             Esqueci minha senha
