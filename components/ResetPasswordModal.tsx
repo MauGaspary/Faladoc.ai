@@ -1,18 +1,20 @@
 import { EvilIcons, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
-import { Modal, Pressable, Text, View } from "react-native";
+import { Modal, Pressable, Text, View, ModalProps } from "react-native";
 import Input from "./Input";
+import EnterButton from "./EnterButton";
 
 type ResetPasswordModalProps = {
   modalVisible: boolean;
   setModalVisible: (value: boolean) => void;
+  navigation: any;
 };
 
 export function ResetPasswordModal({
   modalVisible,
   setModalVisible,
+  navigation
 }: ResetPasswordModalProps) {
-  const [successModalVisible, setSuccessModalVisible] = useState(false);
   const [failModalVisible, setFailModalVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [emailValid, setEmailValid] = useState("");
@@ -25,6 +27,9 @@ export function ResetPasswordModal({
 
     setEmailValid("");
     setEmail("");
+    setModalVisible(false);
+    
+    navigation.navigate("ResetPasswordCode");
     
     
     // axios
@@ -32,7 +37,6 @@ export function ResetPasswordModal({
     //     email: email,
     //   })
     //   .then((response) => {
-    //     setSuccessModalVisible(true);
     //     setTimeout(() => {
     //       setFailModalVisible(false);
     //       setModalVisible(false);
@@ -49,8 +53,8 @@ export function ResetPasswordModal({
   return (
     <>
       <Modal
-        animationType="none"
-        transparent={true}
+        animationType="fade"
+        transparent
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
@@ -74,45 +78,19 @@ export function ResetPasswordModal({
             iconName="mail-outline"
             placeholder="Email"
           />
-          <Pressable
-            onPress={() => {
-              handleSubmit();
-            }}
-            className={`bg-[#12ADB4] text-white w-[80%] items-center p-2 rounded ${
-              email.length === 0 ? "opacity-50" : ""
-            }`}
-          >
-            Recuperar senha
-          </Pressable>
+          <EnterButton
+            onPress={handleSubmit}          
+            text="Recuperar senha"
+          />
         </View>
       </Modal>
-
-      <Modal
-        animationType="none"
-        transparent={true}
-        visible={successModalVisible}
-        onRequestClose={() => {
-          setSuccessModalVisible(false);
-        }}
-      >
-        <View className="flex self-center border-[1px] rounded-[15px] border-lightGreen my-auto bg-white w-[80%] p-5">
-          <View className="items-center gap-7">
-            <View className="bg-[#00E733] rounded-full w-[70px] h-[70px] justify-center items-center">
-              <FontAwesome5 name="check-circle" size={60} color="white" />
-            </View>
-            <Text className="text-lg text-center font-bold opacity-30">
-              Email enviado com sucesso!
-            </Text>
-          </View>
-        </View>
-      </Modal>
-
+      
       <Modal
         animationType="none"
         transparent={true}
         visible={failModalVisible}
         onRequestClose={() => {
-          setSuccessModalVisible(false);
+          setModalVisible(false);
         }}
       >
         <View className="flex self-center border-[1px] rounded-[15px] border-lightGreen my-auto bg-white w-[80%] p-5">

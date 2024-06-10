@@ -60,7 +60,7 @@ export default function ProcessandoConsultaScreen({ navigation }: any) {
   return (
 
 
-    <View className="flex flex-col h-screen items-center bg-background">
+    <View className="flex flex-col h-screen justify-around items-center bg-background">
 
 
       <Text className="mt-10 text-black text-left text-lg py-screen">
