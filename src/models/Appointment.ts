@@ -83,10 +83,11 @@ export interface AppointmentQueryParams {
   appointment_date?: string;
   hospital?: string;
   appointment_status?: string;
+  doctor_id?:string;
 }
 
 export function buildAppointmentQuery(query: AppointmentQueryParams) {
-  const { patient_name, patient_id, appointment_date, hospital, appointment_status } = query;
+  const { patient_name, patient_id, appointment_date, hospital, appointment_status, doctor_id } = query;
 
   let whereCondition: { [key: string]: any } = {};
   if (patient_id) {
@@ -94,6 +95,12 @@ export function buildAppointmentQuery(query: AppointmentQueryParams) {
           [Op.eq]: patient_id
       };
   }
+
+  if (doctor_id) {
+    whereCondition['doctor_id'] = {
+        [Op.eq]: doctor_id
+    };
+}
 
   if (appointment_date) {
       whereCondition['appointment_date'] = {
