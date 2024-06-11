@@ -40,7 +40,7 @@ export const SessionProvider = ({
   children: React.ReactNode;
 }) => {
   const [uriPath, setUri] = useState("");
-  const [loggedDoctor, setLoggedDoctor] = useState("add9827e-3107-4ce7-ab95-6bb140043835");
+  const [loggedDoctor, setLoggedDoctor] = useState("fbcd681b-e5c0-4f6e-8b68-fc1177d29f6d");
   const [patientInfo, setPatientInfo] = useState({
     id: "",
     name: "",
