@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }: any) {
   const getAppointments = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/appointments?appointment_status=PROCESSING`
+        `localhost:3000/appointments&doctor_id=${doctorInfo.id}`
       );
       console.log(res);
       setAppointments(res.data);
@@ -50,8 +50,7 @@ export default function HomeScreen({ navigation }: any) {
     <Text className="text-timer font-bold">{doctorInfo.name}</Text>
   </Text>
   <Text className="mb-5 text-2xl text-timer font-semibold leading-48 text-left">
-    CRM <Text className="text-timer font-semibold">{doctorInfo.crm}</Text>{" "}
-    - <Text className="text-timer font-semibold">{doctorInfo.state}</Text>
+    CRM <Text className="text-timer font-semibold">{doctorInfo.crm}</Text>
   </Text>
 </View>
       <View className="items-center mx-11">
@@ -83,19 +82,23 @@ export default function HomeScreen({ navigation }: any) {
           Consultas em processamento
         </Text>
         <ScrollView className="mt-3 w-full h-80">
-          <View className="flex items-center justify-center">
-            {appointments.map((appointment: any, index: number) => (
-              <View key={index} style={{ width: "100%" }}>
-                <AppointmentCard
-                  type="prontuario"
-                  pacientName={getFirstAndLastName(appointment.patient.name)}
-                  date={formatDate(appointment.appointment_date)}
-                  specialty={appointment.hospital}
-                  status={appointment.appointment_status}
-                  context={appointment.appointment_context}
-                />
-              </View>
-            ))}
+          <View className="flex items-center justify-center h-full">
+            {appointments.length === 0 ? (
+              <Text className="text-base text-subtitle mt-24">Não foram encontradas consultas</Text>
+            ) : (
+              appointments.map((appointment: any, index: number) => (
+                <View key={index} style={{ width: "100%" }}>
+                  <AppointmentCard
+                    type="prontuario"
+                    pacientName={getFirstAndLastName(appointment.patient.name)}
+                    date={formatDate(appointment.appointment_date)}
+                    specialty={appointment.hospital}
+                    status={appointment.appointment_status}
+                    context={appointment.appointment_context}
+                  />
+                </View>
+              ))
+            )}
           </View>
         </ScrollView>
       </View>

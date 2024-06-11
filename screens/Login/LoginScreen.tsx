@@ -29,8 +29,8 @@ export default function LoginScreen({navigation}:any) {
         throw new Error("Falha ao realizar o login");
       }
 
-      const { name, crm, state } = response.data.doctor;
-      setDoctorInfo({ name, crm, state });
+      const { id, name, crm, state } = response.data.doctor;
+      setDoctorInfo({ id, name, crm, state });
 
       console.log('Login realizado com sucesso!');
       navigation.navigate("Home"); 
