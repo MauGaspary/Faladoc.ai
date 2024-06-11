@@ -57,11 +57,11 @@ const RegisterScreen = ({navigation}:any) => {
             <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</Text>
             <Text className="text-[20px] text-[#505050] leading-48 text-left font-semibold">Digite o CRM e o Estado de Registro</Text>
             <View className="bg-[#D0EFF0] items-center">
-                <View className="w-full flex-row">
-                  <View className="w-1/2">
+                <View className="w-full flex-row justify-center space-x-2">
+                  <View className="w-2/5">
                     <Input iconName={'medical-outline'} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
                   </View>
-                  <View className="w-1/2">
+                  <View className="grow">
                     <Dropdown 
                       iconName="map-outline"
                       placeholder="ESTADO"
