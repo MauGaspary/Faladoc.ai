@@ -6,8 +6,6 @@ import { DoctorDTO } from "../types/DoctorDTO";
 interface ContextType {
   uriPath: string;
   setUri: (value: string) => void;
-  loggedDoctor: string;
-  setLoggedDoctor: (value: string) => void;
   patientInfo: PatientDTO;
   setPatientInfo: (value: PatientDTO) => void;
   appoitmentInfos: AppointmentDTO;
@@ -19,8 +17,6 @@ interface ContextType {
 const SessionContext = createContext<ContextType>({
   uriPath: "",
   setUri: () => {},
-  loggedDoctor: "",
-  setLoggedDoctor: () => {},
   patientInfo: {
     id: "",
     name: "",
@@ -50,9 +46,6 @@ export const SessionProvider = ({
   children: React.ReactNode;
 }) => {
   const [uriPath, setUri] = useState("");
-  const [loggedDoctor, setLoggedDoctor] = useState(
-    "add9827e-3107-4ce7-ab95-6bb140043835"
-  );
   const [patientInfo, setPatientInfo] = useState<PatientDTO>({
     id: "",
     name: "",
@@ -81,8 +74,6 @@ export const SessionProvider = ({
         setPatientInfo,
         appoitmentInfos,
         setAppoitmentInfos,
-        loggedDoctor,
-        setLoggedDoctor,
         doctorInfo,
         setDoctorInfo,
       }}

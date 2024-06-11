@@ -13,13 +13,12 @@ export default function HomeScreen({ navigation }: any) {
   useEffect(() => {
     getAppointments();
   }, []);
-
+  
   const getAppointments = async () => {
     try {
       const res = await axios.get(
-        `localhost:3000/appointments&doctor_id=${doctorInfo.id}`
+        `http://localhost:3000/appointments?doctor_id=${doctorInfo.id}`
       );
-      console.log(res);
       setAppointments(res.data);
     } catch (error) {
       console.log(error);
@@ -50,7 +49,7 @@ export default function HomeScreen({ navigation }: any) {
     <Text className="text-timer font-bold">{doctorInfo.name}</Text>
   </Text>
   <Text className="mb-5 text-2xl text-timer font-semibold leading-48 text-left">
-    CRM <Text className="text-timer font-semibold">{doctorInfo.crm}</Text>
+    CRM <Text className="text-timer font-semibold">{doctorInfo.crm+'-'+doctorInfo.state}</Text>
   </Text>
 </View>
       <View className="items-center mx-11">

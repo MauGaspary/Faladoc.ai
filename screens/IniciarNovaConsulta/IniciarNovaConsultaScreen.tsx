@@ -13,7 +13,7 @@ import axios from "axios";
 const IniciarNovaConsultaScreen = ({ navigation }: any) => {
   const [isPatientSelected, setIsPatientSelected] = useState(true);
 
-  const { appoitmentInfos, setAppoitmentInfos, patientInfo, loggedDoctor } =
+  const { appoitmentInfos, setAppoitmentInfos, patientInfo, doctorInfo } =
     useContext(SessionContext);
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -41,13 +41,12 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
   const handleStartRecording = async () => {
     const appoitment = {
       patient_id: patientInfo.id,
-      doctor_id: loggedDoctor,
+      doctor_id: doctorInfo.id,
       hospital: appoitmentInfos.hospital,
       appointment_context: appoitmentInfos.contexto,
     };
 
     try {
-      // const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/patients`, patient);
       const response = await axios.post(
         `http://localhost:3000/appointments`,
         appoitment
