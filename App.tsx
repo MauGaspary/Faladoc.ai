@@ -20,6 +20,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NativeWindStyleSheet } from 'nativewind';
 import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
 import ResetPasswordCodeScreen from './screens/ResetPasswordCodeScreen/ResetPasswordCodeScreen';
+import ListFeedbackScreen from './screens/ListFeedbackScreen/ListFeedbackScreen';
+import ViewChart from './screens/ViewChart/ViewChart';
 
 
 
@@ -44,7 +46,7 @@ export default function App() {
     <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          
+        
           <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Cadastro' component={RegisterScreen}/>
@@ -52,10 +54,13 @@ export default function App() {
           <Stack.Screen name="ResetPasswordCode" component={ResetPasswordCodeScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Iniciar nova Consulta' component={IniciarNovaConsultaScreen} options={{ headerShown: false }}/>
+
+          <Stack.Screen name='Listagem Prontuarios' component={ListFeedbackScreen} options={{ headerShown: false }}/>
+
+         <Stack.Screen name='Visualizar Prontuario' component={ViewChart} options={{ headerShown: false }}/>
           
           <Stack.Screen name="ResetPassword" component={PasswordResetScreen} options={{ headerShown: false }}/>
           
-
           <Stack.Screen name='Consulta Andamento' component={ConsultaAndamentoScreen} options={{ headerShown: false }}/>
 
           <Stack.Screen name="Processando Consulta" 
