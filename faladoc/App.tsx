@@ -50,6 +50,12 @@ export default function App() {
     <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
+          <Stack.Screen name="Processando Consulta" 
+            component={ProcessandoConsultaScreen}
+            options={{ headerShown: false }}
+          />
+          
+          <Stack.Screen name='Simple Screen' component={StartSimpleScreen} options={{ headerShown: false }}/>
 
           <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
           
@@ -59,12 +65,7 @@ export default function App() {
 
           <Stack.Screen name='Consulta Andamento' component={ConsultaAndamentoScreen} options={{ headerShown: false }}/>
 
-          <Stack.Screen name="Processando Consulta" 
-            component={ProcessandoConsultaScreen}
-            options={{ headerShown: false }}
-          />
 
-          <Stack.Screen name='Simple Screen' component={StartSimpleScreen} options={{ headerShown: false }}/>
 
           <Stack.Screen name='SignInScreen' component={SignInScreen}/>
           

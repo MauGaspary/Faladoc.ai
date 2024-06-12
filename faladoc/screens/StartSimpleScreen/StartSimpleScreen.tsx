@@ -9,10 +9,6 @@ import Navbar from "../../components/Navbar";
 
 
 
-import { AddPatientModal } from '../../components/AddPatientModal';
-
-
-
 const StartSimpleScreen = () => {
   return (
     <LinearGradient 
@@ -22,8 +18,6 @@ const StartSimpleScreen = () => {
       <View className='flex flex-col h-screen'>
         <Text  className="text-4xl text-center font-bold opacity-60 ">FALADOC</Text>
 
-
-        <AddPatientModal/>
 
         
       </View>
