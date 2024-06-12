@@ -126,7 +126,6 @@ export default function ConsultaAndamento({navigation}:any) {
           duration: minutes * 60 + seconds,
         });
         navigation.navigate('Processando Consulta');
-        console.log("Processando Consulta");
       }
     } catch (error) {
       console.error(error);

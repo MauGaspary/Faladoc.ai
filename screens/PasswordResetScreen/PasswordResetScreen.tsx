@@ -15,7 +15,6 @@ export default function PasswordResetScreen({ navigation }: any) {
           <View className="w-3/4 p-0 my-3">
             <EnterButton
               onPress={() => {
-                console.log("teste" + newPassword);
                 navigation.navigate("Login");
               }}
               text="Confirmar nova senha"

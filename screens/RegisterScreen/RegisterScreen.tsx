@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView, View, Text, TouchableHighlight } from "react-native"
+import { KeyboardAvoidingView, View, Text, TouchableHighlight, ScrollView } from "react-native"
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import { ScrollView } from "react-native-gesture-handler";
@@ -29,7 +29,6 @@ const RegisterScreen = ({navigation}:any) => {
           setEmailError(true);
           return;
         }
-        console.log(name, email, password, crm);
         try {
             const response = await axios.post('http://localhost:3000/doctors', {
               name, email, password, crm
