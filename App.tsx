@@ -6,6 +6,7 @@ import { SessionProvider } from "./provider/sessionContext";
 //import Screens
 import LoginScreen from  './screens/Login/LoginScreen';
 import ConsultaAndamentoScreen from "./screens/ConsultaAndamento/ConsultaAndamentoScreen";
+import HomeScreen from './screens/HomeScreen/HomeScreen';
 import IniciarNovaConsultaScreen from './screens/IniciarNovaConsulta/IniciarNovaConsultaScreen';
 import ProcessandoConsultaScreen from "./screens/ProcessandoConsulta/ProcessandoConsultaScreen";
 import PasswordResetScreen from './screens/PasswordResetScreen/PasswordResetScreen';
@@ -46,8 +47,9 @@ export default function App() {
     <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
-        
           <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
+          
+          <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Cadastro' component={RegisterScreen}/>
 

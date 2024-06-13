@@ -46,8 +46,6 @@ export function FilterInput({ isPatientSelected }: FilterInputType) {
     setPatients([]);
   };
 
-  console.log(isPatientSelected);
-
   return (
     <>
       <View className={`border-2 rounded-[30px] py-3 px-4 mb-3 w-full flex-col items-left bg-white ${isPatientSelected ? 'border-lightGreen' : 'border-invalid'}`}>
@@ -69,7 +67,7 @@ export function FilterInput({ isPatientSelected }: FilterInputType) {
             <View className="flex flex-row">
               <AntDesign name="user" size={24} color="black" className="mr-2" />
               <TextInput
-                className="ml-2 text-gray"
+                className="ml-2 text-gray w-full"
                 placeholder="Pesquisar paciente..."
                 placeholderTextColor="gray"
                 value={searchTerm}
