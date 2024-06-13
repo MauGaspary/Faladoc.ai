@@ -6,6 +6,7 @@ import HomeButton from "../../components/Homebutton";
 import { PasswordInput } from "../../components/PasswordInput";
 import {  } from "react-native-svg";
 import axios from "axios";
+import Dropdown from "../../components/DropDown";
 
 const RegisterScreen = ({navigation}:any) => {
 
@@ -13,21 +14,21 @@ const RegisterScreen = ({navigation}:any) => {
     const [name,setName] = useState("")
     const [email,setEmail] = useState("")
     const [estado, setEstado] = useState("")
+    const [speciality, setSpeciality] = useState("")
     const [crm, setCRM] = useState("")
     const [error, setError] = useState("");
     const [emailError, setEmailError] = useState(false);
+    const [selectedState, setSelectedState] = useState('');
     const getPassword = (newPassword:string) => {
         setPassword(newPassword)
     }
-
-
+   
     const handleRegister = async () => {
         if (!email.trim()) {
           setError("Por gentileza, insira seu email");
           setEmailError(true);
           return;
         }
-        console.log(name, email, password, crm);
         try {
             const response = await axios.post('http://localhost:3000/doctors', {
               name, email, password, crm
@@ -50,27 +51,37 @@ const RegisterScreen = ({navigation}:any) => {
 
 
     return(
-    <KeyboardAvoidingView className="flex-1 bg-background rounded-t-[30px] pt-2 max-w-full px-4">
+    <KeyboardAvoidingView className="bg-background rounded-t-[30px] pt-2 max-w-full px-3">
         <ScrollView className="pb-8">
-            <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30]">Cadastro</Text>
-            <View className="flex-1 bg-[#D0EFF0] items-center justify-center">
-                <View className="w-full">
-
-                <Input className="w-full mb-3" iconName={'medkit-outline'} placeholder={"ESTADO"} value={estado}    onChangeText={setEstado}/>
-                <Input className="w-full !m-0" iconName={'medkit-outline'} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
-
+            <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</Text>
+            <Text className="text-[20px] text-[#505050] leading-48 text-left font-semibold">Digite o CRM e o Estado de Registro</Text>
+            <View className="bg-[#D0EFF0] items-center">
+                <View className="w-full flex-row justify-center space-x-2">
+                  <View className="w-2/5">
+                    <Input iconName={'medical-outline'} placeholder={"CRM"} value={crm}    onChangeText={setCRM}/>
+                  </View>
+                  <View className="grow">
+                    <Dropdown 
+                      iconName="map-outline"
+                      placeholder="ESTADO"
+                      selectedValue={selectedState}
+                      onValueChange={(itemValue: React.SetStateAction<string>) => setSelectedState(itemValue)}
+                    />
+                  </View>
                 </View>
+                <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setSpeciality}/>
+                <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality}/>
                 <View className="border-b-2 border-teal-600 w-4/5 my-2" />
 
-                <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setName}/>
-                <Input iconName={'mail-outline'} placeholder={'EMAIL'}  value={email}   onChangeText={setEmail}/>
+                <Input iconName={'business-outline'} placeholder={'Hospital'} className={'px-15'} onChangeText={setName}/>
+                <Input iconName={'mail-outline'} placeholder={'Email'}  value={email}   onChangeText={setEmail}/>
 
                 <PasswordInput mode="register"  getPassword={getPassword}/>    
                 <EnterButton onPress={()=>handleRegister()} text="Cadastrar"/>
                 <Text>Ja possui uma conta?</Text>
 
                 <TouchableHighlight onPress={() => navigation.navigate("Login")}>
-                        <Text className={"underline text-sky-600"}>Entre</Text>
+                        <Text className={"underline text-teal-600"}>Entre</Text>
                 </TouchableHighlight>
             </View>
         </ScrollView>       

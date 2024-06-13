@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
+import { View, Text, KeyboardAvoidingView } from "react-native";
 import Input from "../../components/Input";
 import StartConsultationButton from "../../components/StartConsultationButton";
 import { AddPatientModal } from "../../components/AddPatientModal";
@@ -60,6 +60,11 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
         id: response.data.id,
         duration: response.data.duration,
       });
+      
+      setModalVisible(false);
+      
+      navigation.navigate("Consulta Andamento");
+      
     } catch (error) {
       console.error(error);
     }

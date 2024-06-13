@@ -49,7 +49,7 @@ export default function HomeScreen({ navigation }: any) {
     <Text className="text-timer font-bold">{doctorInfo.name}</Text>
   </Text>
   <Text className="mb-5 text-2xl text-timer font-semibold leading-48 text-left">
-    CRM <Text className="text-timer font-semibold">{doctorInfo.crm+'-'+doctorInfo.state}</Text>
+    CRM <Text className="text-timer font-semibold">{doctorInfo.crm}</Text>
   </Text>
 </View>
       <View className="items-center mx-11">

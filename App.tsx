@@ -20,6 +20,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 //import CSS
 import { NativeWindStyleSheet } from 'nativewind';
 import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
+import ResetPasswordCodeScreen from './screens/ResetPasswordCodeScreen/ResetPasswordCodeScreen';
 
 
 
@@ -50,9 +51,12 @@ export default function App() {
           
           <Stack.Screen name='Cadastro' component={RegisterScreen}/>
 
-          <Stack.Screen name="Redefinir Senha" component={PasswordResetScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name="ResetPasswordCode" component={ResetPasswordCodeScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Iniciar nova Consulta' component={IniciarNovaConsultaScreen} options={{ headerShown: false }}/>
+          
+          <Stack.Screen name="ResetPassword" component={PasswordResetScreen} options={{ headerShown: false }}/>
+          
 
           <Stack.Screen name='Consulta Andamento' component={ConsultaAndamentoScreen} options={{ headerShown: false }}/>
 

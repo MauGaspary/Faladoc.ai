@@ -28,16 +28,16 @@ export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
   return (
     <View className="flex items-center w-full">
       <View className="flex-row w-full border-2 border-lightGreen rounded-full justify-between p-3 m-3 bg-white">
-        <View className="flex-row items-center gap-1">
+        <View className="flex-row justify-between items-center gap-1 w-full">
           <Feather name="lock" size={24} color="black" />
-          <TextInput secureTextEntry={hidePassword} onChangeText={setPassword} placeholder="Senha" className="text-subtitle ml-2" placeholderTextColor="gray"/>
+          <TextInput secureTextEntry={hidePassword} onChangeText={setPassword} placeholder="Senha" className="text-subtitle ml-2 w-full" placeholderTextColor="gray"/>
+          <Feather
+            name={hidePassword ? "eye-off" : "eye"}
+            size={24}
+            color="black"
+            onPress={() => setHidePassword(!hidePassword)}
+            />
         </View>
-        <Feather
-          name={hidePassword ? "eye-off" : "eye"}
-          size={24}
-          color="black"
-          onPress={() => setHidePassword(!hidePassword)}
-        />
       </View>
       {mode === "register" && (
         <>
@@ -51,21 +51,21 @@ export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
           </View>
 
           <View className="w-full flex-row border-2 border-lightGreen rounded-full justify-between p-3 m-3 bg-white">
-            <View className="flex-row items-center gap-1">
+            <View className="flex-row justify-between items-center gap-1 w-full">
               <Feather name="lock" size={24} color="black" />
               <TextInput
                 secureTextEntry={hidePassword}
                 onChangeText={setConfirmPassword}
                 placeholder="Confirmar senha"
-                className="ml-2 text-subtitle"
+                className="ml-2 text-subtitle w-full"
               />
+              <Feather
+                name={hidePassword ? "eye-off" : "eye"}
+                size={24}
+                color="black"
+                onPress={() => setHidePassword(!hidePassword)}
+                />
             </View>
-            <Feather
-              name={hidePassword ? "eye-off" : "eye"}
-              size={24}
-              color="black"
-              onPress={() => setHidePassword(!hidePassword)}
-            />
           </View>
         </>
       )}
