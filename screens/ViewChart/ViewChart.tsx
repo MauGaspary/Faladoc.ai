@@ -9,10 +9,14 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import axios from 'axios';
+import { useRoute } from "@react-navigation/native";
 
 
 
 export default function ViewChart({ navigation }: any) {
+
+  const route = useRoute();
+    const { id } = route.params as { id: string };
 
   const calcularIdade = (dataNascimento: string) => {
     const hoje = new Date();
@@ -32,9 +36,9 @@ export default function ViewChart({ navigation }: any) {
 
   const [patient, setPatient] = useState({ name: "", date_of_birth: "" });
   const [appointment, setAppointment] = useState({ medical_record_final: "", patient_id: "", appointment_date: "" });
-  const dataNascimento = "1978-07-24";
-  const idade = calcularIdade(dataNascimento);
-  const dataNascimentoFormatada = formatarData(dataNascimento);
+
+  const idade = calcularIdade(patient.date_of_birth);
+  const dataNascimentoFormatada = formatarData(patient.date_of_birth);
 
   const [diagnostico, setDiagnostico] = useState("Hipertensão arterial. Diabetes tipo 2.");
   const [tempDiagnostico, setTempDiagnostico] = useState(diagnostico);
@@ -44,11 +48,10 @@ export default function ViewChart({ navigation }: any) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-
-        const appointmentResponse = await axios.get(`/appointment/${appointment}`);
+        const appointmentResponse = await axios.get(`http://localhost:3000/appointments/${id}`);
         setAppointment(appointmentResponse.data);
       
-        const patientResponse = await axios.get(`/patients/${appointmentResponse.data.patient_id}`);
+        const patientResponse = await axios.get(`http://localhost:3000/patient/${appointmentResponse.data.patient_id}`);
         setPatient(patientResponse.data);
         setDiagnostico(appointmentResponse.data.medical_record_final);
         setTempDiagnostico(appointmentResponse.data.medical_record_final);
@@ -58,7 +61,7 @@ export default function ViewChart({ navigation }: any) {
     };
 
     fetchData();
-  }, [appointment]);
+  }, [id]);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -67,7 +70,7 @@ export default function ViewChart({ navigation }: any) {
   const handleConfirm = async () => {
     try {
       const updatedAppointment = { ...appointment, medical_record_final: tempDiagnostico };
-      await axios.patch(`/appointments/${appointment}`, updatedAppointment);
+      await axios.patch(`http://localhost:3000/appointments/${id}`, updatedAppointment);
       setDiagnostico(tempDiagnostico);
       setIsEditing(false);
       setIsEdited(false);
@@ -90,14 +93,14 @@ export default function ViewChart({ navigation }: any) {
         <View className="flex-1 bg-[#D0EFF0] items-center justify-center mt-8">
           <View className="w-72 h-48 bg-white rounded-3xl">
             <Text className="text-sm text-gray-500 ml-5 mt-5">Nome</Text>
-            <Text className="text-sm text-timer ml-5">{patient.name}</Text>
+            <Text className="text-sm text-timer ml-5">{patient.name?  patient.name : 'carregando...'}</Text>
             <Text className="text-sm text-gray-500 ml-5 mt-3">Idade</Text>
-            <Text className="text-sm text-timer ml-5">{idade}</Text>
+            <Text className="text-sm text-timer ml-5">{patient.date_of_birth && idade}</Text>
             <Text className="text-sm text-gray-500 ml-5 mt-3">
               Data de Nascimento
             </Text>
             <Text className="text-sm text-timer ml-5">
-              {dataNascimentoFormatada}
+              { patient.date_of_birth && dataNascimentoFormatada }
             </Text>
           </View>
         </View>
@@ -110,7 +113,7 @@ export default function ViewChart({ navigation }: any) {
           <View className="w-72 h-auto bg-white rounded-3xl">
             <View className="flex-col ml-56 mt-5">
               <TouchableOpacity onPress={handleEdit}>
-                <Ionicons name="pencil" size={24} color="#505050" />
+                <Ionicons name="pencil" size={24} color="#505050"/>
               </TouchableOpacity>
             </View>
             {isEditing ? (
@@ -126,7 +129,8 @@ export default function ViewChart({ navigation }: any) {
                   onPress={handleConfirm}
                   disabled={!isEdited}
                 >
-                  <Text className="text-white text-center">Confirmar</Text>
+
+                <Text className="text-white text-center">Confirmar</Text>
                 </TouchableOpacity>
               </>
             ) : (
