@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { KeyboardAvoidingView, View, Text, TouchableHighlight, ScrollView } from "react-native"
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
-import { ScrollView } from "react-native-gesture-handler";
+import HomeButton from "../../components/Homebutton";
 import { PasswordInput } from "../../components/PasswordInput";
 import {  } from "react-native-svg";
 import axios from "axios";
