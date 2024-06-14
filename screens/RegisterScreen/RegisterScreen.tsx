@@ -14,7 +14,8 @@ const RegisterScreen = ({navigation}:any) => {
     const [name,setName] = useState("")
     const [email,setEmail] = useState("")
     const [estado, setEstado] = useState("")
-    const [speciality, setSpeciality] = useState("")
+    const [hospital, setHospital] = useState("")
+    const [specialty, setSpeciality] = useState("")
     const [crm, setCRM] = useState("")
     const [error, setError] = useState("");
     const [emailError, setEmailError] = useState(false);
@@ -31,7 +32,7 @@ const RegisterScreen = ({navigation}:any) => {
       }
       try {
           const response = await axios.post('http://3.22.75.73:3000/doctors', {
-            name, email, password, crm
+            name, email, password, crm, hospital, specialty
           });
           if (response.status !== 200) {
             throw new Error("Falha ao registrar");
@@ -85,10 +86,10 @@ const RegisterScreen = ({navigation}:any) => {
                   </View>
                 </View>
                 <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setName} value={name}/>
-                <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality} value={speciality} />
+                <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality} value={specialty} />
                 <View className="border-b-2 border-teal-600 w-4/5 my-2" />
 
-                <Input iconName={'business-outline'} placeholder={'Hospital'} className={'px-15'} onChangeText={setName}/>
+                <Input iconName={'business-outline'} placeholder={'Hospital'} className={'px-15'} value={hospital} onChangeText={setHospital}/>
                 <Input iconName={'mail-outline'} placeholder={'Email'}  value={email}   onChangeText={setEmail}/>
 
                 <PasswordInput mode="register"  getPassword={getPassword}/>    
