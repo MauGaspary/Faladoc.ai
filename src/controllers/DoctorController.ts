@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Doctor } from '../models/Doctor';
 import { UserService } from '../services/user-services';
+import { CfmService } from '../services/cfm-service';
 
 export class DoctorController {
   public static async getAllDoctors(req: Request, res: Response) {
@@ -8,8 +9,8 @@ export class DoctorController {
       const doctors = await Doctor.findAll();
       res.json(doctors);
     } catch (error) {
-      console.error("Não consegui zé, malz. Ó o erro ai:", error);
-      res.status(500).json({ error: 'Deu ruim' });
+      console.error("Erro ao buscar médicos:", error);
+      res.status(500).json({ error: 'Erro ao buscar médicos' });
     }
   }
 
@@ -30,6 +31,19 @@ export class DoctorController {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Error creating doctor" });
+    }
+  }
+
+  public static async getDoctorCfmData(req: Request, res: Response) {
+    try {
+      const { crm, state } = req.params;
+      const doctorData = await CfmService.findDoctorData(crm, state);
+      if (!doctorData) {
+        return res.status(400).json({error: 'Médico não encontrado'});
+      }
+      res.json(doctorData);
+    } catch (error) {
+      res.status(500).json({ error: 'Erro ao buscar dados do médico'  });
     }
   }
   

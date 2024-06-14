@@ -5,5 +5,6 @@ const router = Router();
 
 router.get('/doctors', DoctorController.getAllDoctors);
 router.post('/doctors', DoctorController.createDoctor);
+router.get('/doctorsCfm/:crm/:state', DoctorController.getDoctorCfmData);
 
 export default router;
