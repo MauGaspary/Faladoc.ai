@@ -27,6 +27,9 @@ const createSoapEnvelope = (crm : string, state : string): string => {
 export class CfmService {
     public static async findDoctorData(crm: string, state: string) {
       try {
+        if (!process.env.CFM_API_URL || !process.env.CFM_KEY){
+                throw new Error("No CFM_API_URL or CFM_KEY declared.");
+        }
         const xmlData = createSoapEnvelope(crm, state);
         const response = await axios.post(process.env.CFM_API_URL, xmlData);
         const jsonData = await parseXml(response.data);
