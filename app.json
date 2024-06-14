@@ -6,33 +6,33 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "plugins": [
-      [
-        "expo-calendar",
-        {
-          "calendarPermission": "Allow $(PRODUCT_NAME) to access your calendar."
-        }
-      ]
-    ],
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "scale",
+      "resizeMode": "cover",
       "backgroundColor": "#069696"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.faladoc.dacolina"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.faladoc.gigante"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "apiUrl": "http://3.22.75.73:3000",
+      "eas": {
+        "projectId": "1f51c815-e13e-46ad-a86d-932be4707a90"
+      }
     }
   }
 }

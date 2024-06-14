@@ -3,6 +3,8 @@ import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { AppointmentCard } from '../../components/AppointmentCard';
 import { FiltersComponent } from "../../components/FiltersComponent";
 
+import Navbar from "../../components/Navbar";
+
 interface Appointment {
   id: string;
   doctor_id: string;
@@ -36,7 +38,7 @@ const ListFeedbackScreen = ({ navigation }: any) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:3000/appointments');
+      const response = await fetch('http://3.22.75.73:3000/appointments');
       const data = await response.json();
       setAppointments(data);
       setFilteredAppointments(data);
@@ -72,9 +74,9 @@ const ListFeedbackScreen = ({ navigation }: any) => {
           setSearchDate(date);
         }}
       />
-      <ScrollView className='pt-4 w-full'>
+      <ScrollView className='pt-4 px-4 w-full'>
         {filteredAppointments.map((appointment, index) => (
-          <TouchableOpacity  className='items-center w-full' onPress={() => navigation.navigate('Visualizar Prontuario')} /* Passar id do prontuario*/ >
+          <TouchableOpacity  className='items-center w-full' onPress={() => navigation.navigate('Visualizar Prontuario', { patientId: appointment.patient_id })} /* Passar id do prontuario*/ >
           <AppointmentCard 
             type="prontuario" 
             pacientName={appointment.patient.name}
@@ -85,8 +87,10 @@ const ListFeedbackScreen = ({ navigation }: any) => {
           />
         </TouchableOpacity>
         ))}
+        
       </ScrollView>
     </View>
+    
   );
 };
 

@@ -48,7 +48,7 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/appointments`,
+        `http://3.22.75.73:3000/appointments`,
         appoitment
       );
       if (response.status !== 201) {

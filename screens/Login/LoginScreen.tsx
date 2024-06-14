@@ -24,15 +24,15 @@ export default function LoginScreen({navigation}:any) {
     }
     try {
       const response = await axios.post(
-        `http://localhost:3000/login`,
+        `http://3.22.75.73:3000/login`,
         { email, password }
       );
       if (response.status !== 200) {
         throw new Error("Falha ao realizar o login");
       }
 
-      const { id, name, crm, state } = response.data.doctor;
-      setDoctorInfo({ id, name, crm, state });
+      const { id, name, crm } = response.data.doctor;
+      setDoctorInfo({ id, name, crm});
 
       console.log('Login realizado com sucesso!');
       navigation.navigate("Home"); 

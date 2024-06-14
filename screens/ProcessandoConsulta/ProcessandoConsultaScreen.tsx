@@ -19,9 +19,9 @@ export default function ProcessandoConsultaScreen({ navigation }: any) {
         medical_record_original:
           "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos inventore porro tenetur iusto, quae tempora numquam corrupti dolor voluptas soluta commodi neque aperiam earum accusantium ipsa? Et, quae esse Reprehenderit corporis corrupti ullam, aut fuga nulla deleniti ducimus modi error quam possimus sunt explicabo nobis consectetur veritatis vitae id sequi in aspernatur commodi aperiam qui inventore maiores. Distinctio, ex",
       };
-      // const res = await axios.patch(`http://localhost:3000/appointments/${appointment_id}`, body)
+      // const res = await axios.patch(`http://3.22.75.73:3000/appointments/${appointment_id}`, body)
       const res = await axios.patch(
-        `http://localhost:3000/appointments/${appoitmentInfos.id}`,
+        `http://3.22.75.73:3000/appointments/${appoitmentInfos.id}`,
         body
       );
       const seconds = appoitmentInfos.duration;

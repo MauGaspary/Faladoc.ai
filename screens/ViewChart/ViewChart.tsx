@@ -10,7 +10,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import axios from 'axios';
 import { useRoute } from "@react-navigation/native";
-
+import Navbar from "../../components/Navbar";
 
 
 export default function ViewChart({ navigation }: any) {
@@ -48,10 +48,10 @@ export default function ViewChart({ navigation }: any) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const appointmentResponse = await axios.get(`http://localhost:3000/appointments/${id}`);
+        const appointmentResponse = await axios.get(`http://3.22.75.73:3000/appointments/b6cc9069-6fcd-471b-aff7-f24b37f12c2c`);
         setAppointment(appointmentResponse.data);
       
-        const patientResponse = await axios.get(`http://localhost:3000/patient/${appointmentResponse.data.patient_id}`);
+        const patientResponse = await axios.get(`http://3.22.75.73:3000/patients/id/a145dde7-a9b9-43cb-a545-9b156bafb0fb`);
         setPatient(patientResponse.data);
         setDiagnostico(appointmentResponse.data.medical_record_final);
         setTempDiagnostico(appointmentResponse.data.medical_record_final);
@@ -61,7 +61,7 @@ export default function ViewChart({ navigation }: any) {
     };
 
     fetchData();
-  }, [id]);
+  }, ['b6cc9069-6fcd-471b-aff7-f24b37f12c2c']);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -70,7 +70,7 @@ export default function ViewChart({ navigation }: any) {
   const handleConfirm = async () => {
     try {
       const updatedAppointment = { ...appointment, medical_record_final: tempDiagnostico };
-      await axios.patch(`http://localhost:3000/appointments/${id}`, updatedAppointment);
+      await axios.patch(`http://3.22.75.73:3000/appointments/b6cc9069-6fcd-471b-aff7-f24b37f12c2c`, updatedAppointment);
       setDiagnostico(tempDiagnostico);
       setIsEditing(false);
       setIsEdited(false);
@@ -85,7 +85,7 @@ export default function ViewChart({ navigation }: any) {
   };
 
   return (
-    <KeyboardAvoidingView className="flex-1 bg-background rounded-t-3xl pt-2 max-w-full px-4">
+    <KeyboardAvoidingView className="flex-1 bg-background rounded-t-3xl pt-2 max-w-full">
       <ScrollView className="pb-8 mt-10">
         <Text className="text-2xl text-gray-700 leading-12 text-left ml-8">
           Informações de Consulta
@@ -130,7 +130,7 @@ export default function ViewChart({ navigation }: any) {
                   disabled={!isEdited}
                 >
 
-                <Text className="text-white text-center">Confirmar</Text>
+                <Text className="text-black text-center">Confirmar</Text>
                 </TouchableOpacity>
               </>
             ) : (
@@ -141,6 +141,7 @@ export default function ViewChart({ navigation }: any) {
           </View>
         </View>
       </ScrollView>
+      <Navbar />
     </KeyboardAvoidingView>
   );
 }

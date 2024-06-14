@@ -30,7 +30,7 @@ const RegisterScreen = ({navigation}:any) => {
           return;
         }
         try {
-            const response = await axios.post('http://localhost:3000/doctors', {
+            const response = await axios.post('http://3.22.75.73:3000/doctors', {
               name, email, password, crm
             });
             if (response.status !== 200) {

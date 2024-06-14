@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, ScrollView } from "react-native";
 import SessionContext from "../../provider/sessionContext";
 import HomeButtons from "../../components/ButtonsOnHome";
@@ -13,11 +13,11 @@ export default function HomeScreen({ navigation }: any) {
   useEffect(() => {
     getAppointments();
   }, []);
-  
+
   const getAppointments = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/appointments?doctor_id=${doctorInfo.id}`
+        `http://3.22.75.73:3000/appointments?doctor_id=${doctorInfo.id}`
       );
       setAppointments(res.data);
     } catch (error) {
@@ -34,7 +34,7 @@ export default function HomeScreen({ navigation }: any) {
       const lastName = names.pop();
       return `${firstName} ${lastName}`;
     }
-  };  
+  };
 
   const formatDate = (dateString: string) => {
     const [year, month, day] = dateString.split("-");
@@ -44,14 +44,13 @@ export default function HomeScreen({ navigation }: any) {
   return (
     <View className="bg-background h-full">
       <View className="mx-11 mt-8">
-  <Text className="mb-2 mt-8 text-2xl text-timer leading-48 text-left">
-    Olá,{" "}
-    <Text className="text-timer font-bold">{doctorInfo.name}</Text>
-  </Text>
-  <Text className="mb-5 text-2xl text-timer font-semibold leading-48 text-left">
-    CRM <Text className="text-timer font-semibold">{doctorInfo.crm}</Text>
-  </Text>
-</View>
+        <Text className="mb-2 mt-8 text-2xl text-timer leading-48 text-left">
+          Olá, <Text className="text-timer font-bold">{doctorInfo.name}</Text>
+        </Text>
+        <Text className="mb-5 text-2xl text-timer font-semibold leading-48 text-left">
+          CRM <Text className="text-timer font-semibold">{doctorInfo.crm}</Text>
+        </Text>
+      </View>
       <View className="items-center mx-11">
         <HomeButtons
           text="Nova consulta"
@@ -66,12 +65,12 @@ export default function HomeScreen({ navigation }: any) {
             <HomeButtons
               text="Prontuários"
               icon="document-outline"
-              onPress={() => {}}
+              onPress={() => navigation.navigate("Listagem Prontuarios")}
             />
             <HomeButtons
               text="Pacientes"
               icon="person-outline"
-              onPress={() => {}}
+              onPress={() => navigation.navigate("Visualizar Prontuario")}
             />
           </View>
         </View>
@@ -83,7 +82,9 @@ export default function HomeScreen({ navigation }: any) {
         <ScrollView className="mt-3 w-full h-80">
           <View className="flex items-center justify-center h-full">
             {appointments.length === 0 ? (
-              <Text className="text-base text-subtitle mt-24">Não foram encontradas consultas</Text>
+              <Text className="text-base text-subtitle mt-24">
+                Não foram encontradas consultas
+              </Text>
             ) : (
               appointments.map((appointment: any, index: number) => (
                 <View key={index} style={{ width: "100%" }}>

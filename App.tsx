@@ -1,5 +1,8 @@
 import React from 'react';
-
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import axios from 'axios';
 import { SessionProvider } from "./provider/sessionContext";
 
 
@@ -11,21 +14,18 @@ import IniciarNovaConsultaScreen from './screens/IniciarNovaConsulta/IniciarNova
 import ProcessandoConsultaScreen from "./screens/ProcessandoConsulta/ProcessandoConsultaScreen";
 import PasswordResetScreen from './screens/PasswordResetScreen/PasswordResetScreen';
 
-//import Navigation
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
 
 
 //import CSS
 import { NativeWindStyleSheet } from 'nativewind';
+import { enableScreens } from 'react-native-screens';
 import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
 import ResetPasswordCodeScreen from './screens/ResetPasswordCodeScreen/ResetPasswordCodeScreen';
 import ListFeedbackScreen from './screens/ListFeedbackScreen/ListFeedbackScreen';
 import ViewChart from './screens/ViewChart/ViewChart';
 
 
-
+enableScreens();
 
 
 
@@ -59,16 +59,13 @@ export default function App() {
 
           <Stack.Screen name='Listagem Prontuarios' component={ListFeedbackScreen} options={{ headerShown: false }}/>
 
-         <Stack.Screen name='Visualizar Prontuario' component={ViewChart} options={{ headerShown: false }}/>
+          <Stack.Screen name='Visualizar Prontuario' component={ViewChart} options={{ headerShown: false }}/>
           
           <Stack.Screen name="ResetPassword" component={PasswordResetScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Consulta Andamento' component={ConsultaAndamentoScreen} options={{ headerShown: false }}/>
 
-          <Stack.Screen name="Processando Consulta" 
-            component={ProcessandoConsultaScreen}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name='Processando Consulta' component={ProcessandoConsultaScreen} options={{ headerShown: false }}/>
           
         </Stack.Navigator>
       </NavigationContainer>
