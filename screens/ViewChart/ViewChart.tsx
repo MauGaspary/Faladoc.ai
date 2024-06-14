@@ -16,7 +16,7 @@ import Navbar from "../../components/Navbar";
 export default function ViewChart({ navigation }: any) {
 
   const route = useRoute();
-    const { id } = route.params as { id: string };
+    //const { id } = route.params as { id: string };
 
   const calcularIdade = (dataNascimento: string) => {
     const hoje = new Date();
