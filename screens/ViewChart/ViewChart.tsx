@@ -16,7 +16,7 @@ import Navbar from "../../components/Navbar";
 export default function ViewChart({ navigation }: any) {
 
   const route = useRoute();
-    //const { id } = route.params as { id: string };
+  const { id } = route.params as { id: string };
 
   const calcularIdade = (dataNascimento: string) => {
     const hoje = new Date();
@@ -40,28 +40,28 @@ export default function ViewChart({ navigation }: any) {
   const idade = calcularIdade(patient.date_of_birth);
   const dataNascimentoFormatada = formatarData(patient.date_of_birth);
 
-  const [diagnostico, setDiagnostico] = useState("Hipertensão arterial. Diabetes tipo 2.");
+  const [diagnostico, setDiagnostico] = useState("");
   const [tempDiagnostico, setTempDiagnostico] = useState(diagnostico);
   const [isEditing, setIsEditing] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const appointmentResponse = await axios.get(`http://3.22.75.73:3000/appointments/b6cc9069-6fcd-471b-aff7-f24b37f12c2c`);
-        setAppointment(appointmentResponse.data);
-      
-        const patientResponse = await axios.get(`http://3.22.75.73:3000/patients/id/a145dde7-a9b9-43cb-a545-9b156bafb0fb`);
-        setPatient(patientResponse.data);
-        setDiagnostico(appointmentResponse.data.medical_record_final);
-        setTempDiagnostico(appointmentResponse.data.medical_record_final);
-      } catch (error) {
-        console.error("Erro ao buscar dados:", error);
-      }
-    };
+    getAppointment();
+  }, []);
 
-    fetchData();
-  }, ['b6cc9069-6fcd-471b-aff7-f24b37f12c2c']);
+  const getAppointment = async () => {
+    try {
+      const appointmentResponse = await axios.get(`http://3.22.75.73:3000/appointments/${id}`);
+      setAppointment(appointmentResponse.data); //isso aqui nao ta funcionando - appointment continua null
+    
+      const patientResponse = await axios.get(`http://3.22.75.73:3000/patients/id/${appointmentResponse.data.patient_id}`);
+      setPatient(patientResponse.data);
+      setDiagnostico(appointmentResponse.data.medical_record_final);
+      setTempDiagnostico(appointmentResponse.data.medical_record_final);
+    } catch (error) {
+      console.error("Erro ao buscar dados:", error);
+    }
+  };
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -70,7 +70,7 @@ export default function ViewChart({ navigation }: any) {
   const handleConfirm = async () => {
     try {
       const updatedAppointment = { ...appointment, medical_record_final: tempDiagnostico };
-      await axios.patch(`http://3.22.75.73:3000/appointments/b6cc9069-6fcd-471b-aff7-f24b37f12c2c`, updatedAppointment);
+      await axios.patch(`http://3.22.75.73:3000/appointments/${id}`, updatedAppointment);
       setDiagnostico(tempDiagnostico);
       setIsEditing(false);
       setIsEdited(false);
@@ -92,15 +92,15 @@ export default function ViewChart({ navigation }: any) {
         </Text>
         <View className="flex-1 bg-[#D0EFF0] items-center justify-center mt-8">
           <View className="w-72 h-48 bg-white rounded-3xl">
-            <Text className="text-sm text-gray-500 ml-5 mt-5">Nome</Text>
+            <Text className="text-sm text-gray-500 ml-5 mt-5">Paciente</Text>
             <Text className="text-sm text-timer ml-5">{patient.name?  patient.name : 'carregando...'}</Text>
             <Text className="text-sm text-gray-500 ml-5 mt-3">Idade</Text>
             <Text className="text-sm text-timer ml-5">{patient.date_of_birth && idade}</Text>
             <Text className="text-sm text-gray-500 ml-5 mt-3">
-              Data de Nascimento
+              Data da Consulta
             </Text>
             <Text className="text-sm text-timer ml-5">
-              { patient.date_of_birth && dataNascimentoFormatada }
+              { appointment.appointment_date }
             </Text>
           </View>
         </View>

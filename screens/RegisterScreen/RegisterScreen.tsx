@@ -24,29 +24,44 @@ const RegisterScreen = ({navigation}:any) => {
     }
    
     const handleRegister = async () => {
-        if (!email.trim()) {
-          setError("Por gentileza, insira seu email");
-          setEmailError(true);
-          return;
-        }
-        try {
-            const response = await axios.post('http://3.22.75.73:3000/doctors', {
-              name, email, password, crm
-            });
-            if (response.status !== 200) {
-              throw new Error("Falha ao registrar");
-            }
-            console.log('Registro realizado com sucesso!');
-            navigation.navigate("Login");  
-          } catch (error) {
-            if (axios.isAxiosError(error)) {
-              setError(error.response?.data.message || "Erro desconhecido");
-            } else {
-              setError("Erro ao processar a requisição");
-            }
-            console.error(error);
+      if (!email.trim()) {
+        setError("Por gentileza, insira seu email");
+        setEmailError(true);
+        return;
+      }
+      try {
+          const response = await axios.post('http://3.22.75.73:3000/doctors', {
+            name, email, password, crm
+          });
+          if (response.status !== 200) {
+            throw new Error("Falha ao registrar");
           }
-        };
+          console.log('Registro realizado com sucesso!');
+          navigation.navigate("Login");  
+      } catch (error) {
+          if (axios.isAxiosError(error)) {
+            setError(error.response?.data.message || "Erro desconhecido");
+          } else {
+            setError("Erro ao processar a requisição");
+          }
+          console.error(error);
+      }
+    };
+
+    const handleStateChange = async (itemValue: string) => {
+      setSelectedState(itemValue);
+  
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/doctorsCfm/${crm}/${itemValue}`
+        );
+        setName(res.data.name);
+        setSpeciality(res.data.speciality);
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
 
 
@@ -65,12 +80,12 @@ const RegisterScreen = ({navigation}:any) => {
                       iconName="map-outline"
                       placeholder="ESTADO"
                       selectedValue={selectedState}
-                      onValueChange={(itemValue: React.SetStateAction<string>) => setSelectedState(itemValue)}
+                      onValueChange={(itemValue: string) => handleStateChange(itemValue)}
                     />
                   </View>
                 </View>
-                <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setSpeciality}/>
-                <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality}/>
+                <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setName} value={name}/>
+                <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality} value={speciality} />
                 <View className="border-b-2 border-teal-600 w-4/5 my-2" />
 
                 <Input iconName={'business-outline'} placeholder={'Hospital'} className={'px-15'} onChangeText={setName}/>
