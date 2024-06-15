@@ -1,12 +1,14 @@
 
 import { Request, Response } from 'express';
 import { Appointment } from '../models/Appointment';
+import { AppointmentService } from '../services/appointment-services';
+
+
 
 export class AppointmentsController {
   public static async createAppointment(req: Request, res: Response) {
     try {
         const appointment = req.body;
-        appointment.doctor_id = 'add9827e-3107-4ce7-ab95-6bb140043835'
         appointment.appointment_date = Date.now();
         appointment.duration = 0;
         appointment.appointment_status = 'PROCESSING';
@@ -22,6 +24,7 @@ export class AppointmentsController {
     try{
       const {id} = req.params;
       const appointment = req.body;
+      appointment.appointment_status = 'APPROVED';
       const linesChanged = await Appointment.update(appointment, { where: {id}});
       const updateAppointment = await Appointment.findOne({ where: {id}});
       res.status(200).json(updateAppointment);
@@ -33,11 +36,37 @@ export class AppointmentsController {
   
   public static async getAppointments(req: Request, res: Response) {
     try {
-      const appointments = await Appointment.findAll();
-      res.status(200).json(appointments);
+        const appointments = await AppointmentService.getAppointments(req.query);
+        res.status(200).json(appointments);
     } catch (error) {
-      console.error("Erro ao buscar consultas", error);
-      res.status(500).json({ error: 'Erro ao buscar consultas' });
+        console.error("Erro ao buscar consultas", error);
+        res.status(500).json({ error: 'Erro ao buscar consultas' });
+    }
+  }
+
+  public static async getAppointmentById(req: Request, res: Response) {
+    try {
+        const { id } = req.params;
+        const appointments = await Appointment.findOne({ where: {id}});
+        res.status(200).json(appointments);
+    } catch (error) {
+        console.error("Erro ao buscar consultas", error);
+        res.status(500).json({ error: 'Erro ao buscar consultas' });
+    }
+  }
+
+  public static async deleteAppointment(req: Request, res: Response) {
+    try {
+        const { id } = req.params;
+        await AppointmentService.deleteAppointment(id);
+        res.status(200).end();
+    } catch (error ) {
+      console.error("Erro ao deletar consulta", error);
+      if (error instanceof Error) {
+        res.status(400).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Erro ao deletar consulta' });
+      }
     }
   }
 }

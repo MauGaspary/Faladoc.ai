@@ -62,7 +62,9 @@ CREATE TABLE appointments (
   appointment_date DATE NOT NULL,
   duration integer NOT NULL,
   hospital varchar(255),
-  appointment_status Status NOT NULL
+  appointment_status Status NOT NULL,
+  feedback_score integer,
+  feedback_text TEXT
 );
 
 CREATE TABLE password_resets (
@@ -170,7 +172,7 @@ INSERT INTO appointments (doctor_id, patient_id, appointment_context, medical_re
 INSERT INTO appointments (doctor_id, patient_id, appointment_context, medical_record_original, medical_record_final,  appointment_date, duration, hospital, appointment_status) values ('f131f2ad-e3aa-4cce-97dd-c7ab999af9d8', 'fcad7e5f-9804-4263-9a7b-aac5d517df95', 'Exame de imagem', 'Gravação original 20', 'Gravação final 20', '2021-03-01', '44', 'Hospital São Francisco', 'ERROR');
 
 
-INSERT INTO password_resets (user_id, token, expiration_date) VALUES ('add9827e-3107-4ce7-ab95-6bb140043835', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c', '2024-12-31');
+INSERT INTO password_resets (user_id, token, expiration_date) VALUES ('add9827e-3107-4ce7-ab95-6bb140043835', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5b', '2024-03-31');
 INSERT INTO password_resets (user_id, token, expiration_date) VALUES ('45d282d5-b8ca-4d73-9b88-c0b01c30cb70', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c', '2024-12-31');
 INSERT INTO password_resets (user_id, token, expiration_date) VALUES ('3bc44001-699f-4abc-bee4-6567913e3ced', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c', '2024-12-31');
 INSERT INTO password_resets (user_id, token, expiration_date) VALUES ('4cd17688-9e25-4b66-8a7e-834ace516984', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c', '2024-12-31');

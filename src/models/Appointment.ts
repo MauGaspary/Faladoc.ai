@@ -1,5 +1,6 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Op } from 'sequelize';
 import sequelize from '../db';
+import { Patient } from './Patient'; 
 
 export class Appointment extends Model {
   public id!: string;
@@ -12,7 +13,10 @@ export class Appointment extends Model {
   public duration!: number;
   public hospital!: string;
   public appointment_status!: string;
+  public feedback_score!: number;
+  public feedback_text!: string;
 }
+
 
 Appointment.init({
   id: {
@@ -56,9 +60,70 @@ Appointment.init({
         type: DataTypes.ENUM('PROCESSING', 'ERROR', 'WAITING_APPROVAL', 'APPROVED'),
         allowNull: false,
     },
+    feedback_score: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+    feedback_text: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+    },
 }, {
     sequelize,
     modelName: 'appointment',
     tableName: 'appointments',
     timestamps: false,
     });
+
+Appointment.belongsTo(Patient, { foreignKey: 'patient_id' });
+
+export interface AppointmentQueryParams {
+  patient_name?: string;
+  patient_id?: string;
+  appointment_date?: string;
+  hospital?: string;
+  appointment_status?: string;
+  doctor_id?:string;
+}
+
+export function buildAppointmentQuery(query: AppointmentQueryParams) {
+  const { patient_name, patient_id, appointment_date, hospital, appointment_status, doctor_id } = query;
+
+  let whereCondition: { [key: string]: any } = {};
+  if (patient_id) {
+      whereCondition['patient_id'] = {
+          [Op.eq]: patient_id
+      };
+  }
+
+  if (doctor_id) {
+    whereCondition['doctor_id'] = {
+        [Op.eq]: doctor_id
+    };
+}
+
+  if (appointment_date) {
+      whereCondition['appointment_date'] = {
+          [Op.eq]: new Date(appointment_date)
+      };
+  }
+  if (hospital) {
+      whereCondition['hospital'] = {
+          [Op.like]: `%${hospital}%`
+      };
+  }
+
+  if (appointment_status) {
+      whereCondition['appointment_status'] = {
+          [Op.eq]: appointment_status
+      };
+  }
+
+  let patientCondition = patient_name ? {
+      name: {
+          [Op.like]: `%${patient_name}%`
+      }
+  } : {};
+
+  return { whereCondition, patientCondition };
+}
