@@ -54,7 +54,7 @@ const RegisterScreen = ({navigation}:any) => {
   
       try {
         const res = await axios.get(
-          `http://localhost:3000/doctorsCfm/${crm}/${itemValue}`
+          `http://3.22.75.73:3000/doctorsCfm/${crm}/${itemValue}`
         );
         setName(res.data.name);
         setSpeciality(res.data.speciality);
