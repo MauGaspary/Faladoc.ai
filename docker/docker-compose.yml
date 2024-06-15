@@ -17,6 +17,18 @@ services:
       - RUNNING_IN_DOCKER=false
       - CORS_ORIGIN=http://localhost:8081
 
+# swagger:
+  swagger-ui:
+      image: swaggerapi/swagger-ui
+      container_name: swagger-ui
+      ports:
+        - "8081:8080"
+      volumes:
+        - ./swagger:/usr/share/nginx/html/swagger
+      environment:
+        API_URL: swagger/api.yaml
+        CORS_ORIGIN: http://localhost:8081
+
 #   db:
 #     image: postgres
 #     container_name: expo-app-db

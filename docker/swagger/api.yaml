@@ -1,0 +1,464 @@
+openapi: 3.0.3
+info:
+  title: Swagger Faladoc ai - OpenAPI 3.0
+  description: |-
+    This is a sample Faladoc Ai Server based on the OpenAPI 3.0 specification.
+  version: 1.0.11
+servers:
+  - url: http://localhost:3000/
+tags:
+  - name: login
+    description: Log in into the application
+  - name: doctors
+    description: Doctors
+  - name: users
+    description: Operations about user
+  - name: appointments
+    description: Operations about user
+  - name: patients
+    description: Operations about user
+paths:
+  /login: # meu
+    post:
+      tags:
+        - login
+      summary: Logs user into the system
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:         
+                  type: string
+                password: 
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: login successful
+          headers:
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '401':
+          description: Email ou senha inválidos
+        '404':
+          description: Usuário não encontrado
+  /users:
+    get:
+      tags:
+        - users
+      summary: getUser
+      description: Returns a User
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: andre@email.com
+        '404':
+          description: Usuário não encontrado
+        '500':
+          description: Erro ao buscar usuário
+    post:
+      tags:
+        - users
+      summary: createUser
+      description: Returns a User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:         
+                  type: string
+                  example: andre@email.com
+                password: 
+                  type: string
+                  example: senha@123
+                userType:
+                  type: string
+                  example: DOCTOR
+              required:
+                - email
+                - password
+                - userType
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: andre@email.com
+                  password: 
+                    type: string
+                    example: senha@123
+                  userType:
+                    type: string
+                    example: DOCTOR
+        '500':
+          description: Erro ao criar login de usuário
+  /users/{token}:
+    patch:
+      tags:
+        - users
+      summary: createUser
+      description: Returns a User
+      parameters:
+        - name: token
+          in: path
+          description: jwt token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password: 
+                  type: string
+                  example: senha@123
+              required:
+                - password
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: andre@email.com
+                  userType:
+                    type: string
+                    example: DOCTOR
+        '500':
+          description: Erro ao buscar usuário
+  /doctors: # meu
+    get:
+      tags:
+        - doctors
+      summary: getAllDoctors
+      description: Returns all doctors
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: integer
+                  format: int32
+    post:
+      tags:
+        - doctors
+      summary: createDoctor
+      description: create a doctor account
+      # operationId: placeOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Doctor'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+  /appointments:
+    get:
+      tags:
+        - appointments
+      summary: getAppointments
+      description: Returns all appointments
+      # TODO: essa request recebe um query.param que não sei o que é.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: andre@email.com
+        '404':
+          description: Usuário não encontrado
+        '500':
+          description: Erro ao buscar consultas
+    post:
+      tags:
+        - appointments
+      summary: createAppointment
+      description: create an appointment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                patient_id:
+                  type: string
+                  example: da551dfc-19d5-4507-ba29-d4093bd96007
+                doctor_id:
+                  type: string
+                  example: add9827e-3107-4ce7-ab95-6bb140043834
+                appointment_date:
+                  type: string
+                  example: 2024-06-03
+                duration:
+                  type: string
+                  example: 15
+                appointment_status:
+                  type: string
+                  example: PROCESSING
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Doctor'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+  /appointments/{id}:
+    patch:
+      tags:
+        - appointments
+      summary: updateAppointment
+      description: update an appointment
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password: 
+                  type: string
+                  example: senha@123
+              required:
+                - password
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: andre@email.com
+                  userType:
+                    type: string
+                    example: DOCTOR
+        '500':
+          description: Erro ao buscar usuário
+    delete:
+      tags:
+        - appointments
+      summary: deleteAppointment
+      description: update an appointment
+      parameters:
+        - name: id
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+        '500':
+          description: Erro ao deletar consulta
+  /patients/{name}:
+    get:
+      tags:
+        - patients
+      summary: getAppointments
+      description: Returns a patient by name
+      parameters:
+        - name: name
+          in: path
+          description: doctor name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                        type: string
+                        example: 123e4567-e89b-12d3-a456-426614174004
+                    name:
+                      type: string
+                      example: André da Silva
+                    date_of_birth:
+                      type: string
+                      example: 1990-01-01
+                    cpf:
+                      type: string
+                      example: 42030243078
+        '500':
+          description: Erro ao buscar pacientes
+  /patients:
+     post:
+      tags:
+        - patients
+      summary: createPatient
+      description: create a patient
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: da551dfc-19d5-4507-ba29-d4093bd96007
+                cpf:
+                  type: string
+                  example: 02036542777
+                name:
+                  type: string
+                  example: André da Silva
+                date_of_birth:
+                  type: string
+                  example: 1990-01-01
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: da551dfc-19d5-4507-ba29-d4093bd96007
+                  cpf:
+                    type: string
+                    example: 02036542777
+                  name:
+                    type: string
+                    example: André da Silva
+                  date_of_birth:
+                    type: string
+                    example: 1990-01-01'
+        '400':
+          description: Invalid input
+        '422':
+          description: Validation exception
+components:
+  schemas:
+    Doctor:
+      type: object
+      properties:
+        name:
+          type: string
+          example: André
+        crm:
+          type: integer
+          format: int32
+          example: 156349
+        hospital:
+          type: string
+          format: Moinhos de Vento
+        email:
+          type: string
+          example: andre@email.com
+        password:
+          type: string
+          example: senha@123
+        speciality:
+          type: string
+          example: Psiquiatra
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        username:
+          type: string
+          example: theUser
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: john@email.com
+        password:
+          type: string
+          example: '12345'
+        phone:
+          type: string
+          example: '12345'
+        userStatus:
+          type: integer
+          description: User Status
+          format: int32
+          example: 1
+  requestBodies:
+    Login:
+      description: Pet object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/User'
