@@ -72,7 +72,7 @@ CREATE TABLE password_resets (
   user_id uuid NOT NULL,
   token VARCHAR(255) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-  expiration_date DATE NOT NULL
+  expiration_date TIMESTAMP NOT NULL
 );
 
 ALTER TABLE doctors ADD CONSTRAINT fk_doctors_user_id FOREIGN KEY (user_id) REFERENCES users(id);
