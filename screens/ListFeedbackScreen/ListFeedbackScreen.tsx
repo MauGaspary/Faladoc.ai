@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import { AppointmentCard } from '../../components/AppointmentCard';
 import { FiltersComponent } from "../../components/FiltersComponent";
 
 import Navbar from "../../components/Navbar";
+import SessionContext from '../../provider/sessionContext';
+import axios from 'axios';
 
 interface Appointment {
   id: string;
@@ -27,6 +29,7 @@ const ListFeedbackScreen = ({ navigation }: any) => {
   const [filteredAppointments, setFilteredAppointments] = useState<Appointment[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [searchDate, setSearchDate] = useState<Date | null>(null);
+  const { doctorInfo } = useContext(SessionContext);
 
   useEffect(() => {
     fetchData();
@@ -38,8 +41,8 @@ const ListFeedbackScreen = ({ navigation }: any) => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://3.22.75.73:3000/appointments');
-      const data = await response.json();
+      const response = await axios.get(`http://3.22.75.73:3000/appointments?doctor_id=${doctorInfo.id}`);
+      const data = await response.data;
       setAppointments(data);
       setFilteredAppointments(data);
     } catch (error) {
@@ -74,20 +77,21 @@ const ListFeedbackScreen = ({ navigation }: any) => {
           setSearchDate(date);
         }}
       />
-      <ScrollView className='pt-4 px-4 w-full'>
+      <ScrollView className='px-4 mt-3 w-full h-80'>
+      <View className="flex items-center justify-center h-full">
         {filteredAppointments.map((appointment, index) => (
-          <TouchableOpacity  className='items-center w-full' onPress={() => navigation.navigate('Visualizar Prontuario', { patientId: appointment.patient_id })} /* Passar id do prontuario*/ >
+          <TouchableOpacity className='items-center w-full' key={index} onPress={() => navigation.navigate('Visualizar Prontuario', { id: appointment.id })} >
           <AppointmentCard 
             type="prontuario" 
             pacientName={appointment.patient.name}
             date={appointment.appointment_date}
-            specialty="Cardiologia" 
+            specialty={appointment.hospital} 
             status={appointment.appointment_status}
             context={appointment.appointment_context}
           />
         </TouchableOpacity>
         ))}
-        
+       </View>
       </ScrollView>
     </View>
     
