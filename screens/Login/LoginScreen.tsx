@@ -4,11 +4,12 @@ import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import { PasswordInput } from "../../components/PasswordInput";
 import SessionContext from "../../provider/sessionContext";
+import api from "../../api";
 import axios from "axios";
 import { ResetPasswordModal } from "../../components/ResetPasswordModal";
 
 
-export default function LoginScreen({navigation}:any) {
+export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -23,19 +24,16 @@ export default function LoginScreen({navigation}:any) {
       return;
     }
     try {
-      const response = await axios.post(
-        `http://3.22.75.73:3000/login`,
-        { email, password }
-      );
+      const response = await api.post('/login', { email, password });
       if (response.status !== 200) {
         throw new Error("Falha ao realizar o login");
       }
 
       const { id, name, crm } = response.data.doctor;
-      setDoctorInfo({ id, name, crm});
+      setDoctorInfo({ id, name, crm });
 
       console.log('Login realizado com sucesso!');
-      navigation.navigate("Home"); 
+      navigation.navigate("Home");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setError(error.response?.data.message || "Erro desconhecido");
@@ -45,7 +43,7 @@ export default function LoginScreen({navigation}:any) {
       console.error(error);
     }
   };
-  
+
   const handleEmailChange = (text: string) => {
     setEmail(text);
     if (emailError && text.trim()) {
