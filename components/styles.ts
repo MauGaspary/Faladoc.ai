@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     text: {
         textAlign: "center",
         color: '#FFF',
-        fontSize: 18
+        fontSize: 18,
+        fontFamily: 'Poppins'
     },
 })

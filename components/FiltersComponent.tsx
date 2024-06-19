@@ -1,10 +1,11 @@
 // @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
-import { Text, TextInput, View, TouchableOpacity, Platform } from "react-native";
+import { Text, TextInput, View, Pressable, Platform } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons"; // Adicionado MaterialIcons para o ícone de limpar
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import AppText from "./AppText";
 
 type FiltersComponentType = {
   onFilter: (searchTerm: string, searchDate: Date | null) => void;
@@ -69,24 +70,24 @@ export function FiltersComponent({ onFilter }: FiltersComponentType) {
                       onChangeText={handleDateInputChange}
                     />
                     {searchDate && (
-                      <TouchableOpacity onPress={clearDate}>
+                      <Pressable onPress={clearDate}>
                         <MaterialIcons name="clear" size={24} color="black" className="ml-2" />
-                      </TouchableOpacity>
+                      </Pressable>
                     )}
                   </View>
                 }
               />
             </View>
           ) : (
-            <TouchableOpacity onPress={() => setShowDatePicker(true)} className="flex-row items-center">
+            <Pressable onPress={() => setShowDatePicker(true)} className="flex-row items-center">
               <AntDesign name="calendar" size={24} color="black" className="ml-2" />
-              <Text className="ml-2 text-gray">{searchDate ? searchDate.toLocaleDateString('pt-BR') : "Buscar por data"}</Text>
+              <AppText className="ml-2 text-gray">{searchDate ? searchDate.toLocaleDateString('pt-BR') : "Buscar por data"}</AppText>
               {searchDate && (
-                <TouchableOpacity onPress={clearDate}>
+                <Pressable onPress={clearDate}>
                   <MaterialIcons name="clear" size={24} color="black" className="ml-2" />
-                </TouchableOpacity>
+                </Pressable>
               )}
-            </TouchableOpacity>
+            </Pressable>
           )}
         </View>
       </View>

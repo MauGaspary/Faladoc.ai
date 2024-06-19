@@ -7,6 +7,7 @@ import { PasswordInput } from "../../components/PasswordInput";
 import {  } from "react-native-svg";
 import axios from "axios";
 import Dropdown from "../../components/DropDown";
+import AppText from "../../components/AppText";
 
 const RegisterScreen = ({navigation}:any) => {
 
@@ -69,8 +70,8 @@ const RegisterScreen = ({navigation}:any) => {
     return(
     <KeyboardAvoidingView className="bg-background rounded-t-[30px] pt-2 max-w-full px-3">
         <ScrollView className="pb-8">
-            <Text className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</Text>
-            <Text className="text-[20px] text-[#505050] leading-48 text-left font-semibold">Digite o CRM e o Estado de Registro</Text>
+            <AppText className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</AppText>
+            <AppText className="text-[20px] text-[#505050] leading-48 text-left font-semibold">Digite o CRM e o Estado de Registro</AppText>
             <View className="bg-[#D0EFF0] items-center">
                 <View className="w-full flex-row justify-center space-x-2">
                   <View className="w-2/5">
@@ -94,10 +95,10 @@ const RegisterScreen = ({navigation}:any) => {
 
                 <PasswordInput mode="register"  getPassword={getPassword}/>    
                 <EnterButton onPress={()=>handleRegister()} text="Cadastrar"/>
-                <Text>Ja possui uma conta?</Text>
+                <AppText>Ja possui uma conta?</AppText>
 
                 <TouchableHighlight onPress={() => navigation.navigate("Login")}>
-                        <Text className={"underline text-teal-600"}>Entre</Text>
+                        <AppText className={"underline text-teal-600"}>Entre</AppText>
                 </TouchableHighlight>
             </View>
         </ScrollView>       

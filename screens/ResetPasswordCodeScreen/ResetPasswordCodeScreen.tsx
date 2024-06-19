@@ -4,11 +4,11 @@ import {
   Text,
   Keyboard,
   Pressable,
-  TouchableOpacity,
 } from "react-native";
 
 import CodeInput from "../../components/CodeInput";
 import { useEffect, useState } from "react";
+import AppText from "../../components/AppText";
 
 export default function ResetPasswordCodeScreen({ navigation }: any) {
 
@@ -44,30 +44,30 @@ export default function ResetPasswordCodeScreen({ navigation }: any) {
           className="w-36 h-36"
         />
         <View className="items-center">
-          <Text className="text-3xl text-white text-center">
+          <AppText className="text-3xl text-white text-center">
             Preencha o código enviado por email
-          </Text>
+          </AppText>
           <View className="space-x-6 my-16">
             <CodeInput pullCode={pullCode} key={Math.random()} />
           </View>
         </View>
         <View className="justify-end h-36">
           <View className="flex-row justify-center">
-            <Text className="text-lg text-white">Não recebeu o código?</Text>
-            <Text
+            <AppText className="text-lg text-white">Não recebeu o código?</AppText>
+            <AppText
               className="ml-2 text-lg text-background underline"
               onPress={() => console.log("Reenviar")}
             >
               Reenviar
-            </Text>
+            </AppText>
           </View>
           <View className="flex-row justify-center">
-            <Text
+            <AppText
               onPress={() => navigation.navigate("Login")}
               className="text-lg text-white underline"
             >
               Voltar
-            </Text>
+            </AppText>
           </View>
         </View>
       </View>

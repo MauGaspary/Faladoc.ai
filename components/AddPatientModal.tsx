@@ -7,6 +7,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 import axios from "axios";
 import SessionContext from "../provider/sessionContext";
+import AppText from "./AppText";
 
 export function AddPatientModal(this: any) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -128,7 +129,7 @@ export function AddPatientModal(this: any) {
                   placeholderTextColor={`rgba(${0}, ${0}, ${0}, ${0.3})`}
                   maxLength={10}
                   placeholder="Data de Nascimento"
-                  keyboardType="numeric"
+                  inputMode="numeric"
                   value={dataNascimento}
                   onChangeText={(masked: string, unmasked: string) => setDataNascimento(masked)}
                   mask={[/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
@@ -151,7 +152,7 @@ export function AddPatientModal(this: any) {
                 mask={[/\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "-", /\d/, /\d/]}
               />
             </View>
-              {!isCpfValid && <Text className="text-red-500 text-xs pl-4">CPF inválido</Text>}
+              {!isCpfValid && <AppText className="text-red-500 text-xs pl-4">CPF inválido</AppText>}
 
             <View className="items-center">
               <Pressable
@@ -193,7 +194,7 @@ export function AddPatientModal(this: any) {
             <View className="bg-[#00E733] rounded-full w-[70px] h-[70px] justify-center items-center">
               <FontAwesome5 name="check-circle" size={60} color="white" />
             </View>
-            <Text className="text-lg text-center font-bold opacity-30">Cadastro realizado com sucesso!</Text>
+            <AppText className="text-lg text-center font-bold opacity-30">Cadastro realizado com sucesso!</AppText>
           </View>
         </View>
       </Modal>
@@ -202,7 +203,7 @@ export function AddPatientModal(this: any) {
         className="bg-[#12ADC4] w-[282px] rounded-[15px] flex flex-row p-3 justify-around"
         onPress={() => setModalVisible(true)}
       >
-        <Text className="text-white font-bold">Cadastrar Novo Paciente</Text>
+        <AppText className="text-white font-bold flex items-center">Cadastrar Novo Paciente</AppText>
         <FontAwesome name="plus" size={24} color="white" />
       </Pressable>
     </>

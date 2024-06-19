@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Modal, Pressable, Text, View, ModalProps } from "react-native";
 import Input from "./Input";
 import EnterButton from "./EnterButton";
+import AppText from "./AppText";
 
 type ResetPasswordModalProps = {
   modalVisible: boolean;
@@ -69,8 +70,8 @@ export function ResetPasswordModal({
           >
             <EvilIcons name="close" size={24} color="black" />
           </Pressable>
-          <Text className="text-2xl mb-4">Esqueci minha senha</Text>
-          <Text className="text-lg mb-2">Insira seu email</Text>
+          <AppText className="text-2xl mb-4">Esqueci minha senha</AppText>
+          <AppText className="text-lg mb-2">Insira seu email</AppText>
           <Input
             value={email}
             onChangeText={setEmail}
@@ -98,9 +99,9 @@ export function ResetPasswordModal({
             <View className="bg-invalid rounded-full w-[70px] h-[70px] justify-center items-center">
               <FontAwesome name="close" size={60} color="white" />
             </View>
-            <Text className="text-lg text-center font-bold opacity-30">
+            <AppText className="text-lg text-center font-bold opacity-30">
               Problema no envio de email
-            </Text>
+            </AppText>
           </View>
         </View>
       </Modal>

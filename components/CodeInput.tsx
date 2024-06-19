@@ -1,11 +1,11 @@
 import { useRef, useState } from "react";
+import AppText from "./AppText";
 import {
   NativeSyntheticEvent,
   Pressable,
   Text,
   TextInput,
   TextInputKeyPressEventData,
-  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -119,16 +119,16 @@ export default function CodeInput({ pullCode }: CodeProps) {
           </View>
         </Pressable>
       </View>
-      <TouchableOpacity
+      <Pressable
         onPress={() => pullCode(otp)}
         className="flex-row rounded-full p-3 mt-5 bg-teal-950 justify-center shadow-lg w-full"
       >
         <View className="w-full justify-center items-center">
-          <Text className="text-white text-lg mt-1 justify-center items-center">
+          <AppText className="text-white text-lg mt-1 justify-center items-center">
             Confirmar código
-          </Text>
+          </AppText>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </>
   );
 }

@@ -7,11 +7,8 @@ import { Header, createStackNavigator } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import Navbar from "../../components/Navbar";
 
-
-
 import { AddPatientModal } from '../../components/AddPatientModal';
-
-
+import AppText from "../../components/AppText";
 
 const StartSimpleScreen = () => {
   return (
@@ -20,7 +17,7 @@ const StartSimpleScreen = () => {
       className="flex-1 justify-center items-center"
     >
       <View className='flex flex-col h-screen'>
-        <Text  className="text-4xl text-center font-bold opacity-60 ">FALADOC</Text>
+        <AppText  className="text-4xl text-center font-bold opacity-60 ">FALADOC</AppText>
 
 
         <AddPatientModal/>

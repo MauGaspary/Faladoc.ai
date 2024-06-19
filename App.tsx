@@ -1,17 +1,17 @@
-import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import axios from 'axios';
 import { SessionProvider } from "./provider/sessionContext";
+import * as Font from 'expo-font';
+
 
 
 //import Screens
 import LoginScreen from  './screens/Login/LoginScreen';
-import ConsultaAndamentoScreen from "./screens/ConsultaAndamento/ConsultaAndamentoScreen";
+import OngoingAppointmentScreen from "./screens/OngoingAppointmentScreen/OngoingAppointmentScreen";
 import HomeScreen from './screens/HomeScreen/HomeScreen';
-import IniciarNovaConsultaScreen from './screens/IniciarNovaConsulta/IniciarNovaConsultaScreen';
-import ProcessandoConsultaScreen from "./screens/ProcessandoConsulta/ProcessandoConsultaScreen";
+import StartNewAppointmentScreen from './screens/StartNewAppointmentScreen/StartNewAppointmentScreen';
+import ProcessingAppointmentScreen from "./screens/ProcessingAppointmentScreen/ProcessingAppointmentScreen";
 import PasswordResetScreen from './screens/PasswordResetScreen/PasswordResetScreen';
 
 
@@ -21,8 +21,8 @@ import { NativeWindStyleSheet } from 'nativewind';
 import { enableScreens } from 'react-native-screens';
 import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
 import ResetPasswordCodeScreen from './screens/ResetPasswordCodeScreen/ResetPasswordCodeScreen';
-import ListFeedbackScreen from './screens/ListFeedbackScreen/ListFeedbackScreen';
-import ViewChart from './screens/ViewChart/ViewChart';
+import ListChartsScreen from './screens/ListChartsScreen/ListChartsScreen';
+import ViewChartScreen from './screens/ViewChartScreen/ViewChartScreen';
 
 
 enableScreens();
@@ -42,6 +42,25 @@ NativeWindStyleSheet.setOutput({
 
 
 export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  async function loadFonts() {
+    await Font.loadAsync({
+      'Poppins': require('./assets/fonts/Poppins/Poppins-Regular.ttf'),
+      'Poppins-Bold': require('./assets/fonts/Poppins/Poppins-Bold.ttf'),
+      'Poppins-SemiBold': require('./assets/fonts/Poppins/Poppins-SemiBold.ttf'),
+    });
+    setFontsLoaded(true);
+  }
+
+  useEffect(() => {
+    loadFonts();  
+  }, []);
+
+  if (!fontsLoaded) {
+    return "Erro Fonte";
+  }
+
   return (
 
     <SessionProvider>
@@ -51,21 +70,21 @@ export default function App() {
           
           <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}/>
           
-          <Stack.Screen name='Cadastro' component={RegisterScreen}/>
+          <Stack.Screen name='Register' component={RegisterScreen} options={{ headerShown: false }}/>
 
           <Stack.Screen name="ResetPasswordCode" component={ResetPasswordCodeScreen} options={{ headerShown: false }}/>
           
-          <Stack.Screen name='Iniciar nova Consulta' component={IniciarNovaConsultaScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name='StartNewAppointment' component={StartNewAppointmentScreen} options={{ headerShown: false }}/>
 
-          <Stack.Screen name='Listagem Prontuarios' component={ListFeedbackScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name='ListCharts' component={ListChartsScreen} options={{ headerShown: false }}/>
 
-          <Stack.Screen name='Visualizar Prontuario' component={ViewChart} options={{ headerShown: false }}/>
+          <Stack.Screen name='ViewChart' component={ViewChartScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name="ResetPassword" component={PasswordResetScreen} options={{ headerShown: false }}/>
           
-          <Stack.Screen name='Consulta Andamento' component={ConsultaAndamentoScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name='OngoingAppointment' component={OngoingAppointmentScreen} options={{ headerShown: false }}/>
 
-          <Stack.Screen name='Processando Consulta' component={ProcessandoConsultaScreen} options={{ headerShown: false }}/>
+          <Stack.Screen name='ProcessingAppointment' component={ProcessingAppointmentScreen} options={{ headerShown: false }}/>
           
         </Stack.Navigator>
       </NavigationContainer>

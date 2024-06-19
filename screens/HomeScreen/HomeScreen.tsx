@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Pressable } from "react-native";
 import SessionContext from "../../provider/sessionContext";
 import HomeButtons from "../../components/ButtonsOnHome";
 import Navbar from "../../components/Navbar";
 import { AppointmentCard } from "../../components/AppointmentCard";
 import axios from "axios";
+import AppText from "../../components/AppText";
 
 export default function HomeScreen({ navigation }: any) {
   const [appointments, setAppointments] = useState([]);
@@ -44,20 +45,21 @@ export default function HomeScreen({ navigation }: any) {
   return (
     <View className="bg-background h-full">
       <View className="mx-11 mt-8">
-        <Text className="mb-2 mt-8 text-2xl text-timer leading-48 text-left">
-          Olá, <Text className="text-timer font-bold">{doctorInfo.name}</Text>
-        </Text>
-        <Text className="mb-5 text-2xl text-timer font-semibold leading-48 text-left">
-          CRM <Text className="text-timer font-semibold">{doctorInfo.crm}</Text>
-        </Text>
+        <AppText className="mb-2 mt-4 text-2xl leading-48 text-left">
+          Olá, <AppText className="font-bold">{doctorInfo.name}</AppText>
+        </AppText>
+        <AppText className="mb-5 text-2xl font-semibold leading-48 text-left">
+          CRM <AppText className="font-semibold">{doctorInfo.crm}</AppText>
+        </AppText>
       </View>
+
       <View className="items-center mx-11">
         <HomeButtons
           text="Nova consulta"
           icon="mic-outline"
           size="full"
           onPress={() => {
-            navigation.navigate("Iniciar nova Consulta");
+            navigation.navigate("StartNewAppointment");
           }}
         ></HomeButtons>
         <View className="items-center w-full">
@@ -65,37 +67,51 @@ export default function HomeScreen({ navigation }: any) {
             <HomeButtons
               text="Prontuários"
               icon="document-outline"
-              onPress={() => navigation.navigate("Listagem Prontuarios")}
+              onPress={() => navigation.navigate("ListCharts")}
             />
             <HomeButtons
               text="Pacientes"
               icon="person-outline"
-              onPress={() => navigation.navigate("Visualizar Prontuario", { id: 'adff2ced-c73d-4394-8f06-bfc9068c7c3a' })}
+              onPress={() =>
+                navigation.navigate("ViewChart", {
+                  id: "adff2ced-c73d-4394-8f06-bfc9068c7c3a",
+                })
+              }
             />
           </View>
         </View>
       </View>
       <View className="mx-11 mt-7">
-        <Text className="text-subtitle text-base font-semibold">
-          Consultas em processamento
-        </Text>
+        <AppText className="text-subtitle text-base font-semibold">
+          Prontuários em processamento
+        </AppText>
         <ScrollView className="mt-3 w-full h-80">
           <View className="flex items-center justify-center h-full">
             {appointments.length === 0 ? (
-              <Text className="text-base text-subtitle mt-24">
+              <AppText className="text-base text-subtitle mt-24">
                 Não foram encontradas consultas
-              </Text>
+              </AppText>
             ) : (
               appointments.map((appointment: any, index: number) => (
                 <View key={index} style={{ width: "100%" }}>
-                  <AppointmentCard
-                    type="prontuario"
-                    pacientName={getFirstAndLastName(appointment.patient.name)}
-                    date={formatDate(appointment.appointment_date)}
-                    specialty={appointment.hospital}
-                    status={appointment.appointment_status}
-                    context={appointment.appointment_context}
-                  />
+                  <Pressable
+                    className="items-center w-full"
+                    key={index}
+                    onPress={() =>
+                      navigation.navigate("ViewChart", { id: appointment.id })
+                    }
+                  >
+                    <AppointmentCard
+                      type="prontuario"
+                      pacientName={getFirstAndLastName(
+                        appointment.patient.name
+                      )}
+                      date={formatDate(appointment.appointment_date)}
+                      specialty={appointment.hospital}
+                      status={appointment.appointment_status}
+                      context={appointment.appointment_context}
+                    />
+                  </Pressable>
                 </View>
               ))
             )}

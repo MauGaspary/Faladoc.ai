@@ -6,13 +6,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Header, createStackNavigator } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import Navbar from "../../components/Navbar";
+import AppText from "../../components/AppText";
 
 
 
 const ExampleScreen = () => {
   return (
       <View style={styles.container}>
-        <Text style={styles.textBig}>Example Screen</Text>
+        <AppText style={styles.textBig}>Example Screen</AppText>
         <Navbar/>
       </View>
    

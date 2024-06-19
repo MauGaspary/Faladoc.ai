@@ -6,6 +6,7 @@ import { CancelConsultationButton } from "../../components/CancelConsultationBut
 import CancelConsultationModal from "../../components/CancelConsultationModal";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 import SessionContext from "../../provider/sessionContext";
+import AppText from "../../components/AppText";
 
 
 export default function ConsultaAndamento({navigation}:any) {
@@ -125,7 +126,7 @@ export default function ConsultaAndamento({navigation}:any) {
           ...appoitmentInfos,
           duration: minutes * 60 + seconds,
         });
-        navigation.navigate('Processando Consulta');
+        navigation.navigate('ProcessingAppointment');
       }
     } catch (error) {
       console.error(error);
@@ -151,7 +152,7 @@ export default function ConsultaAndamento({navigation}:any) {
         setRecording(null);
       }
       setIsModalVisible(false);
-      navigation.navigate("Iniciar nova Consulta");
+      navigation.navigate("StartNewAppointment");
     } catch (error) {
       console.log(error);
       Alert.alert(
@@ -174,17 +175,17 @@ export default function ConsultaAndamento({navigation}:any) {
       </View>
       <View className="text-center">
         {recording && started ? (
-          <Text className="text-2xl font-semibold">Gravando</Text>
+          <AppText className="text-2xl font-semibold">Gravando</AppText>
         ) : (
-          !stopped && <Text className="text-2xl font-semibold">Pausado</Text>
+          !stopped && <AppText className="text-2xl font-semibold">Pausado</AppText>
         )}
       </View>
       <View className="mb-20">
         {(recording || !stopped) && (
-          <Text className="text-timer text-center font-bold text-4xl mt-4">
+          <AppText className="text-timer text-center font-bold text-4xl mt-4">
             {minutes < 10 ? "0" + minutes : minutes}:
             {seconds < 10 ? "0" + seconds : seconds}
-          </Text>
+          </AppText>
         )}
       </View>
       <View className="flex flex-row mt-10 items-center justify-center">

@@ -4,6 +4,8 @@ import { Text, View } from "react-native";
 import { TextInput } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
+import AppText from "./AppText";
+
 type PasswordInputProps = {
   mode: 'login' | 'register';
   getPassword: (e:string) => void;
@@ -45,7 +47,7 @@ export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
             {passwordValidations.map(({ rule, isValid }, index) => (
               <View key={index} className={`flex-row justify-start`}>
                 <Feather name={isValid ? "check" : "x"} size={16} color={isValid ? "green" : "red"} />
-                <Text className={`${isValid ? "text-green-600" : "text-red-600"} text-[16px]`}>{rule}</Text>
+                <AppText className={`${isValid ? "text-green-600" : "text-red-600"} text-[16px]`}>{rule}</AppText>
               </View>
             ))}
           </View>

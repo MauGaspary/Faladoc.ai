@@ -1,4 +1,5 @@
 import { View, Text } from "react-native";
+import AppText from "./AppText";
 
 interface AppointmentCardProps {
   type: string;
@@ -42,24 +43,24 @@ export function AppointmentCard({
         <View
           className={`bg-white w-full py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem] ${color}`}
         >
-          <Text className="text-lg font-bold text-[1.125rem] text-gray-900">
+          <AppText className="text-lg font-bold text-[1.125rem] text-gray-900">
             {pacientName} - {date}
-          </Text>
-          <Text className="text-gray-700 text-[1rem]">{context}</Text>
-          <Text className="text-timer font-semibold">{specialty}</Text>
+          </AppText>
+          <AppText className="text-gray-700 text-[1rem]">{context}</AppText>
+          <AppText className="text-timer font-semibold">{specialty}</AppText>
         </View>
       ) : (
         type == "paciente" && (
           <View
             className={`bg-white w-full py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem] ${color}`}
           >
-            <Text className="text-lg font-bold text-[1.125rem] text-gray-900">
+            <AppText className="text-lg font-bold text-[1.125rem] text-gray-900">
               {pacientName}
-            </Text>
-            <Text className="text-gray-700 text-[1rem]">
+            </AppText>
+            <AppText className="text-gray-700 text-[1rem]">
               Ultima consulta - {date}
-            </Text>
-            <Text className="text-timer font-semibold">{specialty}</Text>
+            </AppText>
+            <AppText className="text-timer font-semibold">{specialty}</AppText>
           </View>
         )
       )}

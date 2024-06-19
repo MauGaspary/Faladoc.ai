@@ -3,8 +3,9 @@ import HomeButton from "../../components/Homebutton";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import SessionContext from "../../provider/sessionContext";
+import AppText from "../../components/AppText";
 
-export default function ProcessandoConsultaScreen({ navigation }: any) {
+export default function ProcessingAppointmentScreen({ navigation }: any) {
   const { appoitmentInfos, patientInfo, setAppoitmentInfos, setPatientInfo } =
     useContext(SessionContext);
   const [formattedTime, setFormattedTime] = useState("");
@@ -79,12 +80,12 @@ export default function ProcessandoConsultaScreen({ navigation }: any) {
       date_of_birth: "",
       cpf: "",
     });
-    navigation.navigate("Iniciar nova Consulta");
+    navigation.navigate("StartNewAppointment");
   };
 
   return (
     <View className="flex flex-col h-screen justify-around items-center bg-background">
-      <Text className="mt-10 text-black text-left text-lg py-screen">
+      <AppText className="mt-10 text-black text-left text-lg py-screen">
         {"\n\n"}
         Paciente: {patientInfo.name}
         {"\n"}
@@ -95,7 +96,7 @@ export default function ProcessandoConsultaScreen({ navigation }: any) {
         Duração: {formattedTime}
         {"\n\n "}
         Processando
-      </Text>
+      </AppText>
 
       <ActivityIndicator size={70} color={"grey"} className="mt-10 mb-10" />
 

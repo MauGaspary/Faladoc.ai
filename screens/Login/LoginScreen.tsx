@@ -7,6 +7,7 @@ import SessionContext from "../../provider/sessionContext";
 import api from "../../api";
 import axios from "axios";
 import { ResetPasswordModal } from "../../components/ResetPasswordModal";
+import AppText from "../../components/AppText";
 
 
 export default function LoginScreen({ navigation }: any) {
@@ -32,7 +33,6 @@ export default function LoginScreen({ navigation }: any) {
       const { id, name, crm } = response.data.doctor;
       setDoctorInfo({ id, name, crm });
 
-      console.log('Login realizado com sucesso!');
       navigation.navigate("Home");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -60,9 +60,9 @@ export default function LoginScreen({ navigation }: any) {
         style={{ width: 144, height: 144, marginHorizontal: 28, position: 'absolute', top: 28, alignSelf: 'center' }}
       />
       <View style={{ flex: 1, backgroundColor: "#FFFFFF", marginTop: 192, borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 48, height: "100%" }}>
-        <Text style={{ marginBottom: 20, fontSize: 40, color: "#264653", textAlign: 'left', marginLeft: 32 }}>
+        <AppText style={{ marginBottom: 20, fontSize: 40, color: "#264653", textAlign: 'left', marginLeft: 32 }}>
           Login
-        </Text>
+        </AppText>
         <View style={{ alignItems: 'center', paddingHorizontal: 32 }}>
           <Input
             iconName={"person-outline"}
@@ -75,27 +75,27 @@ export default function LoginScreen({ navigation }: any) {
             getPassword={(password) => setPassword(password)}
           />
           {error ? (
-            <Text style={{ color: "red", marginBottom: 10 }}>{error}</Text>
+            <AppText style={{ color: "red", marginBottom: 10 }}>{error}</AppText>
           ) : null}
-          <Text
+          <AppText
             className="text-lightGreen underline cursor-pointer my-2"
             onPress={() =>
               setPasswordResetModal(true)
             } /* irá navegar para a tela (ou modal) da solicitação de redefinição de senha */
           >
             Esqueci minha senha
-          </Text>
+          </AppText>
           <EnterButton
             onPress={handleLogin}          
             text="Entrar"
           />
-          <Text style={{ color: "#264653" }}>Não possui conta? </Text>
-          <Text
+          <AppText style={{ color: "#264653" }}>Não possui conta? </AppText>
+          <AppText
             style={{ color: "#2A9D8F", textDecorationLine: 'underline' }}
-            onPress={() => navigation.navigate("Cadastro")}
+            onPress={() => navigation.navigate("Register")}
           >
             Cadastre-se
-          </Text>
+          </AppText>
         </View>
       </View>
     </View>

@@ -1,8 +1,9 @@
-import { Pressable, TouchableOpacity} from "react-native";
+import { Pressable} from "react-native";
 import { PauseIcon } from "../assets/icons/PauseIcon";
 import { StopIcon } from "../assets/icons/StopIcon";
 import { PlayIcon } from "../assets/icons/PlayIcon";
 import { useState } from "react";
+import AppText from "./AppText";
 
 type StopPauseButtonProps = {
   type: "stop" | "pause";

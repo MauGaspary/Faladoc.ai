@@ -8,9 +8,10 @@ import ConsultationConfirmationModal from "../../components/ConsultationConfirma
 import Navbar from "../../components/Navbar";
 import { FilterInput } from "../../components/FilterInput";
 import SessionContext from "../../provider/sessionContext";
+import AppText from "../../components/AppText";
 import axios from "axios";
 
-const IniciarNovaConsultaScreen = ({ navigation }: any) => {
+const StartNewAppointmentScreen = ({ navigation }: any) => {
   const [isPatientSelected, setIsPatientSelected] = useState(true);
 
   const { appoitmentInfos, setAppoitmentInfos, patientInfo, doctorInfo } =
@@ -63,7 +64,7 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
       
       setModalVisible(false);
       
-      navigation.navigate("Consulta Andamento");
+      navigation.navigate("OngoingAppointment");
       
     } catch (error) {
       console.error(error);
@@ -83,8 +84,8 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
       <View className="h-full bg-background items-center justify-center px-4">
         <AddPatientModal />
 
-        <Text className="mt-3">ou</Text>
-        <Text className="mt-1 mb-3">Pesquise pelo Nome</Text>
+        <AppText className="mt-3">ou</AppText>
+        <AppText className="mt-1 mb-3">Pesquise pelo Nome</AppText>
 
         <FilterInput isPatientSelected={isPatientSelected} />
 
@@ -120,4 +121,4 @@ const IniciarNovaConsultaScreen = ({ navigation }: any) => {
   );
 };
 
-export default IniciarNovaConsultaScreen;
+export default StartNewAppointmentScreen;

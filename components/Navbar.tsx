@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Pressable, KeyboardAvoidingView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
@@ -25,7 +25,7 @@ const Navbar = () => {
         case 'Home':
           setSelectedIcon('home');
           break;
-        case 'Iniciar nova Consulta':
+        case 'StartNewAppointment':
           setSelectedIcon('mic');
           break;
         case 'Profile': 
@@ -40,29 +40,29 @@ const Navbar = () => {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
       <View className='flex-row justify-around items-center bg-[#F7FFFF] py-4 px-8 shadow-md absolute bottom-0 left-0 w-full'>
-        <TouchableOpacity onPress={() => handleIconPress('home', 'Home')}>
+        <Pressable onPress={() => handleIconPress('home', 'Home')}>
           {selectedIcon === 'home' ? (
             <Ionicons name="home-sharp" size={35} color="#12ADB4" />
           ) : (
             <Ionicons name="home-outline" size={35} color="#12ADB4" />
           )}
-        </TouchableOpacity>
+        </Pressable>
 
-        <TouchableOpacity onPress={() => handleIconPress('mic', 'Iniciar nova Consulta')}>
+        <Pressable onPress={() => handleIconPress('mic', 'StartNewAppointment')}>
           {selectedIcon === 'mic' ? (
             <Ionicons name="mic-sharp" size={35} color="#12ADB4" />
           ) : (
             <Ionicons name="mic-outline" size={35} color="#12ADB4" />
           )}
-        </TouchableOpacity>
+        </Pressable>
 
-        <TouchableOpacity>
+        <Pressable>
           {selectedIcon === 'person' ? (
             <Ionicons name="person" size={35} color="#12ADB4" />
           ) : (
             <Ionicons name="person-outline" size={35} color="#12ADB4" />
           )}
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </KeyboardAvoidingView>
   );
