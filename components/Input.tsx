@@ -3,7 +3,7 @@ import { View, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 
-const Input = ({iconName, placeholder ,value, onChangeText, variant}:any) => {
+const Input = ({iconName, placeholder ,value, onChangeText, variant,editable=true}:any) => {
   const [text, setText] = useState('');
   return (
     <View className={`w-full flex-row border-2 rounded-full p-3 my-2 bg-white ${variant == 'error' ? 'border-invalid' : 'border-lightGreen'}`}>
@@ -14,6 +14,7 @@ const Input = ({iconName, placeholder ,value, onChangeText, variant}:any) => {
         placeholderTextColor="gray"
         value={value}
         onChangeText={onChangeText}
+        editable={editable}
       />
     </View>
   );
