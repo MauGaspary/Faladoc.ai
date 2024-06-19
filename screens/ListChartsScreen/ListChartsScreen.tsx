@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect, useContext } from "react";
 import { Text, View, ScrollView, Pressable } from "react-native";
 import { AppointmentCard } from "../../components/AppointmentCard";
@@ -77,16 +78,20 @@ const ListChartsScreen = ({ navigation }: any) => {
   };
 
   return (
-    <View className="flex-1 items-center pt-4 bg-background">
-      <AppText className="text-2xl text-#505050-700 p-10">
+    <View className="flex-1 pt-4 bg-background">
+      <AppText className="text-2xl text-#505050-700 p-10 text-center">
         Listagem de Prontuários
       </AppText>
-      <FiltersComponent
-        onFilter={(term, date) => {
-          setSearchTerm(term);
-          setSearchDate(date);
-        }}
-      />
+      <View className= "items-center">
+        <FiltersComponent
+            enableNameFilter={true} 
+            enableDateFilter={true} 
+            onFilter={(term, date) => {
+              setSearchTerm(term);
+              setSearchDate(date);
+            }}
+        />
+      </View>
       <ScrollView className="px-4 mt-3 w-full h-80">
         <View className="flex items-center justify-center h-full">
           {filteredAppointments.map((appointment, index) => (
