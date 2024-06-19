@@ -20,34 +20,7 @@ const RegisterScreen = ({navigation}:any) => {
     const [error, setError] = useState("");
     const [emailError, setEmailError] = useState(false);
     const [selectedState, setSelectedState] = useState('');
-    const getPassword = (newPassword:string) => {
-        setPassword(newPassword)
-    }
    
-    const handleRegister = async () => {
-      if (!email.trim()) {
-        setError("Por gentileza, insira seu email");
-        setEmailError(true);
-        return;
-      }
-      try {
-          const response = await axios.post('http://3.22.75.73:3000/doctors', {
-            name, email, password, crm, hospital, specialty
-          });
-          if (response.status !== 200) {
-            throw new Error("Falha ao registrar");
-          }
-          console.log('Registro realizado com sucesso!');
-          navigation.navigate("Login");  
-      } catch (error) {
-          if (axios.isAxiosError(error)) {
-            setError(error.response?.data.message || "Erro desconhecido");
-          } else {
-            setError("Erro ao processar a requisição");
-          }
-          console.error(error);
-      }
-    };
 
     const handleStateChange = async (itemValue: string) => {
       setSelectedState(itemValue);
@@ -82,7 +55,7 @@ const RegisterScreen = ({navigation}:any) => {
         password,
         crm: crmWithState,
         hospital,
-        speciality
+        specialty
       });
       if (response.status !== 200) {
         throw new Error("Falha ao registrar");
@@ -101,9 +74,9 @@ const RegisterScreen = ({navigation}:any) => {
 
   return (
     <KeyboardAvoidingView className="bg-background rounded-t-[30px] pt-2 max-w-full px-3">
-        <ScrollView className="pb-8">
-            <AppText className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</AppText>
-            <AppText className="text-[20px] text-[#505050] leading-48 text-left font-semibold">Digite o CRM e o Estado de Registro</AppText>
+      <ScrollView className="pb-8">
+        <AppText className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</AppText>
+        <AppText className="text-[20px] text-[#505050] leading-48 text-left font-semibold">Digite o CRM e o Estado de Registro</AppText>
             <View className="bg-[#D0EFF0] items-center">
                 <View className="w-full flex-row justify-center space-x-2">
                   <View className="w-2/5">
@@ -133,27 +106,6 @@ const RegisterScreen = ({navigation}:any) => {
                         <AppText className={"underline text-teal-600"}>Entre</AppText>
                 </TouchableHighlight>
             </View>
-            <View className="grow">
-              <Dropdown
-                iconName="map-outline"
-                placeholder="ESTADO"
-                selectedValue={selectedState}
-                onValueChange={(itemValue: React.SetStateAction<string>) => setSelectedState(itemValue)}
-              />
-            </View>
-          </View>
-          <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setName} />
-          <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality} />
-          <View className="border-b-2 border-teal-600 w-4/5 my-2" />
-          <Input iconName={'business-outline'} placeholder={'Hospital'} className={'px-15'} onChangeText={setHospital} />
-          <Input iconName={'mail-outline'} placeholder={'Email'} value={email} onChangeText={setEmail} />
-          <PasswordInput mode="register" getPassword={getPassword} />
-          <EnterButton onPress={handleRegister} text="Cadastrar" />
-          <Text>Ja possui uma conta?</Text>
-          <TouchableHighlight onPress={() => navigation.navigate("Login")}>
-            <Text className={"underline text-teal-600"}>Entre</Text>
-          </TouchableHighlight>
-        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
