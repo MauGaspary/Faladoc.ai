@@ -13,6 +13,31 @@ export default function ProcessandoConsultaScreen({ navigation }: any) {
     updateAppointment();
   }, []);
 
+  async function sendAppointmentInfo() {
+    // We need to make sure the audio file is in the correct format accepted by the API
+    // In this case, we are sending a .wav file, but we need to enforce a file for both IOS and Android
+    const url = "/";
+    const audioFile = new File([""], "audio.wav", {
+      type: "audio/wav",
+    });
+    const formData = new FormData();
+    formData.append("audio_file", audioFile);
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    try {
+      const response = await axios.post(url, formData, config);
+      return response;
+    } catch (error) {
+      console.error("Error sending POST request:", error);
+      throw error;
+    }
+  }
+
   const updateAppointment = async () => {
     try {
       const body = {
@@ -58,11 +83,7 @@ export default function ProcessandoConsultaScreen({ navigation }: any) {
   };
 
   return (
-
-
     <View className="flex flex-col h-screen justify-around items-center bg-background">
-
-
       <Text className="mt-10 text-black text-left text-lg py-screen">
         {"\n\n"}
         Paciente: {patientInfo.name}
@@ -76,13 +97,12 @@ export default function ProcessandoConsultaScreen({ navigation }: any) {
         Processando
       </Text>
 
-      <ActivityIndicator size={70} color={"grey"}  className="mt-10 mb-10"/>
-      
+      <ActivityIndicator size={70} color={"grey"} className="mt-10 mb-10" />
+
       <HomeButton
         name="Voltar para a tela inicial"
         onPress={handleHomeButton}
       />
-
     </View>
   );
 }

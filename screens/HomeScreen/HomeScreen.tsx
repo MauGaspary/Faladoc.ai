@@ -17,7 +17,7 @@ export default function HomeScreen({ navigation }: any) {
   const getAppointments = async () => {
     try {
       const res = await axios.get(
-        `http://3.22.75.73:3000/appointments?doctor_id=${doctorInfo.id}`
+        `http://3.22.75.73:3000/appointments?doctor_id=${doctorInfo.id}&appointment_status=PROCESSING`
       );
       setAppointments(res.data);
     } catch (error) {
@@ -70,7 +70,7 @@ export default function HomeScreen({ navigation }: any) {
             <HomeButtons
               text="Pacientes"
               icon="person-outline"
-              onPress={() => navigation.navigate("Visualizar Prontuario")}
+              onPress={() => navigation.navigate("Visualizar Prontuario", { id: 'adff2ced-c73d-4394-8f06-bfc9068c7c3a' })}
             />
           </View>
         </View>
