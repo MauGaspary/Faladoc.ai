@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Patient } from '../models/Patient';
 import { Op } from 'sequelize';
+import { PatientService } from '../services/patient-service';
 
 export class PatientsController {
 
