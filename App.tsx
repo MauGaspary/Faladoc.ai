@@ -13,6 +13,7 @@ import HomeScreen from './screens/HomeScreen/HomeScreen';
 import StartNewAppointmentScreen from './screens/StartNewAppointmentScreen/StartNewAppointmentScreen';
 import ProcessingAppointmentScreen from "./screens/ProcessingAppointmentScreen/ProcessingAppointmentScreen";
 import PasswordResetScreen from './screens/PasswordResetScreen/PasswordResetScreen';
+import ListRecordsScreen from './screens/ListRecordsScreen/ListRecordsScreen';
 
 
 
@@ -66,6 +67,9 @@ export default function App() {
     <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
+
+          <Stack.Screen name='ListRecords' component={ListRecordsScreen} options={{ headerShown: false }}/>
+
           <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}/>
