@@ -1,13 +1,22 @@
-import { View, Text, ActivityIndicator, Dimensions } from "react-native";
+import { View, Text, ActivityIndicator, Dimensions, Platform } from "react-native";
 import HomeButton from "../../components/Homebutton";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
 
+const getAudioFileUri = (uri: string) => {
+  return Platform.OS === 'android' ? uri : uri.replace('file://', '');
+};
+
 export default function ProcessingAppointmentScreen({ navigation }: any) {
-  const { appoitmentInfos, patientInfo, setAppoitmentInfos, setPatientInfo } =
-    useContext(SessionContext);
+  const {
+    appoitmentInfos,
+    patientInfo,
+    setAppoitmentInfos,
+    setPatientInfo,
+    uriPath,
+  } = useContext(SessionContext);
   const [formattedTime, setFormattedTime] = useState("");
 
   useEffect(() => {
@@ -17,25 +26,28 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
   async function sendAppointmentInfo() {
     // We need to make sure the audio file is in the correct format accepted by the API
     // In this case, we are sending a .wav file, but we need to enforce a file for both IOS and Android
-    const url = "/";
-    const audioFile = new File([""], "audio.wav", {
-      type: "audio/wav",
-    });
+    
+    const url = "https://0njnx.apps.beam.cloud/api/v1/prontuarios?stream=true";
+    const filetype = uriPath.split(".").pop();
+    
+    const fileUri = getAudioFileUri(uriPath);
     const formData = new FormData();
-    formData.append("audio_file", audioFile);
-
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
-
+  
+    formData.append('audio_file', {
+      audio_file: uriPath,
+      type: `audio/${filetype}`,
+      name: 'test-01.wav',
+    });
+  
     try {
-      const response = await axios.post(url, formData, config);
-      return response;
+      const response = await axios.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Upload successful:', response.data);
     } catch (error) {
-      console.error("Error sending POST request:", error);
-      throw error;
+      console.error('Upload failed:', error);
     }
   }
 

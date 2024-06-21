@@ -7,6 +7,7 @@ import CancelConsultationModal from "../../components/CancelConsultationModal";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
+import axios from "axios";
 
 
 export default function ConsultaAndamento({navigation}:any) {
