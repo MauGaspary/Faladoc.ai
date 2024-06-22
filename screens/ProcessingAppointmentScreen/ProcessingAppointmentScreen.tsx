@@ -1,4 +1,10 @@
-import { View, Text, ActivityIndicator, Dimensions, Platform } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  Dimensions,
+  Platform,
+} from "react-native";
 import HomeButton from "../../components/Homebutton";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
@@ -6,7 +12,7 @@ import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
 
 const getAudioFileUri = (uri: string) => {
-  return Platform.OS === 'android' ? uri : uri.replace('file://', '');
+  return Platform.OS === "android" ? uri : uri.replace("file://", "");
 };
 
 export default function ProcessingAppointmentScreen({ navigation }: any) {
@@ -18,36 +24,40 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
     uriPath,
   } = useContext(SessionContext);
   const [formattedTime, setFormattedTime] = useState("");
+  const [waitingResponse, setWaitingResponse] = useState(false);
 
   useEffect(() => {
-    updateAppointment();
+    sendAppointmentInfo();
+    // updateAppointment();
   }, []);
 
   async function sendAppointmentInfo() {
     // We need to make sure the audio file is in the correct format accepted by the API
     // In this case, we are sending a .wav file, but we need to enforce a file for both IOS and Android
-    
-    const url = "https://0njnx.apps.beam.cloud/api/v1/prontuarios?stream=true";
+
+    const url = "https://0njnx.apps.beam.cloud/api/v1/prontuarios";
     const filetype = uriPath.split(".").pop();
-    
-    const fileUri = getAudioFileUri(uriPath);
+    const fileName = uriPath.split("/").pop();
+
+    const response = await fetch('/audio/test-02.wav');
+    // const response = await fetch(getAudioFileUri(uriPath));
+    const blob = await response.blob();
     const formData = new FormData();
-  
-    formData.append('audio_file', {
-      audio_file: uriPath,
-      type: `audio/${filetype}`,
-      name: 'test-01.wav',
-    });
-  
+
+    formData.append("audio_file", blob, `${fileName}.${filetype}`);
+
     try {
+      setWaitingResponse(true);
       const response = await axios.post(url, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
-      console.log('Upload successful:', response.data);
+      setWaitingResponse(false);
+
+      console.log("Upload successful:", response.data);
     } catch (error) {
-      console.error('Upload failed:', error);
+      console.error("Upload failed:", error);
     }
   }
 
@@ -113,6 +123,7 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
       <ActivityIndicator size={70} color={"grey"} className="mt-10 mb-10" />
 
       <HomeButton
+        disabled={waitingResponse}
         name="Voltar para a tela inicial"
         onPress={handleHomeButton}
       />
