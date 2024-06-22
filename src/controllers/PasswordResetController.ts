@@ -22,7 +22,7 @@ export class PasswordResetController {
           const options = {
             method: 'POST',
             headers: { Authorization: `Bearer ${process.env.BEARER_TOKEN}`, 'Content-Type': 'application/json' },
-            body: `{"email":"${email}","transactionalId":"${process.env.TRANSACTIONAL_ID}","dataVariables":{ "reset_code": "${generatedCode}" }}`
+            body: `{"email":"${email}","transactionalId":"${process.env.TRANSACTIONAL_ID}","dataVariables":{ "authenticateCode": "${generatedCode}" }}`
           };
 
           fetch('https://app.loops.so/api/v1/transactional', options)
