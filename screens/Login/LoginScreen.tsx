@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Text, Image, Keyboard, Pressable } from "react-native";
+import { View, Image, Pressable, Keyboard } from "react-native";
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import { PasswordInput } from "../../components/PasswordInput";
@@ -8,7 +8,6 @@ import api from "../../api";
 import axios from "axios";
 import { ResetPasswordModal } from "../../components/ResetPasswordModal";
 import AppText from "../../components/AppText";
-
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState("");
@@ -71,6 +70,7 @@ export default function LoginScreen({ navigation }: any) {
       setPasswordError(false);
     }
   };
+  
 
   return (
     <Pressable className="bg-lightGreen h-full relative" onPress={handleScreenPress}>
@@ -99,10 +99,10 @@ export default function LoginScreen({ navigation }: any) {
             <AppText className="text-invalid mb-6">{error}</AppText>
           ) : null}
           <AppText
-            className="text-lightGreen underline cursor-pointer my-2"
+            className="text-lightGreen underline cursor-pointer my-2 mb-3"
             onPress={() =>
               setPasswordResetModal(true)
-            } /* irá navegar para a tela (ou modal) da solicitação de redefinição de senha */
+            } 
           >
             Esqueci minha senha
           </AppText>
@@ -110,7 +110,7 @@ export default function LoginScreen({ navigation }: any) {
             onPress={handleLogin}
             text="Entrar"
           />
-          <AppText className="text-subtitle">Não possui conta? </AppText>
+          <AppText className="text-subtitle mt-3 mb-1">Não possui conta? </AppText>
           <AppText
             className="text-lightGreen underline cursor-pointer"
             onPress={() => navigation.navigate("Register")}
