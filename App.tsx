@@ -23,6 +23,7 @@ import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
 import ResetPasswordCodeScreen from './screens/ResetPasswordCodeScreen/ResetPasswordCodeScreen';
 import ListChartsScreen from './screens/ListChartsScreen/ListChartsScreen';
 import ViewChartScreen from './screens/ViewChartScreen/ViewChartScreen';
+import ListPatientsScreen from './screens/ListPatientsScreen/ListPatientsScreen';
 
 
 enableScreens();
@@ -66,6 +67,7 @@ export default function App() {
     <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
+        
           <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}/>
@@ -79,6 +81,8 @@ export default function App() {
           <Stack.Screen name='ListCharts' component={ListChartsScreen} options={{ headerShown: false }}/>
 
           <Stack.Screen name='ViewChart' component={ViewChartScreen} options={{ headerShown: false }}/>
+
+          <Stack.Screen name='ViewPatients' component={ListPatientsScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name="ResetPassword" component={PasswordResetScreen} options={{ headerShown: false }}/>
           
