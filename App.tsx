@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SessionProvider } from "./provider/sessionContext";
-import * as Font from 'expo-font';
 
 
 
@@ -44,23 +43,6 @@ NativeWindStyleSheet.setOutput({
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  async function loadFonts() {
-    await Font.loadAsync({
-      'Poppins': require('./assets/fonts/Poppins/Poppins-Regular.ttf'),
-      'Poppins-Bold': require('./assets/fonts/Poppins/Poppins-Bold.ttf'),
-      'Poppins-SemiBold': require('./assets/fonts/Poppins/Poppins-SemiBold.ttf'),
-    });
-    setFontsLoaded(true);
-  }
-
-  useEffect(() => {
-    loadFonts();  
-  }, []);
-
-  if (!fontsLoaded) {
-    return "Erro Fonte";
-  }
 
   return (
 
