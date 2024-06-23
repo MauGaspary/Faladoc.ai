@@ -1,18 +1,34 @@
-import { View, Text, ActivityIndicator, Dimensions } from "react-native";
+import { View, Text, ActivityIndicator, Dimensions, Pressable, Modal } from "react-native";
 import HomeButton from "../../components/Homebutton";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function ProcessingAppointmentScreen({ navigation }: any) {
   const { appoitmentInfos, patientInfo, setAppoitmentInfos, setPatientInfo } =
     useContext(SessionContext);
   const [formattedTime, setFormattedTime] = useState("");
+  const [modalVisibility, setModalVisibility] = useState(false);
+  const [status, setStatus] = useState("");
+
 
   useEffect(() => {
     updateAppointment();
   }, []);
+
+  useEffect(() => {
+    if (status === "success" || status === "error") {
+      const timer = setTimeout(() => {
+        setModalVisibility(false);
+        navigation.navigate("Iniciar nova Consulta");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [status, navigation]);
+
 
   async function sendAppointmentInfo() {
     // We need to make sure the audio file is in the correct format accepted by the API
@@ -59,10 +75,38 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
           .toString()
           .padStart(2, "0")}`
       );
+
+      if (res.status === 200) {
+        setStatus("success");
+        setModalVisibility(true);
+      } else {
+        setStatus("error");
+        setModalVisibility(true);
+      }
+
+      setFormattedTime(`${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`);
       return res.data;
-    } catch (error) {
+  } catch (error) {
+      setStatus("error");
+      setModalVisibility(true);
       console.log(error);
     }
+  };
+
+  useEffect(() => {
+    if (status === "success" || status === "error") {
+      const timer = setTimeout(() => {
+        setModalVisibility(false);
+        navigation.navigate("Iniciar nova Consulta");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [status, navigation]);
+
+  const handleModalPress = () => {
+    setModalVisibility(false);
+    navigation.navigate("Iniciar nova Consulta"); // replace 'Home' with the name of your Home screen
   };
 
   const { width, height } = Dimensions.get("window");
@@ -104,6 +148,36 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         name="Voltar para a tela inicial"
         onPress={handleHomeButton}
       />
+
+{status === "success" ? (
+        <Pressable onPress={handleModalPress}>
+        <Modal animationType="none" transparent={true} visible={modalVisibility}>
+            <View className="flex self-center border-[1px] rounded-[15px] border-lightGreen my-auto bg-white w-[80%] p-5">
+              <View className="items-center gap-7">
+                <View className="bg-[#00E733] rounded-full w-[70px] h-[70px] justify-center items-center">
+                  <FontAwesome5 name="check-circle" size={60} color="white" />
+                </View>
+                <Text className="text-lg text-center font-bold opacity-30">Prontuario processado com sucesso!</Text>
+              </View>
+            </View>
+        </Modal>
+          </Pressable>
+      ) : status === "error" ? (
+          <Pressable onPress={handleModalPress}>
+        <Modal animationType="none" transparent={true} visible={modalVisibility}>
+            <View className="flex self-center border-[1px] rounded-[15px] border-lightRed my-auto bg-white w-[80%] p-5">
+              <View className="items-center gap-7">
+                <View className="bg-[#FF0000] rounded-full w-[70px] h-[70px] justify-center items-center">
+                  <FontAwesome5 name="times-circle" size={60} color="white" />
+                </View>
+                <Text className="text-lg text-center font-bold opacity-30">
+                  Ocorreu um erro ao processar o prontuario!
+                </Text>
+              </View>
+            </View>
+        </Modal>
+          </Pressable>
+      ) : null}x'
     </View>
   );
 }
