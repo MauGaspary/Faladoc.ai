@@ -24,22 +24,18 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
     uriPath,
   } = useContext(SessionContext);
   const [formattedTime, setFormattedTime] = useState("");
-  const [waitingResponse, setWaitingResponse] = useState(false);
+  const [waitingResponse, setWaitingResponse] = useState(true);
 
   useEffect(() => {
-    sendAppointmentInfo();
-    // updateAppointment();
+    sendAppointmentInfoAndUpdateAppointment();
   }, []);
 
-  async function sendAppointmentInfo() {
-    // We need to make sure the audio file is in the correct format accepted by the API
-    // In this case, we are sending a .wav file, but we need to enforce a file for both IOS and Android
-
+  async function sendAppointmentInfoAndUpdateAppointment() {
     const url = "https://0njnx.apps.beam.cloud/api/v1/prontuarios";
     const filetype = uriPath.split(".").pop();
     const fileName = uriPath.split("/").pop();
 
-    const response = await fetch('/audio/test-02.wav');
+    const response = await fetch("/audio/test-02.wav");
     // const response = await fetch(getAudioFileUri(uriPath));
     const blob = await response.blob();
     const formData = new FormData();
@@ -53,39 +49,36 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
           "Content-Type": "multipart/form-data",
         },
       });
-      setWaitingResponse(false);
 
-      console.log("Upload successful:", response.data);
+      try {
+        const body = {
+          medical_record_original: response.data,
+        };
+        const res = await axios.patch(
+          `http://3.22.75.73:3000/appointments/${appoitmentInfos.id}`,
+          body
+        );
+        const seconds = appoitmentInfos.duration;
+        // const seconds = 300;
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+
+        setFormattedTime(
+          `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+            .toString()
+            .padStart(2, "0")}`
+        );
+
+        setWaitingResponse(false);
+        return res.data;
+      } catch (error) {
+        setWaitingResponse(false);
+        console.log(error);
+      }
     } catch (error) {
       console.error("Upload failed:", error);
     }
   }
-
-  const updateAppointment = async () => {
-    try {
-      const body = {
-        medical_record_original:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos inventore porro tenetur iusto, quae tempora numquam corrupti dolor voluptas soluta commodi neque aperiam earum accusantium ipsa? Et, quae esse Reprehenderit corporis corrupti ullam, aut fuga nulla deleniti ducimus modi error quam possimus sunt explicabo nobis consectetur veritatis vitae id sequi in aspernatur commodi aperiam qui inventore maiores. Distinctio, ex",
-      };
-      // const res = await axios.patch(`http://3.22.75.73:3000/appointments/${appointment_id}`, body)
-      const res = await axios.patch(
-        `http://3.22.75.73:3000/appointments/${appoitmentInfos.id}`,
-        body
-      );
-      const seconds = appoitmentInfos.duration;
-      const minutes = Math.floor(seconds / 60);
-      const remainingSeconds = seconds % 60;
-
-      setFormattedTime(
-        `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-          .toString()
-          .padStart(2, "0")}`
-      );
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const { width, height } = Dimensions.get("window");
 
@@ -107,7 +100,7 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
 
   return (
     <View className="flex flex-col h-screen justify-around items-center bg-background">
-      <AppText className="mt-10 text-black text-left text-lg py-screen">
+      <AppText className="mt-10 text-black text-left text-lg">
         {"\n\n"}
         Paciente: {patientInfo.name}
         {"\n"}
@@ -116,11 +109,24 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         Contexto: {appoitmentInfos.contexto}
         {"\n"}
         Duração: {formattedTime}
-        {"\n\n "}
-        Processando
       </AppText>
 
-      <ActivityIndicator size={70} color={"grey"} className="mt-10 mb-10" />
+      <View className="flex flex-col gap-3">
+        {waitingResponse ? (
+          <>
+            <ActivityIndicator
+              size={70}
+              color={"grey"}
+              className="mt-10 mb-10"
+            />
+            <AppText className="mt-10 text-black  text-left text-lg">
+              Consulta em processamento, aguarde...
+            </AppText>
+          </>
+        ) : (
+          <AppText className="mt-10 text-black  text-left text-lg">Processamento finalizado</AppText>
+        )}
+      </View>
 
       <HomeButton
         disabled={waitingResponse}
