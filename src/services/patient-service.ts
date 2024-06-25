@@ -1,6 +1,5 @@
-import { request } from 'express';
-import { Patient, buildPatientQueryParams, PatientQueryParams } from '../models/Patient';
 import { Op } from 'sequelize';
+import { Patient, buildPatientQueryParams, PatientQueryParams } from '../models/Patient';
 
 export class PatientService {
     static async getPatients(query: PatientQueryParams) {
@@ -15,6 +14,16 @@ export class PatientService {
 
         return patients;
         
+    }
+
+    static async getPatientsByName(name: string) {
+        const patients = await Patient.findAll({
+            where: { name: { [Op.like]: `%${name}%` } },
+            attributes: ['id', 'name', 'date_of_birth', 'cpf']
+        });
+
+        return patients;
+
     }
 
     static async deletePatient(id: string) {
