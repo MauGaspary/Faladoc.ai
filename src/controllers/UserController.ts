@@ -48,8 +48,9 @@ export class UserController {
         }
 
 
-        const expirationDate = new Date(passwordResetToken.expiration_date);
-        if (expirationDate < new Date()) {
+ 
+        if (passwordResetToken.expiration_date < new Date()) {
+            await PasswordReset.destroy({ where: { token: passwordResetToken.token } });
             return res.status(400).json({ error: 'Solicitação expirada.' });
         }
 
@@ -66,6 +67,7 @@ export class UserController {
         user.passwordsalt = salt;
     
         await user.save();
+        await PasswordReset.destroy({ where: { user_id: user.id } });
     
         return res.status(200).json({ message: 'Senha alterada com sucesso.' });
     } catch (error) {
