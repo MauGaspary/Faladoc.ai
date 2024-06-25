@@ -41,26 +41,26 @@ export function AppointmentCard({
     <>
       {type == "prontuario" ? (
         <View
-          className={`bg-white w-full h-24 py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem] ${color}`}
+          className={`bg-white w-full h-24 py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem]${color}`}
         >
-          <AppText className="text-lg font-bold text-[1.125rem] text-gray-900 truncate">
+          <AppText className="text-lg font-bold text-[1.125rem] text-gray-900 line-clamp-1">
             {pacientName} - {date}
           </AppText>
-          <AppText className="text-gray-700 text-[1rem] truncate">{context}</AppText>
-          <AppText className="text-timer font-semibold truncate">{hospital}</AppText>
+          <AppText className="text-gray-700 text-[1rem] line-clamp-1">{context}</AppText>
+          <AppText className="text-timer font-semibold line-clamp-1 ">{hospital}</AppText>
         </View>
       ) : (
         type == "paciente" && (
           <View
-            className={`bg-white w-full py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem] ${color}`}
+            className={`bg-white w-full h-24 py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem] ${color}`}
           >
-            <AppText className="text-lg font-bold text-[1.125rem] text-gray-900 truncate">
+            <AppText className="text-lg font-bold text-[1.125rem] text-gray-900 line-clamp-1 ">
               {pacientName}
             </AppText>
-            <AppText className="text-gray-700 text-[1rem] truncate">
+            <AppText className="text-gray-700 text-[1rem] line-clamp-1 ">
               Ultima consulta - {date}
             </AppText>
-            <AppText className="text-timer font-semibold truncate">{hospital}</AppText>
+            <AppText className="text-timer font-semibold line-clamp-1 ">{hospital}</AppText>
           </View>
         )
       )}
