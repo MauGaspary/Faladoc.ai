@@ -62,10 +62,10 @@ export function buildPatientQueryParams(query: PatientQueryParams) {
   if (name) {
     whereCondition['name'] = {[Op.like]: `%${name}%`};
   }
-
+  
   if (cpf) {
     whereCondition['cpf'] = {[Op.eq]: cpf};
   }
 
-  return { whereCondition};
+  return  whereCondition;
 }

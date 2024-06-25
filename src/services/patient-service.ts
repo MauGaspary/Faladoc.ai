@@ -5,7 +5,7 @@ import { Op } from 'sequelize';
 export class PatientService {
     static async getPatients(query: PatientQueryParams) {
         const whereCondition = buildPatientQueryParams(query);
-
+        
         const patients = await Patient.findAll({
             where: whereCondition,
             attributes: { 
