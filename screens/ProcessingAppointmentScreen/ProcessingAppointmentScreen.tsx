@@ -45,6 +45,17 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
     const formData = new FormData();
 
     formData.append("audio_file", blob, `${fileName}.${filetype}`);
+    
+    const seconds = appoitmentInfos.duration;
+        // const seconds = 300;
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+
+        setFormattedTime(
+          `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+            .toString()
+            .padStart(2, "0")}`
+        );
 
     try {
       setWaitingResponse(true);
@@ -62,24 +73,23 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
           `http://3.22.75.73:3000/appointments/${appoitmentInfos.id}`,
           body
         );
-        const seconds = appoitmentInfos.duration;
-        // const seconds = 300;
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-
-        setFormattedTime(
-          `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-            .toString()
-            .padStart(2, "0")}`
-        );
 
         setStatus("success");
+        setModalVisibility(true);
+
+        setTimeout(() => {
+          setModalVisibility(false);
+        }, 5000);
 
         setWaitingResponse(false);
         return res.data;
       } catch (error) {
         setWaitingResponse(false);
         setStatus("error");
+        setModalVisibility(true);
+        setTimeout(() => {
+          setModalVisibility(false);
+        }, 5000);
         console.log(error);
       }
     } catch (error) {
