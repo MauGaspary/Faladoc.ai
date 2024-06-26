@@ -9,6 +9,7 @@ import {
 import CodeInput from "../../components/CodeInput";
 import { useEffect, useState } from "react";
 import AppText from "../../components/AppText";
+import api from "../../api";
 
 export default function ResetPasswordCodeScreen({ navigation }: any) {
 
@@ -20,7 +21,7 @@ export default function ResetPasswordCodeScreen({ navigation }: any) {
   
   useEffect(() => {
     if (code.length === 4) {
-      handleLogin();   
+      handleCode();
     }
   }, [code]);
 
@@ -30,10 +31,18 @@ export default function ResetPasswordCodeScreen({ navigation }: any) {
     }
   };
 
-  const handleLogin = () => {
+  const handleCode = async () => {
     // Chamada para o back para verificar se o código é válido
-    console.log("Código válido");
-    navigation.navigate(`ResetPassword`, { code: code });
+    try {
+      const response = await api.get(`/passwordReset/${code}`);
+      if (response.status !== 200) {
+        throw new Error("Falha ao realizar o reset de senha");
+      }
+
+      navigation.navigate(`ResetPassword`, { code: code });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
