@@ -1,7 +1,7 @@
 // @ts-nocheck
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, TextInput, View, Pressable, Platform } from "react-native";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons"; // Adicionado MaterialIcons para o ícone de limpar
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,9 +9,11 @@ import AppText from "./AppText";
 
 type FiltersComponentType = {
   onFilter: (searchTerm: string, searchDate: Date | null) => void;
+  enableNameFilter?: boolean; 
+  enableDateFilter?: boolean; 
 };
 
-export function FiltersComponent({ onFilter }: FiltersComponentType) {
+export function FiltersComponent({ onFilter, enableNameFilter = true, enableDateFilter = true }: FiltersComponentType) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchDate, setSearchDate] = useState<Date | null>(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -43,53 +45,57 @@ export function FiltersComponent({ onFilter }: FiltersComponentType) {
   return (
     <View className="border rounded-[30px] py-3 px-4 mb-3 w-11/12 flex-col items-center bg-white z-10">
       <View className="flex flex-row items-center w-full">
-        <View className="flex-row items-center w-2/4 border-r">
-          <AntDesign name="search1" size={24} color="black" className="mr-2" />
-          <TextInput
-            className="flex ml-2 text-gray w-3/4"
-            placeholder="Buscar por nome"
-            placeholderTextColor="gray"
-            value={searchTerm}
-            onChangeText={setSearchTerm}
-          />
-        </View>
-        <View className="flex-row items-center w-2/4 pl-2">
-          {Platform.OS === 'web' ? (
-            <View className="flex-row items-center w-full">
-              <DatePicker
-                selected={searchDate}
-                onChange={(date) => handleDateChange(date as Date)}
-                customInput={
-                  <View className="flex-row items-center w-full">
-                    <AntDesign name="calendar" size={24} color="black" className="ml-2" />
-                    <TextInput
-                      className="flex ml-2 text-gray w-3/4"
-                      value={searchDate ? searchDate.toLocaleDateString('pt-BR') : ""}
-                      placeholder="Buscar por data"
-                      placeholderTextColor="gray"
-                      onChangeText={handleDateInputChange}
-                    />
-                    {searchDate && (
-                      <Pressable onPress={clearDate}>
-                        <MaterialIcons name="clear" size={24} color="black" className="ml-2" />
-                      </Pressable>
-                    )}
-                  </View>
-                }
-              />
-            </View>
-          ) : (
-            <Pressable onPress={() => setShowDatePicker(true)} className="flex-row items-center">
-              <AntDesign name="calendar" size={24} color="black" className="ml-2" />
-              <AppText className="ml-2 text-gray">{searchDate ? searchDate.toLocaleDateString('pt-BR') : "Buscar por data"}</AppText>
-              {searchDate && (
-                <Pressable onPress={clearDate}>
-                  <MaterialIcons name="clear" size={24} color="black" className="ml-2" />
-                </Pressable>
-              )}
-            </Pressable>
-          )}
-        </View>
+        {enableNameFilter && (
+          <View className={`flex-row items-center w-2/4 ${enableDateFilter ? 'border-r ' : ''}`}>
+            <AntDesign name="search1" size={24} color="black" className="mr-2" />
+            <TextInput
+              className="flex ml-2 text-gray w-3/4"
+              placeholder="Buscar por nome"
+              placeholderTextColor="gray"
+              value={searchTerm}
+              onChangeText={setSearchTerm}
+            />
+          </View>
+        )}
+        {enableDateFilter && (
+          <View className="flex-row items-center w-2/4 pl-2">
+            {Platform.OS === 'web' ? (
+              <View className="flex-row items-center w-full">
+                <DatePicker
+                  selected={searchDate}
+                  onChange={(date) => handleDateChange(date as Date)}
+                  customInput={
+                    <View className="flex-row items-center w-full">
+                      <AntDesign name="calendar" size={24} color="black" className="ml-2" />
+                      <TextInput
+                        className="flex ml-2 text-gray w-3/4"
+                        value={searchDate ? searchDate.toLocaleDateString('pt-BR') : ""}
+                        placeholder="Buscar por data"
+                        placeholderTextColor="gray"
+                        onChangeText={handleDateInputChange}
+                      />
+                      {searchDate && (
+                        <Pressable onPress={clearDate}>
+                          <MaterialIcons name="clear" size={24} color="black" className="ml-2" />
+                        </Pressable>
+                      )}
+                    </View>
+                  }
+                />
+              </View>
+            ) : (
+              <Pressable onPress={() => setShowDatePicker(true)} className="flex-row items-center">
+                <AntDesign name="calendar" size={24} color="black" className="ml-2" />
+                <AppText className="ml-2 text-gray">{searchDate ? searchDate.toLocaleDateString('pt-BR') : "Buscar por data"}</AppText>
+                {searchDate && (
+                  <Pressable onPress={clearDate}>
+                    <MaterialIcons name="clear" size={24} color="black" className="ml-2" />
+                  </Pressable>
+                )}
+              </Pressable>
+            )}
+          </View>
+        )}
       </View>
       {showDatePicker && Platform.OS !== 'web' && (
         <DateTimePicker

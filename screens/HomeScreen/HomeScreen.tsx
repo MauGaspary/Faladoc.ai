@@ -72,11 +72,7 @@ export default function HomeScreen({ navigation }: any) {
             <HomeButtons
               text="Pacientes"
               icon="person-outline"
-              onPress={() =>
-                navigation.navigate("ViewChart", {
-                  id: "adff2ced-c73d-4394-8f06-bfc9068c7c3a",
-                })
-              }
+              onPress={() => navigation.navigate("ViewPatients")}
             />
           </View>
         </View>

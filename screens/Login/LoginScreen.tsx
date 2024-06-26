@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Image, Pressable, Keyboard } from "react-native";
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import { PasswordInput } from "../../components/PasswordInput";
@@ -9,19 +9,28 @@ import axios from "axios";
 import { ResetPasswordModal } from "../../components/ResetPasswordModal";
 import AppText from "../../components/AppText";
 
-
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const { setDoctorInfo } = useContext(SessionContext);
   const [passwordResetModal, setPasswordResetModal] = useState(false);
+
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
 
   const handleLogin = async () => {
     if (!email.trim()) {
       setError("Por gentileza, insira seu email");
       setEmailError(true);
+      return;
+    } 
+    if (!password.trim()) {
+      setError("Por gentileza, insira sua senha");
+      setPasswordError(true);
       return;
     }
     try {
@@ -36,7 +45,9 @@ export default function LoginScreen({ navigation }: any) {
       navigation.navigate("Home");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setError(error.response?.data.message || "Erro desconhecido");
+        setError(error.response?.data.message || "Credenciais inválidas.");
+        setPasswordError(true)
+        setEmailError(true)
       } else {
         setError("Erro ao processar a requisição");
       }
@@ -51,19 +62,28 @@ export default function LoginScreen({ navigation }: any) {
       setEmailError(false);
     }
   };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+    if (passwordError && text.trim()) {
+      setError("");
+      setPasswordError(false);
+    }
+  };
   
+
   return (
-    <View style={{ backgroundColor: "#069696", height: "100%", position: "relative" }}>
+    <Pressable className="bg-lightGreen h-full relative" onPress={handleScreenPress}>
       <ResetPasswordModal navigation={navigation} modalVisible={passwordResetModal} setModalVisible={setPasswordResetModal} />
       <Image
         source={require("../../assets/splash.png")}
-        style={{ width: 144, height: 144, marginHorizontal: 28, position: 'absolute', top: 28, alignSelf: 'center' }}
+        className="w-36 h-36 mx-7 absolute top-7 self-center"
       />
-      <View style={{ flex: 1, backgroundColor: "#FFFFFF", marginTop: 192, borderTopLeftRadius: 30, borderTopRightRadius: 30, paddingTop: 48, height: "100%" }}>
-        <AppText style={{ marginBottom: 20, fontSize: 40, color: "#264653", textAlign: 'left', marginLeft: 32 }}>
+      <Pressable className="flex-1 bg-background mt-48 rounded-t-[30px] pt-12 h-full" onPress={handleScreenPress}>
+        <AppText className="mb-5 text-[40px] text-subtitle leading-48 text-left ml-8">
           Login
         </AppText>
-        <View style={{ alignItems: 'center', paddingHorizontal: 32 }}>
+        <View className="items-center px-8">
           <Input
             iconName={"person-outline"}
             placeholder={"Email"}
@@ -73,31 +93,32 @@ export default function LoginScreen({ navigation }: any) {
           <PasswordInput
             mode="login"
             getPassword={(password) => setPassword(password)}
+            onChangeText={handlePasswordChange}
           />
           {error ? (
-            <AppText style={{ color: "red", marginBottom: 10 }}>{error}</AppText>
+            <AppText className="text-invalid mb-6">{error}</AppText>
           ) : null}
           <AppText
-            className="text-lightGreen underline cursor-pointer my-2"
+            className="text-lightGreen underline cursor-pointer my-2 mb-3"
             onPress={() =>
               setPasswordResetModal(true)
-            } /* irá navegar para a tela (ou modal) da solicitação de redefinição de senha */
+            } 
           >
             Esqueci minha senha
           </AppText>
           <EnterButton
-            onPress={handleLogin}          
+            onPress={handleLogin}
             text="Entrar"
           />
-          <AppText style={{ color: "#264653" }}>Não possui conta? </AppText>
+          <AppText className="text-subtitle mt-3 mb-1">Não possui conta? </AppText>
           <AppText
-            style={{ color: "#2A9D8F", textDecorationLine: 'underline' }}
+            className="text-lightGreen underline cursor-pointer"
             onPress={() => navigation.navigate("Register")}
           >
             Cadastre-se
           </AppText>
         </View>
-      </View>
-    </View>
+      </Pressable>
+    </Pressable>
   );
 }

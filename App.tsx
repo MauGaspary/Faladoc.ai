@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SessionProvider } from "./provider/sessionContext";
-import * as Font from 'expo-font';
 
 
 
@@ -23,6 +22,7 @@ import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
 import ResetPasswordCodeScreen from './screens/ResetPasswordCodeScreen/ResetPasswordCodeScreen';
 import ListChartsScreen from './screens/ListChartsScreen/ListChartsScreen';
 import ViewChartScreen from './screens/ViewChartScreen/ViewChartScreen';
+import ListPatientsScreen from './screens/ListPatientsScreen/ListPatientsScreen';
 
 
 enableScreens();
@@ -44,28 +44,12 @@ NativeWindStyleSheet.setOutput({
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  async function loadFonts() {
-    await Font.loadAsync({
-      'Poppins': require('./assets/fonts/Poppins/Poppins-Regular.ttf'),
-      'Poppins-Bold': require('./assets/fonts/Poppins/Poppins-Bold.ttf'),
-      'Poppins-SemiBold': require('./assets/fonts/Poppins/Poppins-SemiBold.ttf'),
-    });
-    setFontsLoaded(true);
-  }
-
-  useEffect(() => {
-    loadFonts();  
-  }, []);
-
-  if (!fontsLoaded) {
-    return "Erro Fonte";
-  }
-
   return (
 
     <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
+        
           <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}/>
@@ -79,6 +63,8 @@ export default function App() {
           <Stack.Screen name='ListCharts' component={ListChartsScreen} options={{ headerShown: false }}/>
 
           <Stack.Screen name='ViewChart' component={ViewChartScreen} options={{ headerShown: false }}/>
+
+          <Stack.Screen name='ViewPatients' component={ListPatientsScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name="ResetPassword" component={PasswordResetScreen} options={{ headerShown: false }}/>
           

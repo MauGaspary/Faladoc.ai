@@ -4,12 +4,14 @@ import {
   ActivityIndicator,
   Dimensions,
   Platform,
+  Modal,
 } from "react-native";
 import HomeButton from "../../components/Homebutton";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 const getAudioFileUri = (uri: string) => {
   return Platform.OS === "android" ? uri : uri.replace("file://", "");
@@ -25,6 +27,8 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
   } = useContext(SessionContext);
   const [formattedTime, setFormattedTime] = useState("");
   const [waitingResponse, setWaitingResponse] = useState(true);
+  const [status, setStatus] = useState("");
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   useEffect(() => {
     sendAppointmentInfoAndUpdateAppointment();
@@ -69,18 +73,21 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
             .padStart(2, "0")}`
         );
 
+        setStatus("success");
+
         setWaitingResponse(false);
         return res.data;
       } catch (error) {
         setWaitingResponse(false);
+        setStatus("error");
         console.log(error);
       }
     } catch (error) {
       console.error("Upload failed:", error);
+      setStatus("error");
+      setWaitingResponse(false);
     }
   }
-
-  const { width, height } = Dimensions.get("window");
 
   const handleHomeButton = () => {
     setAppoitmentInfos({
@@ -124,7 +131,9 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
             </AppText>
           </>
         ) : (
-          <AppText className="mt-10 text-black  text-left text-lg">Processamento finalizado</AppText>
+          <AppText className="mt-10 text-black  text-left text-lg">
+            Processamento finalizado
+          </AppText>
         )}
       </View>
 
@@ -133,6 +142,42 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         name="Voltar para a tela inicial"
         onPress={handleHomeButton}
       />
+
+      {status === "success" ? (
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalVisibility}
+        >
+          <View className="flex self-center border-[1px] rounded-[15px] border-lightGreen my-auto bg-white w-[80%] p-5">
+            <View className="items-center gap-7">
+              <View className="bg-[#00E733] rounded-full w-[70px] h-[70px] justify-center items-center">
+                <FontAwesome5 name="check-circle" size={60} color="white" />
+              </View>
+              <Text className="text-lg text-center font-bold opacity-30">
+                Prontuario processado com sucesso!
+              </Text>
+            </View>
+          </View>
+        </Modal>
+      ) : status === "error" ? (
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalVisibility}
+        >
+          <View className="flex self-center border-[1px] rounded-[15px] border-lightRed my-auto bg-white w-[80%] p-5">
+            <View className="items-center gap-7">
+              <View className="bg-[#FF0000] rounded-full w-[70px] h-[70px] justify-center items-center">
+                <FontAwesome5 name="times-circle" size={60} color="white" />
+              </View>
+              <Text className="text-lg text-center font-bold opacity-30">
+                Ocorreu um erro ao processar o prontuario!
+              </Text>
+            </View>
+          </View>
+        </Modal>
+      ) : null}
     </View>
   );
 }
