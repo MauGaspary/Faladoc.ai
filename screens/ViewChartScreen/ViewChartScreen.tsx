@@ -37,6 +37,7 @@ export default function ViewChartScreen({ navigation }: any) {
   const [patient, setPatient] = useState({ name: "", date_of_birth: "" });
   const [appointment, setAppointment] = useState({
     medical_record_final: "",
+    medical_record_original: "",
     patient_id: "",
     appointment_date: "",
     appointment_status: ""
@@ -62,16 +63,18 @@ export default function ViewChartScreen({ navigation }: any) {
         `http://3.22.75.73:3000/appointments/${id}`
       );
 
-      const { appointment_date, appointment_status, medical_record_final, patient_id  } = appointmentResponse.data;
-      console.log("status state: ", appointment.appointment_status);
-      console.log("status res: ", appointment_status); //usar essa var. se appointment_status = watting_approval mostra o botão
+      const { appointment_date, appointment_status, medical_record_final, patient_id, medical_record_original  } = appointmentResponse.data;
 
       setAppointment({
         appointment_date: appointment_date,
         appointment_status: appointment_status,
         medical_record_final: medical_record_final,
+        medical_record_original: medical_record_original,
         patient_id: patient_id
       }); 
+
+      console.log(medical_record_original);
+      console.log(medical_record_final);
 
       const patientResponse = await axios.get(
         `http://3.22.75.73:3000/patients/id/${appointmentResponse.data.patient_id}`
