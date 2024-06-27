@@ -32,7 +32,7 @@ export function ResetPasswordModal({
 
     try {
       const response = await api.post("/passwordReset", { email: email });
-      if (response.status !== 200) {
+      if (response.status !== 201) {
         throw new Error("Falha ao enviar código de recuperação de senha");
       }
       setFailModalVisible(false);
