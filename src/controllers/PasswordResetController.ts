@@ -44,7 +44,7 @@ export class PasswordResetController {
             .then((response) => {
               return res.status(201).json({
                 message: "Código de recuperação de senha enviado com sucesso",
-                code: generateCode,
+                code: generatedCode,
               });
             })
             .catch(async (err) => {
