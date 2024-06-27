@@ -1,28 +1,44 @@
 //@ts-nocheck
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Modal, View, Pressable, TouchableOpacity, TextInput } from 'react-native';
 import AppText from "./AppText";
 import RatingIcon from './RatingIcon';
+import SessionContext from "../provider/sessionContext";
+import axios from 'axios';
 
 interface Props {
   isVisible: boolean;
   onClose: () => void;
-  onConfirm: () => void;
 }
 
-const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose, onConfirm }) => {
+const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const [feedback, setFeedback] = useState('');
   const [rating, setRating] = useState(null);
+  const { appoitmentInfos } = useContext(SessionContext);
 
   const handleRatingPress = (value) => {
     setRating({ value }); 
   };
 
-  const handleSubmit = () => {
-    console.log('Avaliação:', rating.value);
-    console.log('Feedback:', feedback);
-    setFeedback('');
-    onClose();
+  const handleSubmit = async () => {
+    const appointmentId = appoitmentInfos.id; 
+    const data = {
+      feedback_score: rating?.value || 0,
+      feedback_text: feedback
+    };
+
+    try {
+      const response = await axios.patch(`http://3.22.75.73:3000/appointments/${appointmentId}`, data, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      console.log(response);
+      onClose();
+    } catch (error) {
+      console.error('Erro ao enviar feedback:', error);
+    }
   };
 
   const handleCancel = () => {
