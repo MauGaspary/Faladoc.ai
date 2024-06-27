@@ -5,6 +5,7 @@ import {
   Text,
   Pressable,
   TextInput,
+  Modal,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
@@ -36,8 +37,10 @@ export default function ViewChartScreen({ navigation }: any) {
   const [patient, setPatient] = useState({ name: "", date_of_birth: "" });
   const [appointment, setAppointment] = useState({
     medical_record_final: "",
+    medical_record_original: "",
     patient_id: "",
     appointment_date: "",
+    appointment_status: ""
   });
 
   const idade = calcularIdade(patient.date_of_birth);
@@ -48,6 +51,7 @@ export default function ViewChartScreen({ navigation }: any) {
 
   const [isEditing, setIsEditing] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     getAppointment();
@@ -58,7 +62,19 @@ export default function ViewChartScreen({ navigation }: any) {
       const appointmentResponse = await axios.get(
         `http://3.22.75.73:3000/appointments/${id}`
       );
-      setAppointment(appointmentResponse.data); //isso aqui nao ta funcionando - appointment continua null
+
+      const { appointment_date, appointment_status, medical_record_final, patient_id, medical_record_original  } = appointmentResponse.data;
+
+      setAppointment({
+        appointment_date: appointment_date,
+        appointment_status: appointment_status,
+        medical_record_final: medical_record_final,
+        medical_record_original: medical_record_original,
+        patient_id: patient_id
+      }); 
+
+      console.log(medical_record_original);
+      console.log(medical_record_final);
 
       const patientResponse = await axios.get(
         `http://3.22.75.73:3000/patients/id/${appointmentResponse.data.patient_id}`
@@ -96,6 +112,28 @@ export default function ViewChartScreen({ navigation }: any) {
   const handleTextChange = (text: string) => {
     setTempDiagnostico(text);
     setIsEdited(true);
+  };
+
+  const handleApprove = async () => {
+    try {
+      await axios.patch(`http://3.22.75.73:3000/appointments/${id}`, {
+        appointment_status: "APPROVED",
+      });
+      setAppointment((prev) => ({
+        ...prev,
+        appointment_status: "APPROVED",
+      }));
+    } catch (error) {
+      console.error("Erro ao aprovar prontuário", error);
+    }
+  };
+
+  const handleEvaluate = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -157,7 +195,46 @@ export default function ViewChartScreen({ navigation }: any) {
             )}
           </View>
         </View>
+
+        <View>
+          {appointment.appointment_status === "WAITING_APPROVAL" && (
+            <Pressable
+              className="mt-10 flex-row rounded-full p-3 bg-teal-600 justify-center shadow-lg w-full"
+              onPress={handleApprove}
+            >
+              <View className="w-full justify-center items-center">
+                <Text className="text-white">Aprovar Prontuário</Text>
+              </View>
+            </Pressable>
+          )}
+
+          <Pressable
+            className="mt-6 flex-row rounded-full p-3 bg-teal-600 justify-center shadow-lg w-full"
+            onPress={handleEvaluate}
+          >
+            <View className="w-full justify-center items-center">
+              <Text className="text-white">Avaliar o prontuário gerado</Text>
+            </View>
+          </Pressable>
+        </View>
       </ScrollView>
+
+      <Modal
+        visible={isModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={handleCloseModal}
+      >
+        <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
+          <View className="bg-white p-10 rounded-3xl w-3/4">
+            <Text className="text-xl mb-4">Avaliação do Prontuário</Text>
+            <Pressable onPress={handleCloseModal}>
+              <Text className="text-blue-500">Fechar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+
       <Navbar />
     </KeyboardAvoidingView>
   );
