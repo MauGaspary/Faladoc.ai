@@ -10,14 +10,29 @@ import CodeInput from "../../components/CodeInput";
 import { useEffect, useState } from "react";
 import AppText from "../../components/AppText";
 import api from "../../api";
+import { useRoute } from "@react-navigation/native";
 
 export default function ResetPasswordCodeScreen({ navigation }: any) {
-
+  const route = useRoute();
+  const { email } = route.params as { email: string };
   const [code, setCode] = useState<string>("");
 
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
+  
+  const resendEmail = async () => {
+    try {
+      const response = await api.post("/passwordReset", { email: email });
+      if (response.status !== 201) {
+        throw new Error("Falha ao enviar código de recuperação de senha");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   
   useEffect(() => {
     if (code.length === 4) {
@@ -65,7 +80,7 @@ export default function ResetPasswordCodeScreen({ navigation }: any) {
             <AppText className="text-lg text-white">Não recebeu o código?</AppText>
             <AppText
               className="ml-2 text-lg text-background underline"
-              onPress={() => console.log("Reenviar")}
+              onPress={() => resendEmail()}
             >
               Reenviar
             </AppText>

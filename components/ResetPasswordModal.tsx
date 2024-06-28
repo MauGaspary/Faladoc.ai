@@ -38,7 +38,7 @@ export function ResetPasswordModal({
       setFailModalVisible(false);
       setModalVisible(false);
       
-      navigation.navigate("ResetPasswordCode");
+      navigation.navigate("ResetPasswordCode", { email: email });
       
     } catch (error) {
       setFailModalVisible(true);
