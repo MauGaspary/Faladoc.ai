@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../models/User';
-import { PasswordReset } from '../models/PasswordReset';
+import { PasswordReset as PasswordResetModel } from '../models/PasswordReset';
 import bcrypt from "bcrypt";
 import { UserService } from '../services/user-services';
 
@@ -41,7 +41,7 @@ export class UserController {
         const { token } = req.params;
         const { password } = req.body;
 
-        const passwordResetToken = await PasswordReset.findOne({ where: { token } });
+        const passwordResetToken = await PasswordResetModel.findOne({ where: { token: token } });
 
         if (!passwordResetToken) {
             return res.status(400).json({ error: 'Token inválido.' });
@@ -50,7 +50,7 @@ export class UserController {
 
  
         if (passwordResetToken.expiration_date < new Date()) {
-            await PasswordReset.destroy({ where: { token: passwordResetToken.token } });
+            await PasswordResetModel.destroy({ where: { token: passwordResetToken.token } });
             return res.status(400).json({ error: 'Solicitação expirada.' });
         }
 
@@ -67,7 +67,7 @@ export class UserController {
         user.passwordsalt = salt;
     
         await user.save();
-        await PasswordReset.destroy({ where: { user_id: user.id } });
+        await PasswordResetModel.destroy({ where: { user_id: user.id } });
     
         return res.status(200).json({ message: 'Senha alterada com sucesso.' });
     } catch (error) {
