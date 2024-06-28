@@ -2,7 +2,6 @@ import {
   View,
   Text,
   ActivityIndicator,
-  Dimensions,
   Platform,
   Modal,
 } from "react-native";
@@ -12,6 +11,8 @@ import axios from "axios";
 import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
 import { FontAwesome5 } from "@expo/vector-icons";
+import Audio from "../../public/audio/test-02.wav";
+
 
 const getAudioFileUri = (uri: string) => {
   return Platform.OS === "android" ? uri : uri.replace("file://", "");
@@ -39,61 +40,66 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
     const filetype = uriPath.split(".").pop();
     const fileName = uriPath.split("/").pop();
 
-    const response = await fetch("/audio/test-02.wav");
-    // const response = await fetch(getAudioFileUri(uriPath));
-    const blob = await response.blob();
-    const formData = new FormData();
-
-    formData.append("audio_file", blob, `${fileName}.${filetype}`);
-    
-    const seconds = appoitmentInfos.duration;
-        // const seconds = 300;
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-
-        setFormattedTime(
-          `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-            .toString()
-            .padStart(2, "0")}`
-        );
-
     try {
-      setWaitingResponse(true);
-      const response = await axios.post(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await fetch("http://localhost:8081/public/audio/test-02.wav");//Consertar
+      // const response = await fetch(getAudioFileUri(uriPath));
+      const blob = await response.blob();
+      const formData = new FormData();
+
+      formData.append("audio_file", blob, `${fileName}.${filetype}`);
+
+      const seconds = appoitmentInfos.duration;
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+
+      setFormattedTime(
+        `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+          .toString()
+          .padStart(2, "0")}`
+      );
 
       try {
-        const body = {
-          medical_record_original: response.data,
-        };
-        const res = await axios.patch(
-          `http://3.22.75.73:3000/appointments/${appoitmentInfos.id}`,
-          body
-        );
+        setWaitingResponse(true);
+        const response = await axios.post(url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-        setStatus("success");
-        setModalVisibility(true);
+        try {
+          const body = {
+            medical_record_original: response.data,
+          };
+          const res = await axios.patch(
+            `http://3.22.75.73:3000/appointments/${appoitmentInfos.id}`,
+            body
+          );
 
-        setTimeout(() => {
-          setModalVisibility(false);
-        }, 5000);
+          setStatus("success");
+          setModalVisibility(true);
 
-        setWaitingResponse(false);
-        return res.data;
+          setTimeout(() => {
+            setModalVisibility(false);
+          }, 5000);
+
+          setWaitingResponse(false);
+          return res.data;
+        } catch (error) {
+          setWaitingResponse(false);
+          setStatus("error");
+          setModalVisibility(true);
+          setTimeout(() => {
+            setModalVisibility(false);
+          }, 5000);
+          console.log(error);
+        }
       } catch (error) {
-        setWaitingResponse(false);
+        console.error("Upload1 failed:", error);
         setStatus("error");
-        setModalVisibility(true);
-        setTimeout(() => {
-          setModalVisibility(false);
-        }, 5000);
-        console.log(error);
+        setWaitingResponse(false);
       }
     } catch (error) {
-      console.error("Upload failed:", error);
+      console.error("Upload2 failed:", error);
       setStatus("error");
       setWaitingResponse(false);
     }
