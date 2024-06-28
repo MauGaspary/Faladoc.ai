@@ -37,3 +37,7 @@ export function generateToken(user: User): string {
         throw new Error('Error generating token.');
     }
 }
+
+export function generateCode() {
+    return Math.floor(1000 + Math.random() * 9000).toString();
+  }

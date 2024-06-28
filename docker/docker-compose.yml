@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   express-app:
     container_name: expo-app-back
@@ -14,21 +13,3 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - RUNNING_IN_DOCKER=false
-      - CORS_ORIGIN=http://localhost:8081
-
-#   db:
-#     image: postgres
-#     container_name: expo-app-db
-#     volumes:
-#       - db-data:/var/lib/postgresql/data
-#       - ../../scripts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-#     environment:
-#       - POSTGRES_DB=faladoc
-#       - POSTGRES_USER=admin
-#       - POSTGRES_PASSWORD=[REMOVED]
-#     ports:
-#       - "5432:5432"
-
-# volumes:
-#   db-data:

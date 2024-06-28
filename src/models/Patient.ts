@@ -1,4 +1,4 @@
-import { Model, DataTypes } from "sequelize";
+import { Model, DataTypes, where, Op } from "sequelize";
 import sequelize from "../db";
 
 export class Patient extends Model {
@@ -38,3 +38,34 @@ Patient.init(
     timestamps: false,
   }
 );
+
+export interface PatientQueryParams {
+  id?: string;
+  date_of_birth?: Date;
+  name?: string;
+  cpf?: string;
+}
+
+export function buildPatientQueryParams(query: PatientQueryParams) {
+
+  const {id, date_of_birth, name, cpf} = query;
+  let whereCondition: { [key: string]: any } = {};
+
+  if (id) {
+    whereCondition['id'] = {[Op.eq]: id};
+  }
+
+  if (date_of_birth) {
+    whereCondition['date_of_birth'] = {[Op.eq]: date_of_birth};
+  }
+
+  if (name) {
+    whereCondition['name'] = {[Op.like]: `%${name}%`};
+  }
+  
+  if (cpf) {
+    whereCondition['cpf'] = {[Op.eq]: cpf};
+  }
+
+  return  whereCondition;
+}
