@@ -84,10 +84,11 @@ export interface AppointmentQueryParams {
   hospital?: string;
   appointment_status?: string;
   doctor_id?:string;
+  feedback_score?: number;
 }
 
 export function buildAppointmentQuery(query: AppointmentQueryParams) {
-  const { patient_name, patient_id, appointment_date, hospital, appointment_status, doctor_id } = query;
+  const { patient_name, patient_id, appointment_date, hospital, appointment_status, doctor_id, feedback_score } = query;
 
   let whereCondition: { [key: string]: any } = {};
   if (patient_id) {
@@ -116,6 +117,12 @@ export function buildAppointmentQuery(query: AppointmentQueryParams) {
   if (appointment_status) {
       whereCondition['appointment_status'] = {
           [Op.eq]: appointment_status
+      };
+  }
+
+  if (feedback_score) {
+      whereCondition['feedback_score'] = {
+          [Op.eq]: feedback_score
       };
   }
 
