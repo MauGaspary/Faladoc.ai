@@ -3,9 +3,27 @@ import { View, Text, Image } from "react-native";
 import EnterButton from "../../components/EnterButton";
 import { PasswordInput } from "../../components/PasswordInput";
 import AppText from "../../components/AppText";
+import { useRoute } from "@react-navigation/native";
+import api from "../../api";
 
 export default function PasswordResetScreen({ navigation }: any) {
+  const route = useRoute();
+  const { code } = route.params as { code: string };
   const [newPassword, setNewPassword] = useState("");
+  
+  const handlePasswordReset = async () => {
+    try {
+      const response = await api.patch(`/users/${code}`, { password: newPassword });
+      if (response.status !== 200) {
+        throw new Error("Falha ao realizar o reset de senha");
+      }
+
+      navigation.navigate(`Login`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  
   return (
     <View className="bg-lightGreen h-full relative">
       <Image source={require("../../assets/splash.png")} className="w-[150] h-[150] absolute top-[30px] self-center" />
@@ -16,7 +34,7 @@ export default function PasswordResetScreen({ navigation }: any) {
           <View className="w-3/4 p-0 my-3">
             <EnterButton
               onPress={() => {
-                navigation.navigate("Login");
+                handlePasswordReset();
               }}
               text="Confirmar nova senha"
             />
