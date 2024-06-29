@@ -21,6 +21,7 @@ import ViewChartScreen from "./screens/ViewChartScreen/ViewChartScreen";
 import ListPatientsScreen from "./screens/ListPatientsScreen/ListPatientsScreen";
 
 import * as Font from 'expo-font';
+import ListRecordsScreen from "./screens/ListRecordsScreen/ListRecordsScreen";
 
 enableScreens();
 
@@ -119,6 +120,12 @@ export default function App() {
           <Stack.Screen
             name="ProcessingAppointment"
             component={ProcessingAppointmentScreen}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="ListRecordsScreen"
+            component={ListRecordsScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
