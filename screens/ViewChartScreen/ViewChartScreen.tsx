@@ -84,7 +84,7 @@ export default function ViewChartScreen({ navigation }: any) {
       });
 
       const patientResponse = await axios.get(
-        `http://3.22.75.73:3000/patients/id/${appointmentResponse.data.patient_id}`
+        `http://3.22.75.73:3000/patients/${appointmentResponse.data.patient_id}`
       );
       setPatient(patientResponse.data);
 
@@ -278,6 +278,7 @@ export default function ViewChartScreen({ navigation }: any) {
       <FeedbackAppointmentModal
         isVisible={isModalVisible}
         onClose={handleCloseModal}
+        appointmentId={id}
       >
       </FeedbackAppointmentModal>
 
