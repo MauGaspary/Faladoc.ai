@@ -1,6 +1,6 @@
 //@ts-nocheck
-import React, { useState, useContext } from 'react';
-import { Modal, View, Pressable, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, View, TouchableOpacity, TextInput } from 'react-native';
 import AppText from "./AppText";
 import RatingIcon from './RatingIcon';
 import axios from 'axios';
@@ -8,7 +8,7 @@ import axios from 'axios';
 interface Props {
   isVisible: boolean;
   onClose: () => void;
-  appointmentId: string; // Nova propriedade para receber o id do prontuário
+  appointmentId: string;
 }
 
 const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose, appointmentId }) => {

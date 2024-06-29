@@ -5,7 +5,6 @@ import {
   Text,
   Pressable,
   TextInput,
-  Modal,
   LayoutAnimation,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -88,7 +87,6 @@ export default function ViewChartScreen({ navigation }: any) {
       );
       setPatient(patientResponse.data);
 
-      // Set the initial diagnostic text to medical_record_original
       setDiagnostico(medical_record_original || "");
       setTempDiagnostico(medical_record_final || "");
     } catch (error) {
