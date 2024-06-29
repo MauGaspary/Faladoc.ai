@@ -5,6 +5,7 @@ import EnterButton from "../../components/EnterButton";
 import HomeButton from "../../components/Homebutton";
 import { PasswordInput } from "../../components/PasswordInput";
 import axios from "axios";
+import { apiHandler } from "../../api";
 import Dropdown from "../../components/DropDown";
 import AppText from "../../components/AppText";
 
@@ -26,9 +27,7 @@ const RegisterScreen = ({navigation}:any) => {
       setSelectedState(itemValue);
   
       try {
-        const res = await axios.get(
-          `http://3.22.75.73:3000/doctorsCfm/${crm}/${itemValue}`
-        );
+      const res = await apiHandler('/doctorsCfm', 'GET', 'application/json',  JSON.stringify({crm, itemValue}));
         setName(res.data.name);
         setSpeciality(res.data.speciality);
         console.log(res);

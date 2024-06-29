@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 export const apiHandler = async (
@@ -6,6 +7,14 @@ export const apiHandler = async (
   contentType: string,
   body?: string
 ) => {
+  let token = "";
+  AsyncStorage.getItem('key', (err, value) => {
+    if (err) {
+        console.log(err)
+    } else {
+        token = value || "";
+    }
+})
   const options: {
     method: string;
     headers: {
@@ -16,7 +25,7 @@ export const apiHandler = async (
   } = {
     method: method,
     headers: {
-      Authorization: localStorage.getItem("token") || "",
+      Authorization: token,
       "Content-Type": contentType,
     },
   };

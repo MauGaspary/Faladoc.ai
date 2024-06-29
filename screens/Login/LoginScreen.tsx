@@ -8,6 +8,7 @@ import axios from "axios";
 import { apiHandler } from "../../api";
 import { ResetPasswordModal } from "../../components/ResetPasswordModal";
 import AppText from "../../components/AppText";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState("");
@@ -41,7 +42,7 @@ export default function LoginScreen({ navigation }: any) {
 
       const { id, name, crm } = response.data.doctor;
       const { token } = response.data;
-      localStorage.setItem("token", token);
+      AsyncStorage.setItem("token", token);
       setDoctorInfo({ id, name, crm });
 
       navigation.navigate("Home");
