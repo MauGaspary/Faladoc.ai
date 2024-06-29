@@ -19,7 +19,9 @@ export default function LoginScreen({ navigation }: any) {
   const [passwordResetModal, setPasswordResetModal] = useState(false);
 
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
 
   const handleLogin = async () => {

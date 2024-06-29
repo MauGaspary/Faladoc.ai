@@ -81,15 +81,12 @@ export default function ViewChartScreen({ navigation }: any) {
         patient_id: patient_id,
       });
 
-      console.log(medical_record_original);
-      console.log(medical_record_final);
-
       const patientResponse = await axios.get(
-        `http://3.22.75.73:3000/patients/id/${appointmentResponse.data.patient_id}`
+        `http://3.22.75.73:3000/patients/${appointmentResponse.data.patient_id}`
       );
       setPatient(patientResponse.data);
-      setDiagnostico(appointmentResponse.data.medical_record_final || "");
-      setTempDiagnostico(appointmentResponse.data.medical_record_final || "");
+      setDiagnostico(appointmentResponse.data.medical_record_original || "Problema na geração de prontuário");
+      setTempDiagnostico(appointmentResponse.data.medical_record_final || appointmentResponse.data.medical_record_original);
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
     }
