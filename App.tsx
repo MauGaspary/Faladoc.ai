@@ -51,7 +51,6 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
 
-          <Stack.Screen name='ListRecords' component={ListRecordsScreen} options={{ headerShown: false }}/>
 
           <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
           
@@ -73,6 +72,7 @@ export default function App() {
 
           <Stack.Screen name='ProcessingAppointment' component={ProcessingAppointmentScreen} options={{ headerShown: false }}/>
           
+          <Stack.Screen name='ListRecords' component={ListRecordsScreen} options={{ headerShown: false }}/>
         </Stack.Navigator>
       </NavigationContainer>
     </SessionProvider>
