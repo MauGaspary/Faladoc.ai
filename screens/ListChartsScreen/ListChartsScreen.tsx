@@ -106,7 +106,7 @@ const ListChartsScreen = ({ navigation }: any) => {
                 type="prontuario"
                 pacientName={appointment.patient.name}
                 date={appointment.appointment_date}
-                specialty={appointment.hospital}
+                location={appointment.location}
                 status={appointment.appointment_status}
                 context={appointment.appointment_context}
               />
