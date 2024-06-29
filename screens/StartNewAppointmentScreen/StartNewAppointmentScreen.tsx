@@ -9,7 +9,7 @@ import Navbar from "../../components/Navbar";
 import { FilterInput } from "../../components/FilterInput";
 import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
-import axios from "axios";
+import { apiHandler } from "../../api";
 
 const StartNewAppointmentScreen = ({ navigation }: any) => {
   const [isPatientSelected, setIsPatientSelected] = useState(true);
@@ -48,10 +48,7 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
     };
 
     try {
-      const response = await axios.post(
-        `http://3.22.75.73:3000/appointments`,
-        appoitment
-      );
+      const response = await apiHandler('/appointments', 'POST', 'application/json', JSON.stringify(appoitment));
       if (response.status !== 201) {
         throw new Error("Failed to create appointment");
       }

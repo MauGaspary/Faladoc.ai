@@ -3,8 +3,8 @@ import { KeyboardAvoidingView, View, Text, TouchableHighlight, ScrollView } from
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import HomeButton from "../../components/Homebutton";
-import { PasswordInput } from "../../components/PasswordInput";
 import axios from "axios";
+import { PasswordInput } from "../../components/PasswordInput";
 import { apiHandler } from "../../api";
 import Dropdown from "../../components/DropDown";
 import AppText from "../../components/AppText";
@@ -27,7 +27,7 @@ const RegisterScreen = ({navigation}:any) => {
       setSelectedState(itemValue);
   
       try {
-      const res = await apiHandler('/doctorsCfm', 'GET', 'application/json',  JSON.stringify({crm, itemValue}));
+        const res = await apiHandler(`/doctors/${crm}/${estado}`, 'GET', 'application/json',  JSON.stringify({crm, itemValue}));
         setName(res.data.name);
         setSpeciality(res.data.speciality);
         console.log(res);
@@ -48,14 +48,7 @@ const RegisterScreen = ({navigation}:any) => {
     }
     try {
       const crmWithState = `${crm}${selectedState}`;
-      const response = await axios.post('http://3.22.75.73:3000/doctors', {
-        name,
-        email,
-        password,
-        crm: crmWithState,
-        hospital,
-        specialty
-      });
+      const response = await apiHandler('/doctors', 'POST', 'application/json', JSON.stringify({ name, email, password, crm: crmWithState, hospital, specialty }));
       if (response.status !== 200) {
         throw new Error("Falha ao registrar");
       }

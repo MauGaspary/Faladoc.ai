@@ -6,7 +6,6 @@ import { FiltersComponent } from "../../components/FiltersComponent";
 
 import Navbar from "../../components/Navbar";
 import SessionContext from "../../provider/sessionContext";
-import axios from "axios";
 import AppText from "../../components/AppText";
 
 interface Appointment {
@@ -43,9 +42,8 @@ const ListPatientsScreen = ({ navigation }: any) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `http://3.22.75.73:3000/appointments?doctor_id=${doctorInfo.id}`
-      );
+      const response = await apiHandler(`/appointments?doctor_id=${doctorInfo.id}`, 'GET', 'application/json');
+
       const data = await response.data;
       setAppointments(data);
       setFilteredAppointments(data);

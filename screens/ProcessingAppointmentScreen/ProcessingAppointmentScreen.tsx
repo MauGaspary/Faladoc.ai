@@ -12,6 +12,7 @@ import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Audio from "../../public/audio/test-02.wav";
+import { apiHandler } from "../../api";
 
 
 const getAudioFileUri = (uri: string) => {
@@ -70,10 +71,7 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
           const body = {
             medical_record_original: response.data,
           };
-          const res = await axios.patch(
-            `http://3.22.75.73:3000/appointments/${appoitmentInfos.id}`,
-            body
-          );
+          const res = await apiHandler(`/appointments/${appoitmentInfos.id}`, 'PATCH', 'application/json', JSON.stringify(body));
 
           setStatus("success");
           setModalVisibility(true);

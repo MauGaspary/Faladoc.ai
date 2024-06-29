@@ -4,7 +4,6 @@ import { Modal, View, Pressable, TouchableOpacity, TextInput } from 'react-nativ
 import AppText from "./AppText";
 import RatingIcon from './RatingIcon';
 import SessionContext from "../provider/sessionContext";
-import axios from 'axios';
 
 interface Props {
   isVisible: boolean;
@@ -28,11 +27,7 @@ const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose }) => {
     };
 
     try {
-      const response = await axios.patch(`http://3.22.75.73:3000/appointments/${appointmentId}`, data, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
+      const response = await apiHandler(`/appointments/${appointmentId}`, 'PATCH', 'application/json', JSON.stringify(data));
 
       console.log(response);
       onClose();

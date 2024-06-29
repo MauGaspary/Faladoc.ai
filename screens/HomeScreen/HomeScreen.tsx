@@ -4,8 +4,8 @@ import SessionContext from "../../provider/sessionContext";
 import HomeButtons from "../../components/ButtonsOnHome";
 import Navbar from "../../components/Navbar";
 import { AppointmentCard } from "../../components/AppointmentCard";
-import axios from "axios";
 import AppText from "../../components/AppText";
+import { apiHandler } from "../../api";
 
 export default function HomeScreen({ navigation }: any) {
   const [appointments, setAppointments] = useState([]);
@@ -17,9 +17,8 @@ export default function HomeScreen({ navigation }: any) {
 
   const getAppointments = async () => {
     try {
-      const res = await axios.get(
-        `http://3.22.75.73:3000/appointments?doctor_id=${doctorInfo.id}&appointment_status=PROCESSING`
-      );
+      const res = await apiHandler(`/appointments?doctor_id=${doctorInfo.id}&appointment_status=PROCESSING`, 'GET', 'application/json');
+
       setAppointments(res.data);
     } catch (error) {
       console.log(error);

@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import Navbar from "../../components/Navbar";
 import AppText from "../../components/AppText";
+import { apiHandler } from "../../api";
 
 export default function ViewChartScreen({ navigation }: any) {
   const route = useRoute();
@@ -61,9 +61,8 @@ export default function ViewChartScreen({ navigation }: any) {
 
   const getAppointment = async () => {
     try {
-      const appointmentResponse = await axios.get(
-        `http://3.22.75.73:3000/appointments/${id}`
-      );
+      const appointmentResponse = await apiHandler(`/appointments/${id}`, 'GET', 'application/json');
+      console.log(appointmentResponse);
 
       const {
         appointment_date,
@@ -84,9 +83,7 @@ export default function ViewChartScreen({ navigation }: any) {
       console.log(medical_record_original);
       console.log(medical_record_final);
 
-      const patientResponse = await axios.get(
-        `http://3.22.75.73:3000/patients/id/${appointmentResponse.data.patient_id}`
-      );
+      const patientResponse = await apiHandler(`/patients/${appointmentResponse.data.patient_id}`, 'GET', 'application/json');
       setPatient(patientResponse.data);
       setDiagnostico(appointmentResponse.data.medical_record_final || "");
       setTempDiagnostico(appointmentResponse.data.medical_record_final || "");
@@ -105,10 +102,7 @@ export default function ViewChartScreen({ navigation }: any) {
         ...appointment,
         medical_record_final: tempDiagnostico,
       };
-      await axios.patch(
-        `http://3.22.75.73:3000/appointments/${id}`,
-        updatedAppointment
-      );
+      await apiHandler(`/appointments/${id}`, 'PATCH', 'application/json', JSON.stringify(updatedAppointment));
       setDiagnostico(tempDiagnostico);
       setIsEditing(false);
       setIsEdited(false);
@@ -129,9 +123,9 @@ export default function ViewChartScreen({ navigation }: any) {
 
   const handleApprove = async () => {
     try {
-      await axios.patch(`http://3.22.75.73:3000/appointments/${id}`, {
-        appointment_status: "APPROVED",
-      });
+      await apiHandler(`/appointments/${id}`, 'PATCH', 'application/json', JSON.stringify({
+        appointment_status: "APPROVED"
+      }));
       setAppointment((prev) => ({
         ...prev,
         appointment_status: "APPROVED",

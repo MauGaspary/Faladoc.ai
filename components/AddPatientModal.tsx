@@ -5,9 +5,9 @@ import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
-import axios from "axios";
 import SessionContext from "../provider/sessionContext";
 import AppText from "./AppText";
+import { apiHandler } from "../api";
 
 export function AddPatientModal(this: any) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -74,7 +74,7 @@ export function AddPatientModal(this: any) {
 
     try {
       // const response = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/patients`, patient);
-      const response = await axios.post(`http://3.22.75.73:3000/patients`, patient);
+      const response = await apiHandler('/patients', 'POST', 'application/json',  JSON.stringify(patient));
       if (response.status !== 201) {
         throw new Error("Failed to create patient");
       }

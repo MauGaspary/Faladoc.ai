@@ -2,12 +2,12 @@
 import { Text, TextInput, View } from "react-native";
 import React, { useContext, useRef, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import axios from "axios";
 import { ScrollView, Pressable } from "react-native";
 import SessionContext from "../provider/sessionContext";
 import { PatientDTO } from "../types/PatientDTO";
 
 import AppText from "./AppText";
+import { apiHandler } from "../api";
 type FilterInputType = {
   isPatientSelected: boolean
 };
@@ -29,10 +29,8 @@ export function FilterInput({ isPatientSelected }: FilterInputType) {
     timeoutId.current = setTimeout(async () => {
       if (text.length >= 1) {
         try {
-          const response = await axios.get(
-            // `${process.env.EXPO_PUBLIC_API_URL}/patients/${text}`
-            `http://3.22.75.73:3000/patients?name=${text}`
-          );
+          const response = await apiHandler(`/patients?name=${text}`, 'GET', 'application/json');
+
           setPatients(response.data);
         } catch (error) {
           console.error("Failed to fetch data:", error);
