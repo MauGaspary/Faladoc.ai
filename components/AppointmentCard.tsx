@@ -5,7 +5,7 @@ interface AppointmentCardProps {
   type: string;
   pacientName: string;
   date: string;
-  location: string;
+  specialty: string;
   status: string;
   context?: string;
 }
@@ -17,7 +17,7 @@ export function AppointmentCard({
   type,
   date,
   pacientName,
-  location,
+  specialty,
   context,
   status,
 }: AppointmentCardProps) {
@@ -41,26 +41,26 @@ export function AppointmentCard({
     <>
       {type == "prontuario" ? (
         <View
-          className={`bg-white w-full h-24 py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem]${color}`}
+          className={`bg-white w-full py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem] ${color}`}
         >
-          <AppText numberOfLines={1} className="text-lg font-bold  text-gray-900 space-y-4">
+          <AppText className="text-lg font-bold text-[1.125rem] text-gray-900">
             {pacientName} - {date}
           </AppText>
-          <AppText numberOfLines={1} className="text-gray-700 line-clamp-1 space-y-4">{context}</AppText>
-          <AppText numberOfLines={1} className="text-timer font-semibold space-y-4">{location}</AppText>
+          <AppText className="text-gray-700 text-[1rem]">{context}</AppText>
+          <AppText className="text-timer font-semibold">{specialty}</AppText>
         </View>
       ) : (
         type == "paciente" && (
           <View
-            className={`bg-white w-full h-24 py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem] ${color}`}
+            className={`bg-white w-full py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem] ${color}`}
           >
-            <AppText numberOfLines={1} className="text-lg font-bold text-gray-900 space-y-4">
+            <AppText className="text-lg font-bold text-[1.125rem] text-gray-900">
               {pacientName}
             </AppText>
-            <AppText numberOfLines={1} className="text-gray-700 space-y-4">
+            <AppText className="text-gray-700 text-[1rem]">
               Ultima consulta - {date}
             </AppText>
-            <AppText numberOfLines={1} className="text-timer font-semibold space-y-4">{location}</AppText>
+            <AppText className="text-timer font-semibold">{specialty}</AppText>
           </View>
         )
       )}
