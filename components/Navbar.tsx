@@ -38,7 +38,6 @@ const Navbar = () => {
   );
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
       <View className='flex-row justify-around items-center bg-[#F7FFFF] py-4 px-8 shadow-md absolute bottom-0 left-0 w-full'>
         <Pressable onPress={() => handleIconPress('home', 'Home')}>
           {selectedIcon === 'home' ? (
@@ -64,7 +63,6 @@ const Navbar = () => {
           )}
         </Pressable>
       </View>
-    </KeyboardAvoidingView>
   );
 };
 
