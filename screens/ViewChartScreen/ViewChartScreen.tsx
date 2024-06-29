@@ -55,7 +55,7 @@ export default function ViewChartScreen({ navigation }: any) {
   const [isEditing, setIsEditing] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [showingOriginal, setShowingOriginal] = useState(true);
+  const [showingOriginal, setShowingOriginal] = useState(false);
 
   useEffect(() => {
     getAppointment();
