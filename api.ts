@@ -1,25 +1,37 @@
-// api.js ou api.ts
-import axios from 'axios';
+import axios from "axios";
 
-const api = axios.create({
-  baseURL: process.env.API_URL || 'http://3.22.75.73:3000',
-});
+export const apiHandler = async (
+  url: string,
+  method: string,
+  contentType: string,
+  body?: string
+) => {
+  const options: {
+    method: string;
+    headers: {
+      Authorization: string;
+      "Content-Type": string;
+    };
+    body?: string;
+  } = {
+    method: method,
+    headers: {
+      Authorization: localStorage.getItem("token") || "",
+      "Content-Type": contentType,
+    },
+  };
 
-// api.interceptors.response.use(
-//   response => response,
-//   error => {
-//     console.error('API Error:', error);
-//     if (error.response) {
-//       console.error('Response data:', error.response.data);
-//       console.error('Response status:', error.response.status);
-//       console.error('Response headers:', error.response.headers);
-//     } else if (error.request) {
-//       console.error('Request data:', error.request);
-//     } else {
-//       console.error('Error message:', error.message);
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+  if (method != "GET") {
+    options.body = body;
+  }
 
-export default api;
+  const raw = await axios(url, options);
+
+  if (raw.status === 401) {
+    sessionStorage.removeItem("token");
+    window.location.href = "/";
+    window.location.reload();
+  }
+
+  return raw;
+};

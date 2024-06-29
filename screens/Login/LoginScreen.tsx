@@ -4,8 +4,8 @@ import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import { PasswordInput } from "../../components/PasswordInput";
 import SessionContext from "../../provider/sessionContext";
-import api from "../../api";
 import axios from "axios";
+import { apiHandler } from "../../api";
 import { ResetPasswordModal } from "../../components/ResetPasswordModal";
 import AppText from "../../components/AppText";
 
@@ -34,12 +34,14 @@ export default function LoginScreen({ navigation }: any) {
       return;
     }
     try {
-      const response = await api.post('/login', { email, password });
+      const response = await apiHandler('/login', 'POST', 'application/json',  JSON.stringify({email, password}));
       if (response.status !== 200) {
         throw new Error("Falha ao realizar o login");
       }
 
       const { id, name, crm } = response.data.doctor;
+      const { token } = response.data;
+      localStorage.setItem("token", token);
       setDoctorInfo({ id, name, crm });
 
       navigation.navigate("Home");
