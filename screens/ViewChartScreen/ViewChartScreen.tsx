@@ -183,7 +183,7 @@ export default function ViewChartScreen({ navigation }: any) {
         </View>
 
         <View className="flex-column justify-between">
-          <View className="flex-row items-center justify-between">
+          <View className="flex-row items-center justify-between mb-2">
             <AppText className="text-2xl text-gray-700 leading-12 text-left ml-6 mt-10 w-full">
               Prontuário
             </AppText>
