@@ -14,23 +14,12 @@ export class PatientsController {
     }
   }
 
-  public static async getPatientsByName(req: Request, res: Response) {
-    try {
-      const name = req.query.name.toString();
-      const patients = await PatientService.getPatientsByName(name);
-      res.status(200).json(patients);
-    } catch (error) {
-      console.error("Erro ao buscar pacientes", error);
-      res.status(500).json({ error: 'Erro ao buscar pacientes' });
-    }
-  }
-
   public static async getPatientById(req: Request, res: Response) {
     try {
       const { id } = req.params;
       const patient = await Patient.findByPk(id);
       if (!patient) {
-        return res.status(400).json({ error: 'Paciente não encontrado' });
+        return res.status(404).json({ error: 'Paciente não encontrado' });
       }
       return res.status(200).json(patient);
     } catch (error) {
@@ -43,7 +32,7 @@ export class PatientsController {
     try {
       const patient = req.body;
       const newPatient = await Patient.create(patient);
-      res.status(201).json(newPatient);
+      res.status(200).json(newPatient);
     } catch (error) {
       console.error("Erro ao criar paciente", error);
       res.status(500).json({ error: 'Erro ao criar paciente' });

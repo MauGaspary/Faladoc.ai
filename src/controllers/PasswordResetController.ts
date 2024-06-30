@@ -60,11 +60,11 @@ export class PasswordResetController {
             });
         } else {
           return res
-            .status(400)
+            .status(401)
             .json({ error: "Erro ao criar o código de recuperação de senha" });
         }
       } else {
-        return res.status(400).json({ error: "Usuário não encontrado" });
+        return res.status(404).json({ error: "Usuário não encontrado" });
       }
     } catch (error) {
       console.error("Erro ao autenticar usuário:", error);

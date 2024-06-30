@@ -39,7 +39,7 @@ export class DoctorController {
       const { crm, state } = req.params;
       const doctorData = await CfmService.findDoctorData(crm, state);
       if (!doctorData) {
-        return res.status(400).json({error: 'Médico não encontrado'});
+        return res.status(404).json({error: 'Médico não encontrado'});
       }
       res.json(doctorData);
     } catch (error) {
