@@ -31,7 +31,7 @@ export function FilterInput({ isPatientSelected }: FilterInputType) {
         try {
           const response = await axios.get(
             // `${process.env.EXPO_PUBLIC_API_URL}/patients/${text}`
-            `http://3.22.75.73:3000/patients/${text}`
+            `http://3.22.75.73:3000/patients?name=${text}`
           );
           setPatients(response.data);
         } catch (error) {

@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, { useEffect, useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { SessionProvider } from "./provider/sessionContext";
-import * as Font from 'expo-font';
-
-
 
 //import Screens
-import LoginScreen from  './screens/Login/LoginScreen';
+import LoginScreen from "./screens/Login/LoginScreen";
 import OngoingAppointmentScreen from "./screens/OngoingAppointmentScreen/OngoingAppointmentScreen";
-import HomeScreen from './screens/HomeScreen/HomeScreen';
-import StartNewAppointmentScreen from './screens/StartNewAppointmentScreen/StartNewAppointmentScreen';
+import HomeScreen from "./screens/HomeScreen/HomeScreen";
+import StartNewAppointmentScreen from "./screens/StartNewAppointmentScreen/StartNewAppointmentScreen";
 import ProcessingAppointmentScreen from "./screens/ProcessingAppointmentScreen/ProcessingAppointmentScreen";
 import PasswordResetScreen from './screens/PasswordResetScreen/PasswordResetScreen';
 import ListRecordsScreen from './screens/ListRecordsScreen/ListRecordsScreen';
@@ -18,35 +15,46 @@ import ListRecordsScreen from './screens/ListRecordsScreen/ListRecordsScreen';
 
 
 //import CSS
-import { NativeWindStyleSheet } from 'nativewind';
-import { enableScreens } from 'react-native-screens';
-import RegisterScreen from './screens/RegisterScreen/RegisterScreen';
-import ResetPasswordCodeScreen from './screens/ResetPasswordCodeScreen/ResetPasswordCodeScreen';
-import ListChartsScreen from './screens/ListChartsScreen/ListChartsScreen';
-import ViewChartScreen from './screens/ViewChartScreen/ViewChartScreen';
+import { NativeWindStyleSheet } from "nativewind";
+import { enableScreens } from "react-native-screens";
+import RegisterScreen from "./screens/RegisterScreen/RegisterScreen";
+import ResetPasswordCodeScreen from "./screens/ResetPasswordCodeScreen/ResetPasswordCodeScreen";
+import ListChartsScreen from "./screens/ListChartsScreen/ListChartsScreen";
+import ViewChartScreen from "./screens/ViewChartScreen/ViewChartScreen";
+import ListPatientsScreen from "./screens/ListPatientsScreen/ListPatientsScreen";
 
+import * as Font from 'expo-font';
 
 enableScreens();
 
-
-
 const Stack = createStackNavigator();
 
-const StackNavigator: React.FC = () => (
-  <StackNavigator/>
-  );
-
+const StackNavigator: React.FC = () => <StackNavigator />;
 
 NativeWindStyleSheet.setOutput({
   default: "native",
 });
 
-
 export default function App() {
 
+  async function loadFonts() {
+    await Font.loadAsync({
+      Poppins: require("./assets/fonts/Poppins/Poppins-Regular.ttf"),
+      "Poppins-Bold": require("./assets/fonts/Poppins/Poppins-Bold.ttf"),
+      "Poppins-SemiBold": require("./assets/fonts/Poppins/Poppins-SemiBold.ttf"),
+    });
+    setFontsLoaded(true);
+  }
+
+  useEffect(() => {
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return "Erro Fonte";
+  }
 
   return (
-
     <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
@@ -76,7 +84,5 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </SessionProvider>
-
-
   );
 }

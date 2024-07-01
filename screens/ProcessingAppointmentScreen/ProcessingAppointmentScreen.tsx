@@ -1,55 +1,53 @@
-import { View, Text, ActivityIndicator, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  Platform,
+  Modal,
+} from "react-native";
 import HomeButton from "../../components/Homebutton";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
+import { FontAwesome5 } from "@expo/vector-icons";
+import Audio from "../../public/audio/test-02.wav";
+
+
+const getAudioFileUri = (uri: string) => {
+  return Platform.OS === "android" ? uri : uri.replace("file://", "");
+};
 
 export default function ProcessingAppointmentScreen({ navigation }: any) {
-  const { appoitmentInfos, patientInfo, setAppoitmentInfos, setPatientInfo } =
-    useContext(SessionContext);
+  const {
+    appoitmentInfos,
+    patientInfo,
+    setAppoitmentInfos,
+    setPatientInfo,
+    uriPath,
+  } = useContext(SessionContext);
   const [formattedTime, setFormattedTime] = useState("");
+  const [waitingResponse, setWaitingResponse] = useState(true);
+  const [status, setStatus] = useState("");
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   useEffect(() => {
-    updateAppointment();
+    sendAppointmentInfoAndUpdateAppointment();
   }, []);
 
-  async function sendAppointmentInfo() {
-    // We need to make sure the audio file is in the correct format accepted by the API
-    // In this case, we are sending a .wav file, but we need to enforce a file for both IOS and Android
-    const url = "/";
-    const audioFile = new File([""], "audio.wav", {
-      type: "audio/wav",
-    });
-    const formData = new FormData();
-    formData.append("audio_file", audioFile);
-
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
+  async function sendAppointmentInfoAndUpdateAppointment() {
+    const url = "https://0njnx.apps.beam.cloud/api/v1/prontuarios";
+    const filetype = uriPath.split(".").pop();
+    const fileName = uriPath.split("/").pop();
 
     try {
-      const response = await axios.post(url, formData, config);
-      return response;
-    } catch (error) {
-      console.error("Error sending POST request:", error);
-      throw error;
-    }
-  }
+      const response = await fetch("http://localhost:8081/public/audio/test-02.wav");//Consertar
+      // const response = await fetch(getAudioFileUri(uriPath));
+      const blob = await response.blob();
+      const formData = new FormData();
 
-  const updateAppointment = async () => {
-    try {
-      const body = {
-        medical_record_original:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam dignissimos inventore porro tenetur iusto, quae tempora numquam corrupti dolor voluptas soluta commodi neque aperiam earum accusantium ipsa? Et, quae esse Reprehenderit corporis corrupti ullam, aut fuga nulla deleniti ducimus modi error quam possimus sunt explicabo nobis consectetur veritatis vitae id sequi in aspernatur commodi aperiam qui inventore maiores. Distinctio, ex",
-      };
-      // const res = await axios.patch(`http://3.22.75.73:3000/appointments/${appointment_id}`, body)
-      const res = await axios.patch(
-        `http://3.22.75.73:3000/appointments/${appoitmentInfos.id}`,
-        body
-      );
+      formData.append("audio_file", blob, `${fileName}.${filetype}`);
+
       const seconds = appoitmentInfos.duration;
       const minutes = Math.floor(seconds / 60);
       const remainingSeconds = seconds % 60;
@@ -59,13 +57,53 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
           .toString()
           .padStart(2, "0")}`
       );
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
-  const { width, height } = Dimensions.get("window");
+      try {
+        setWaitingResponse(true);
+        const response = await axios.post(url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        try {
+          const body = {
+            medical_record_original: response.data,
+          };
+          const res = await axios.patch(
+            `http://3.22.75.73:3000/appointments/${appoitmentInfos.id}`,
+            body
+          );
+
+          setStatus("success");
+          setModalVisibility(true);
+
+          setTimeout(() => {
+            setModalVisibility(false);
+          }, 5000);
+
+          setWaitingResponse(false);
+          return res.data;
+        } catch (error) {
+          setWaitingResponse(false);
+          setStatus("error");
+          setModalVisibility(true);
+          setTimeout(() => {
+            setModalVisibility(false);
+          }, 5000);
+          console.log(error);
+        }
+      } catch (error) {
+        console.error("Upload1 failed:", error);
+        setStatus("error");
+        setWaitingResponse(false);
+      }
+    } catch (error) {
+      console.error("Upload2 failed:", error);
+      setStatus("error");
+      setWaitingResponse(false);
+    }
+  }
 
   const handleHomeButton = () => {
     setAppoitmentInfos({
@@ -85,7 +123,7 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
 
   return (
     <View className="flex flex-col h-screen justify-around items-center bg-background">
-      <AppText className="mt-10 text-black text-left text-lg py-screen">
+      <AppText className="mt-10 text-black text-left text-lg">
         {"\n\n"}
         Paciente: {patientInfo.name}
         {"\n"}
@@ -94,16 +132,68 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         Contexto: {appoitmentInfos.contexto}
         {"\n"}
         Duração: {formattedTime}
-        {"\n\n "}
-        Processando
       </AppText>
 
-      <ActivityIndicator size={70} color={"grey"} className="mt-10 mb-10" />
+      <View className="flex flex-col gap-3">
+        {waitingResponse ? (
+          <>
+            <ActivityIndicator
+              size={70}
+              color={"grey"}
+              className="mt-10 mb-10"
+            />
+            <AppText className="mt-10 text-black  text-left text-lg">
+              Consulta em processamento, aguarde...
+            </AppText>
+          </>
+        ) : (
+          <AppText className="mt-10 text-black  text-left text-lg">
+            Processamento finalizado
+          </AppText>
+        )}
+      </View>
 
       <HomeButton
+        disabled={waitingResponse}
         name="Voltar para a tela inicial"
         onPress={handleHomeButton}
       />
+
+      {status === "success" ? (
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalVisibility}
+        >
+          <View className="flex self-center border-[1px] rounded-[15px] border-lightGreen my-auto bg-white w-[80%] p-5">
+            <View className="items-center gap-7">
+              <View className="bg-[#00E733] rounded-full w-[70px] h-[70px] justify-center items-center">
+                <FontAwesome5 name="check-circle" size={60} color="white" />
+              </View>
+              <Text className="text-lg text-center font-bold opacity-30">
+                Prontuario processado com sucesso!
+              </Text>
+            </View>
+          </View>
+        </Modal>
+      ) : status === "error" ? (
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalVisibility}
+        >
+          <View className="flex self-center border-[1px] rounded-[15px] border-lightRed my-auto bg-white w-[80%] p-5">
+            <View className="items-center gap-7">
+              <View className="bg-[#FF0000] rounded-full w-[70px] h-[70px] justify-center items-center">
+                <FontAwesome5 name="times-circle" size={60} color="white" />
+              </View>
+              <Text className="text-lg text-center font-bold opacity-30">
+                Ocorreu um erro ao processar o prontuario!
+              </Text>
+            </View>
+          </View>
+        </Modal>
+      ) : null}
     </View>
   );
 }

@@ -7,15 +7,18 @@ import CancelConsultationModal from "../../components/CancelConsultationModal";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
+import axios from "axios";
+import MicPermissionModal from "../../components/MicPermissionModal";
 
 
-export default function ConsultaAndamento({navigation}:any) {
+export default function ConsultaAndamento({ navigation }: any) {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [started, setStarted] = useState(true);
   const [stopped, setStopped] = useState(false);
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isMicPermissionModalVisible, setIsMicPermissionModalVisible] = useState(false);
   const { setUri, patientInfo, appoitmentInfos, setAppoitmentInfos } = useContext(SessionContext);
 
   useEffect(() => {
@@ -30,6 +33,8 @@ export default function ConsultaAndamento({navigation}:any) {
           playThroughEarpieceAndroid: false,
         });
         handleRecordingStart();
+      } else {
+        handleMicPermissionError();
       }
     });
   }, []);
@@ -146,8 +151,8 @@ export default function ConsultaAndamento({navigation}:any) {
   };
 
   const handleDiscardRecording = async () => {
-    try{
-      if (recording){
+    try {
+      if (recording) {
         await recording.stopAndUnloadAsync();
         setRecording(null);
       }
@@ -160,6 +165,14 @@ export default function ConsultaAndamento({navigation}:any) {
         "Não foi possível descartar a gravação do áudio"
       );
     }
+  };
+
+  const handleMicPermissionError = () => {
+    setIsMicPermissionModalVisible(true);
+  };
+
+  const handleMicPermissionModalClose = () => {
+    setIsMicPermissionModalVisible(false);
   };
 
   return (
@@ -194,13 +207,19 @@ export default function ConsultaAndamento({navigation}:any) {
         <StopPauseButton onPress={handleRecordingStop} type="stop" />
       </View>
       <View>
-        <CancelConsultationButton onPress={handleCancelConsultation}/>
+        <CancelConsultationButton onPress={handleCancelConsultation} />
       </View>
       <StatusBar style="auto" />
       <CancelConsultationModal
         isVisible={isModalVisible}
         onClose={handleModalClose}
         onConfirm={handleDiscardRecording}
+      />
+      <MicPermissionModal
+        isVisible={isMicPermissionModalVisible}
+        onClose={() => {
+          handleMicPermissionModalClose();
+        }}
       />
     </View>
   );

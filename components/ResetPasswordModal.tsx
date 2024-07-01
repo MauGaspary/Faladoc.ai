@@ -4,6 +4,7 @@ import { Modal, Pressable, Text, View, ModalProps } from "react-native";
 import Input from "./Input";
 import EnterButton from "./EnterButton";
 import AppText from "./AppText";
+import api from "../api";
 
 type ResetPasswordModalProps = {
   modalVisible: boolean;
@@ -14,13 +15,13 @@ type ResetPasswordModalProps = {
 export function ResetPasswordModal({
   modalVisible,
   setModalVisible,
-  navigation
+  navigation,
 }: ResetPasswordModalProps) {
   const [failModalVisible, setFailModalVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [emailValid, setEmailValid] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!email.includes("@") || !email.includes(".") || email.length < 5) {
       setEmailValid("error");
       return;
@@ -28,27 +29,23 @@ export function ResetPasswordModal({
 
     setEmailValid("");
     setEmail("");
-    setModalVisible(false);
-    
-    navigation.navigate("ResetPasswordCode");
-    
-    
-    // axios
-    //   .post("https://api.faladoc.com/patient", {
-    //     email: email,
-    //   })
-    //   .then((response) => {
-    //     setTimeout(() => {
-    //       setFailModalVisible(false);
-    //       setModalVisible(false);
-    //     }, 5000);
-    //   })
-    //   .catch((error) => {
-    //     setFailModalVisible(true);
-    //     setTimeout(() => {
-    //       setFailModalVisible(false);
-    //     }, 5000);
-    //   });
+
+    try {
+      const response = await api.post("/passwordReset", { email: email });
+      if (response.status !== 201) {
+        throw new Error("Falha ao enviar código de recuperação de senha");
+      }
+      setFailModalVisible(false);
+      setModalVisible(false);
+      
+      navigation.navigate("ResetPasswordCode");
+      
+    } catch (error) {
+      setFailModalVisible(true);
+      setTimeout(() => {
+        setFailModalVisible(false);
+      }, 5000);
+    }
   };
 
   return (
@@ -61,7 +58,7 @@ export function ResetPasswordModal({
           setModalVisible(!modalVisible);
         }}
       >
-        <View className="flex justify-center relative items-center self-center rounded-2xl border-lightGreen border-2 my-auto bg-white w-[80%] p-8">
+        <View className="flex justify-center z-50 relative items-center self-center rounded-2xl border-lightGreen border-2 my-auto bg-white w-[80%] p-8">
           <Pressable
             className="absolute top-3 right-3"
             onPress={() => {
@@ -72,20 +69,19 @@ export function ResetPasswordModal({
           </Pressable>
           <AppText className="text-2xl mb-4">Esqueci minha senha</AppText>
           <AppText className="text-lg mb-2">Insira seu email</AppText>
-          <Input
-            value={email}
-            onChangeText={setEmail}
-            variant={emailValid}
-            iconName="mail-outline"
-            placeholder="Email"
-          />
-          <EnterButton
-            onPress={handleSubmit}          
-            text="Recuperar senha"
-          />
+          <Pressable className="w-full">
+            <Input
+              value={email}
+              onChangeText={setEmail}
+              variant={emailValid}
+              iconName="mail-outline"
+              placeholder="Email"
+            />
+          </Pressable>
+          <EnterButton onPress={handleSubmit} text="Recuperar senha" />
         </View>
       </Modal>
-      
+
       <Modal
         animationType="none"
         transparent={true}

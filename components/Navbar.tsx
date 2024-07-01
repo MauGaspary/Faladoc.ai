@@ -28,7 +28,7 @@ const Navbar = () => {
         case 'StartNewAppointment':
           setSelectedIcon('mic');
           break;
-        case 'Profile': 
+        case 'ViewPatients': 
           setSelectedIcon('person');
           break;
         default:
@@ -55,7 +55,7 @@ const Navbar = () => {
           )}
         </Pressable>
 
-        <Pressable>
+        <Pressable onPress={() => handleIconPress('person', 'ViewPatients')} >
           {selectedIcon === 'person' ? (
             <Ionicons name="person" size={35} color="#12ADB4" />
           ) : (
