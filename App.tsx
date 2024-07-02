@@ -9,7 +9,10 @@ import OngoingAppointmentScreen from "./screens/OngoingAppointmentScreen/Ongoing
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import StartNewAppointmentScreen from "./screens/StartNewAppointmentScreen/StartNewAppointmentScreen";
 import ProcessingAppointmentScreen from "./screens/ProcessingAppointmentScreen/ProcessingAppointmentScreen";
-import PasswordResetScreen from "./screens/PasswordResetScreen/PasswordResetScreen";
+import PasswordResetScreen from './screens/PasswordResetScreen/PasswordResetScreen';
+import ListRecordsScreen from './screens/ListRecordsScreen/ListRecordsScreen';
+
+
 
 //import CSS
 import { NativeWindStyleSheet } from "nativewind";
@@ -33,7 +36,6 @@ NativeWindStyleSheet.setOutput({
 });
 
 export default function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   async function loadFonts() {
     await Font.loadAsync({
@@ -56,71 +58,29 @@ export default function App() {
     <SessionProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
 
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ headerShown: false }}
-          />
 
-          <Stack.Screen
-            name="Register"
-            component={RegisterScreen}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }}/>
+          
+          <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }}/>
+          
+          <Stack.Screen name='Register' component={RegisterScreen} options={{ headerShown: false }}/>
 
-          <Stack.Screen
-            name="ResetPasswordCode"
-            component={ResetPasswordCodeScreen}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name="ResetPasswordCode" component={ResetPasswordCodeScreen} options={{ headerShown: false }}/>
+          
+          <Stack.Screen name='StartNewAppointment' component={StartNewAppointmentScreen} options={{ headerShown: false }}/>
 
-          <Stack.Screen
-            name="StartNewAppointment"
-            component={StartNewAppointmentScreen}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name='ListCharts' component={ListChartsScreen} options={{ headerShown: false }}/>
 
-          <Stack.Screen
-            name="ListCharts"
-            component={ListChartsScreen}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name='ViewChart' component={ViewChartScreen} options={{ headerShown: false }}/>
+          
+          <Stack.Screen name="ResetPassword" component={PasswordResetScreen} options={{ headerShown: false }}/>
+          
+          <Stack.Screen name='OngoingAppointment' component={OngoingAppointmentScreen} options={{ headerShown: false }}/>
 
-          <Stack.Screen
-            name="ViewChart"
-            component={ViewChartScreen}
-            options={{ headerShown: false }}
-          />
-
-          <Stack.Screen
-            name="ViewPatients"
-            component={ListPatientsScreen}
-            options={{ headerShown: false }}
-          />
-
-          <Stack.Screen
-            name="ResetPassword"
-            component={PasswordResetScreen}
-            options={{ headerShown: false }}
-          />
-
-          <Stack.Screen
-            name="OngoingAppointment"
-            component={OngoingAppointmentScreen}
-            options={{ headerShown: false }}
-          />
-
-          <Stack.Screen
-            name="ProcessingAppointment"
-            component={ProcessingAppointmentScreen}
-            options={{ headerShown: false }}
-          />
+          <Stack.Screen name='ProcessingAppointment' component={ProcessingAppointmentScreen} options={{ headerShown: false }}/>
+          
+          <Stack.Screen name='ListRecords' component={ListRecordsScreen} options={{ headerShown: false }}/>
         </Stack.Navigator>
       </NavigationContainer>
     </SessionProvider>
