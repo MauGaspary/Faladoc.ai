@@ -7,6 +7,7 @@ import {
   TextInput,
   Modal,
   LayoutAnimation,
+  Keyboard
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
@@ -98,6 +99,9 @@ export default function ViewChartScreen({ navigation }: any) {
   const handleEdit = () => {
     setIsEditing(true);
   };
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
 
   const handleConfirm = async () => {
     try {
@@ -150,6 +154,7 @@ export default function ViewChartScreen({ navigation }: any) {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <KeyboardAvoidingView className="flex-1 bg-background rounded-t-3xl pt-2 max-w-full">
       <ScrollView className="pb-8 mt-10">
         <AppText className="text-2xl text-gray-700 leading-12 text-left ml-6">
@@ -196,7 +201,7 @@ export default function ViewChartScreen({ navigation }: any) {
                       )
                     }
                     style={{ height: Math.max(35, inputHeight) }} // Definindo a altura dinâmica
-                  />
+                    />
                   <Pressable
                     className={`mt-3 p-2 rounded ${
                       isEdited ? "bg-gray-700" : "bg-gray-300"
@@ -221,7 +226,7 @@ export default function ViewChartScreen({ navigation }: any) {
         <View>
           {appointment.appointment_status === "WAITING_APPROVAL" && (
             <Pressable
-              className="mt-10 flex-row rounded-full p-3 bg-teal-600 justify-center shadow-lg w-full"
+            className="mt-10 flex-row rounded-full p-3 bg-teal-600 justify-center shadow-lg w-full"
               onPress={handleApprove}
             >
               <View className="w-full justify-center items-center">
@@ -233,7 +238,7 @@ export default function ViewChartScreen({ navigation }: any) {
           <Pressable
             className="mt-6 flex-row rounded-full p-3 bg-teal-600 justify-center shadow-lg w-full"
             onPress={handleEvaluate}
-          >
+            >
             <View className="w-full justify-center items-center">
               <Text className="text-white">Avaliar o prontuário gerado</Text>
             </View>
@@ -259,5 +264,6 @@ export default function ViewChartScreen({ navigation }: any) {
 
       <Navbar />
     </KeyboardAvoidingView>
+  </Pressable>
   );
 }

@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, KeyboardAvoidingView } from "react-native";
+import { View, Text, KeyboardAvoidingView,Keyboard, Pressable } from "react-native";
 import Input from "../../components/Input";
 import StartConsultationButton from "../../components/StartConsultationButton";
 import { AddPatientModal } from "../../components/AddPatientModal";
@@ -25,7 +25,9 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
       hospital: text,
     });
   };
-
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
   const handleContext = (text: string) => {
     setAppoitmentInfos({
       ...appoitmentInfos,
@@ -80,6 +82,7 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <KeyboardAvoidingView className="h-full">
       <View className="h-full bg-background items-center justify-center px-4">
         <AddPatientModal />
@@ -118,6 +121,7 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
         onConfirm={handleStartRecording}
       />
     </KeyboardAvoidingView>
+    </Pressable>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Text, View, Alert, Image } from "react-native";
+import { Text, View, Alert, Image,Keyboard, Pressable } from "react-native";
 import { StopPauseButton } from "../../components/StopPauseButton";
 import { CancelConsultationButton } from "../../components/CancelConsultationButton";
 import CancelConsultationModal from "../../components/CancelConsultationModal";
@@ -70,6 +70,9 @@ export default function ConsultaAndamento({ navigation }: any) {
       }
       setStarted(!started);
     }
+  };
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
   };
 
   const handleRecordingStart = async () => {
@@ -176,13 +179,14 @@ export default function ConsultaAndamento({ navigation }: any) {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <View className="flex flex-col items-center justify-center h-full bg-background">
 
       <View className="w-[400px] h-[130px] object-contain mb-10">
         {started && (
           <Image
-            source={require("../../assets/photoaudio.png")}
-            className="w-full h-full object-contain"
+          source={require("../../assets/photoaudio.png")}
+          className="w-full h-full object-contain"
           />
         )}
       </View>
@@ -220,7 +224,8 @@ export default function ConsultaAndamento({ navigation }: any) {
         onClose={() => {
           handleMicPermissionModalClose();
         }}
-      />
+        />
     </View>
+    </Pressable>
   );
 }

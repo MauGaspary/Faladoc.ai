@@ -4,6 +4,8 @@ import {
   ActivityIndicator,
   Platform,
   Modal,
+  Keyboard,
+  Pressable
 } from "react-native";
 import HomeButton from "../../components/Homebutton";
 import { useContext, useEffect, useState } from "react";
@@ -104,7 +106,9 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
       setWaitingResponse(false);
     }
   }
-
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
   const handleHomeButton = () => {
     setAppoitmentInfos({
       id: "",
@@ -122,6 +126,7 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <View className="flex flex-col h-screen justify-around items-center bg-background">
       <AppText className="mt-10 text-black text-left text-lg">
         {"\n\n"}
@@ -157,13 +162,13 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         disabled={waitingResponse}
         name="Voltar para a tela inicial"
         onPress={handleHomeButton}
-      />
+        />
 
       {status === "success" ? (
         <Modal
-          animationType="none"
-          transparent={true}
-          visible={modalVisibility}
+        animationType="none"
+        transparent={true}
+        visible={modalVisibility}
         >
           <View className="flex self-center border-[1px] rounded-[15px] border-lightGreen my-auto bg-white w-[80%] p-5">
             <View className="items-center gap-7">
@@ -178,10 +183,10 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         </Modal>
       ) : status === "error" ? (
         <Modal
-          animationType="none"
-          transparent={true}
+        animationType="none"
+        transparent={true}
           visible={modalVisibility}
-        >
+          >
           <View className="flex self-center border-[1px] rounded-[15px] border-lightRed my-auto bg-white w-[80%] p-5">
             <View className="items-center gap-7">
               <View className="bg-[#FF0000] rounded-full w-[70px] h-[70px] justify-center items-center">
@@ -195,5 +200,6 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         </Modal>
       ) : null}
     </View>
+    </Pressable>
   );
 }
