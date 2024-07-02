@@ -91,8 +91,8 @@ const RegisterScreen = ({navigation}:any) => {
                     />
                   </View>
                 </View>
-                <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setName} value={name}/>
-                <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality} value={specialty} />
+                <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setName} value={name} editable={false}/>
+                <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality} value={specialty} editable={false} />
                 <View className="border-b-2 border-teal-600 w-4/5 my-2" />
 
                 <Input iconName={'business-outline'} placeholder={'Hospital'} className={'px-15'} value={hospital} onChangeText={setHospital}/>
