@@ -43,7 +43,6 @@ export class PatientsController {
     try {
       const { doctorId } = req.params;
       const patients = await PatientService.getPatientsByDoctorId(doctorId);
-      console.log('patients', patients);
       res.status(200).json(patients);
     } catch (error) {
       console.error("Erro ao buscar pacientes por id do médico", error);
