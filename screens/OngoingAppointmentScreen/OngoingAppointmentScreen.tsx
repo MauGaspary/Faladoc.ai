@@ -6,7 +6,9 @@ import { CancelConsultationButton } from "../../components/CancelConsultationBut
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
-import { ConfirmationModal } from "../../components/ConfirmationModal";
+import axios from "axios";
+import MicPermissionModal from "../../components/MicPermissionModal";
+
 
 export default function ConsultaAndamento({ navigation }: any) {
   const [minutes, setMinutes] = useState(0);
@@ -14,10 +16,9 @@ export default function ConsultaAndamento({ navigation }: any) {
   const [started, setStarted] = useState(true);
   const [stopped, setStopped] = useState(false);
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
-  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
-  const [isDiscardModalVisible, setIsDiscardModalVisible] = useState(false);
-  const { setUri, appoitmentInfos, setAppoitmentInfos } =
-    useContext(SessionContext);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isMicPermissionModalVisible, setIsMicPermissionModalVisible] = useState(false);
+  const { setUri, patientInfo, appoitmentInfos, setAppoitmentInfos } = useContext(SessionContext);
 
   useEffect(() => {
     Audio.requestPermissionsAsync().then(({ granted }) => {
@@ -31,6 +32,8 @@ export default function ConsultaAndamento({ navigation }: any) {
           playThroughEarpieceAndroid: false,
         });
         handleRecordingStart();
+      } else {
+        handleMicPermissionError();
       }
     });
   }, []);
@@ -164,6 +167,14 @@ export default function ConsultaAndamento({ navigation }: any) {
     }
   };
 
+  const handleMicPermissionError = () => {
+    setIsMicPermissionModalVisible(true);
+  };
+
+  const handleMicPermissionModalClose = () => {
+    setIsMicPermissionModalVisible(false);
+  };
+
   return (
     <View className="flex flex-col items-center justify-center h-full bg-background">
       <View className="w-[400px] h-[130px] object-contain mb-10">
@@ -215,6 +226,12 @@ export default function ConsultaAndamento({ navigation }: any) {
         text="Voce deseja realmente cancelar a consulta?"
         cancelButtonText="Cancelar"
         submitButtonText="Descartar"
+      />
+      <MicPermissionModal
+        isVisible={isMicPermissionModalVisible}
+        onClose={() => {
+          handleMicPermissionModalClose();
+        }}
       />
     </View>
   );
