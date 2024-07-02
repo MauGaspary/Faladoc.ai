@@ -41,7 +41,7 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
     const fileName = uriPath.split("/").pop();
 
     try {
-      const response = await fetch("http://localhost:8081/public/audio/test-02.wav");//Consertar
+      const response = await fetch("https://gabrielbohn99.github.io/whitelabel/test-02.wav");//Consertar
       // const response = await fetch(getAudioFileUri(uriPath));
       const blob = await response.blob();
       const formData = new FormData();
@@ -127,9 +127,9 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         {"\n\n"}
         Paciente: {patientInfo.name}
         {"\n"}
-        Hospital: {appoitmentInfos.hospital}
+        Hospital: {appoitmentInfos.hospital ? appoitmentInfos.hospital : "Não informado"}
         {"\n"}
-        Contexto: {appoitmentInfos.contexto}
+        Contexto: {appoitmentInfos.contexto ? appoitmentInfos.contexto : "Não informado"}
         {"\n"}
         Duração: {formattedTime}
       </AppText>
