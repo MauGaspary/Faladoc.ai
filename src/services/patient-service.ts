@@ -32,7 +32,6 @@ export class PatientService {
             where: { doctor_id: doctorId },
             attributes: ['patient_id'],
         });
-        console.log('Appointments', Appointments);
 
         const patientsId = Appointments.map((appointment) => appointment.patient_id);
 
