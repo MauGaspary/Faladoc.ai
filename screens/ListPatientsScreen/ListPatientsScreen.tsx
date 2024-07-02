@@ -90,7 +90,7 @@ const ListPatientsScreen = ({ navigation }: any) => {
             }}
         />
       </View>
-      <ScrollView className="px-4 mt-3 w-full h-80">
+      <ScrollView className="px-4 mt-3 w-full h-lvh">
         <View className="flex items-center justify-center h-full">
           {filteredAppointments.map((appointment, index) => (
             <Pressable
