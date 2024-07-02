@@ -39,6 +39,17 @@ export class PatientsController {
     }
   }
 
+  public static async getPatientsByDoctorId(req: Request, res: Response) {
+    try {
+      const { doctorId } = req.params;
+      const patients = await PatientService.getPatientsByDoctorId(doctorId);
+      res.status(200).json(patients);
+    } catch (error) {
+      console.error("Erro ao buscar pacientes por id do médico", error);
+      res.status(500).json({ error: 'Erro ao buscar pacientes por id do médico' });
+    }
+  }
+
   public static async createPatient(req: Request, res: Response) {
     try {
       const patient = req.body;
