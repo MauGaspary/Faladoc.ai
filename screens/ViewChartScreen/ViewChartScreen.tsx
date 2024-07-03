@@ -19,20 +19,20 @@ export default function ViewChartScreen({ navigation }: any) {
   const route = useRoute();
   const { id } = route.params as { id: string };
 
-  const calcularIdade = (dataNascimento: string) => {
-    const hoje = new Date();
-    const nascimento = new Date(dataNascimento);
-    let idade = hoje.getFullYear() - nascimento.getFullYear();
-    const mes = hoje.getMonth() - nascimento.getMonth();
-    if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
-      idade--;
+  const estimateAge = (birthDate: string) => {
+    const today = new Date();
+    const birthday = new Date(birthDate);
+    let age = today.getFullYear() - birthday.getFullYear();
+    const month = today.getMonth() - birthday.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < birthday.getDate())) {
+      age--;
     }
-    return idade;
+    return age;
   };
 
-  const formatarData = (data: string) => {
-    const [ano, mes, dia] = data.split("-");
-    return `${dia}/${mes}/${ano}`;
+  const formatData = (data: string) => {
+    const [year, month, day] = data.split("-");
+    return `${day}/${month}/${year}`;
   };
 
   const [patient, setPatient] = useState({ name: "", date_of_birth: "" });
@@ -44,11 +44,11 @@ export default function ViewChartScreen({ navigation }: any) {
     appointment_status: "",
   });
 
-  const idade = calcularIdade(patient.date_of_birth);
-  const dataNascimentoFormatada = formatarData(patient.date_of_birth);
+  const age = estimateAge(patient.date_of_birth);
+  const birtDateFormatted = formatData(patient.date_of_birth);
 
-  const [diagnostico, setDiagnostico] = useState("");
-  const [tempDiagnostico, setTempDiagnostico] = useState("");
+  const [diagnostic, setDiagnostic] = useState("");
+  const [tempDiagnostic, setTempDiagnostic] = useState("");
   const [inputHeight, setInputHeight] = useState(0);
 
   const [isEditing, setIsEditing] = useState(false);
@@ -87,8 +87,8 @@ export default function ViewChartScreen({ navigation }: any) {
       );
       setPatient(patientResponse.data);
 
-      setDiagnostico(medical_record_original || "");
-      setTempDiagnostico(medical_record_final || "");
+      setDiagnostic(medical_record_original || "");
+      setTempDiagnostic(medical_record_final || "");
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
     }
@@ -102,13 +102,13 @@ export default function ViewChartScreen({ navigation }: any) {
     try {
       const updatedAppointment = {
         ...appointment,
-        medical_record_final: tempDiagnostico,
+        medical_record_final: tempDiagnostic,
       };
       await axios.patch(
         `http://3.22.75.73:3000/appointments/${id}`,
         updatedAppointment
       );
-      setDiagnostico(tempDiagnostico);
+      setDiagnostic(tempDiagnostic);
       setIsEditing(false);
       setIsEdited(false);
     } catch (error) {
@@ -117,7 +117,7 @@ export default function ViewChartScreen({ navigation }: any) {
   };
 
   const handleTextChange = (text: string) => {
-    setTempDiagnostico(text);
+    setTempDiagnostic(text);
     setIsEdited(true);
   };
 
@@ -148,13 +148,13 @@ export default function ViewChartScreen({ navigation }: any) {
     setIsModalVisible(false);
   };
 
-  const toggleProntuario = () => {
+  const toggleChart = () => {
     if (showingOriginal) {
-      setDiagnostico(appointment.medical_record_final);
-      setTempDiagnostico(appointment.medical_record_final);
+      setDiagnostic(appointment.medical_record_final);
+      setTempDiagnostic(appointment.medical_record_final);
       setIsEditing(false);
     } else {
-      setDiagnostico(appointment.medical_record_original);
+      setDiagnostic(appointment.medical_record_original);
     }
     setShowingOriginal(!showingOriginal);
   };
@@ -172,7 +172,7 @@ export default function ViewChartScreen({ navigation }: any) {
               Paciente: {patient.name ? patient.name : "carregando..."}{" "}
             </AppText>
             <AppText className="text-lg text-gray-500 ml-5 mt-3">
-              Idade: {patient.date_of_birth && idade}
+              Idade: {patient.date_of_birth && age}
             </AppText>
             <AppText className="text-lg text-gray-500 ml-5 mt-3 mb-2">
               Data da Consulta: {appointment.appointment_date}
@@ -197,7 +197,7 @@ export default function ViewChartScreen({ navigation }: any) {
             <View className="h-auto bg-white rounded-3xl">
               {showingOriginal ? (
                 <AppText className="text-lg text-timer ml-5 mr-5 mt-3 mb-5">
-                  {diagnostico}
+                  {diagnostic}
                 </AppText>
               ) : (
                 <>
@@ -205,7 +205,7 @@ export default function ViewChartScreen({ navigation }: any) {
                     <>
                       <TextInput
                         className="text-lg text-timer ml-5 mr-5 mt-3 mb-5 border border-gray-300 rounded px-2 py-1"
-                        value={tempDiagnostico}
+                        value={tempDiagnostic}
                         onChangeText={handleTextChange}
                         multiline
                         onContentSizeChange={(e) =>
@@ -230,7 +230,7 @@ export default function ViewChartScreen({ navigation }: any) {
                     </>
                   ) : (
                     <AppText className="text-lg text-timer ml-5 mr-5 mt-3 mb-5">
-                      {diagnostico}
+                      {diagnostic}
                     </AppText>
                   )}
                 </>
@@ -242,7 +242,7 @@ export default function ViewChartScreen({ navigation }: any) {
         <View className="items-center">
           <Pressable
             className="mt-6 flex-row rounded-full p-3 bg-teal-600 justify-center shadow-lg w-2/3"
-            onPress={toggleProntuario}
+            onPress={toggleChart}
           >
             <View className="w-full justify-center items-center">
               <Text className="text-white">

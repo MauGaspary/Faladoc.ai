@@ -101,7 +101,7 @@ const ListPatientsScreen = ({ navigation }: any) => {
               }
             >
               <AppointmentCard
-                type="paciente"
+                type="pacient"
                 pacientName={appointment.patient.name}
                 date={appointment.appointment_date}
                 specialty={appointment.hospital}

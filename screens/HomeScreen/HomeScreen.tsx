@@ -98,7 +98,7 @@ export default function HomeScreen({ navigation }: any) {
                     }
                   >
                     <AppointmentCard
-                      type="prontuario"
+                      type="chart"
                       pacientName={getFirstAndLastName(
                         appointment.patient.name
                       )}

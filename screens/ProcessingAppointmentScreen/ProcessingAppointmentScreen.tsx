@@ -110,7 +110,7 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
       id: "",
       duration: 0,
       hospital: "",
-      contexto: "",
+      context: "",
     });
     setPatientInfo({
       id: "",
@@ -129,7 +129,7 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         {"\n"}
         Hospital: {appoitmentInfos.hospital ? appoitmentInfos.hospital : "Não informado"}
         {"\n"}
-        Contexto: {appoitmentInfos.contexto ? appoitmentInfos.contexto : "Não informado"}
+        Context: {appoitmentInfos.context ? appoitmentInfos.context : "Não informado"}
         {"\n"}
         Duração: {formattedTime}
       </AppText>

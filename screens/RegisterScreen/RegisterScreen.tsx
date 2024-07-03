@@ -13,7 +13,7 @@ const RegisterScreen = ({navigation}:any) => {
     const [password,setPassword] = useState("")
     const [name,setName] = useState("")
     const [email,setEmail] = useState("")
-    const [estado, setEstado] = useState("")
+    const [state, setState] = useState("")
     const [hospital, setHospital] = useState("")
     const [specialty, setSpeciality] = useState("")
     const [crm, setCRM] = useState("")
