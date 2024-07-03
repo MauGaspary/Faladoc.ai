@@ -90,10 +90,10 @@ export function ResetPasswordModal({
           setModalVisible(false);
         }}
       >
-        <View className="flex self-center border-[1px] rounded-[15px] border-lightGreen my-auto bg-white w-[80%] p-5">
+        <View className="flex self-center border-[2rem] rounded-[1rem] border-lightGreen my-auto bg-white w-[80%] p-5">
           <View className="items-center gap-7">
-            <View className="bg-invalid rounded-full w-[70px] h-[70px] justify-center items-center">
-              <FontAwesome name="close" size={60} color="white" />
+            <View className="bg-invalid rounded-full w-[4.5rem] h-[4.5rem] justify-center items-center">
+              <FontAwesome name="close" size={62} color="white" />
             </View>
             <AppText className="text-lg text-center font-bold opacity-30">
               Problema no envio de email

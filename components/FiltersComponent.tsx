@@ -43,7 +43,7 @@ export function FiltersComponent({ onFilter, enableNameFilter = true, enableDate
   };
 
   return (
-    <View className="border rounded-[30px] py-3 px-4 mb-3 w-11/12 flex-col items-center bg-white z-10">
+    <View className="border rounded-[1.875rem] py-3 px-4 mb-3 w-11/12 flex-col items-center bg-white z-10">
       <View className="flex flex-row items-center w-full">
         {enableNameFilter && (
           <View className={`flex-row items-center w-2/4 ${enableDateFilter ? 'border-r ' : ''}`}>

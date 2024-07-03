@@ -34,24 +34,7 @@ NativeWindStyleSheet.setOutput({
 });
 
 export default function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  async function loadFonts() {
-    await Font.loadAsync({
-      Poppins: require("./assets/fonts/Poppins/Poppins-Regular.ttf"),
-      "Poppins-Bold": require("./assets/fonts/Poppins/Poppins-Bold.ttf"),
-      "Poppins-SemiBold": require("./assets/fonts/Poppins/Poppins-SemiBold.ttf"),
-    });
-    setFontsLoaded(true);
-  }
-
-  useEffect(() => {
-    loadFonts();
-  }, []);
-
-  if (!fontsLoaded) {
-    return "Erro Fonte";
-  }
 
   return (
     <SessionProvider>
@@ -117,17 +100,13 @@ export default function App() {
             options={{ headerShown: false }}
           />
 
-          <Stack.Screen
-            name="ProcessingAppointment"
-            component={ProcessingAppointmentScreen}
-            options={{ headerShown: false }}
-          />
 
           <Stack.Screen
             name="ListRecordsScreen"
             component={ListRecordsScreen}
             options={{ headerShown: false }}
           />
+
         </Stack.Navigator>
       </NavigationContainer>
     </SessionProvider>

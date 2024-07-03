@@ -20,7 +20,7 @@ export function StopPauseButton({ type, onPress }: StopPauseButtonProps) {
     onPress();
   };
   return (
-    <Pressable onPress={handlePress} className={`flex flex-row w-[140px] h-[120px] items-center rounded-[12px] justify-center ${type === 'stop' ? 'bg-[#B42512]' : 'bg-[#12B418]'}`  }>
+    <Pressable onPress={handlePress} className={`flex flex-row w-[8.75rem] h-[7.5rem] items-center rounded-[0.75rem] justify-center ${type === 'stop' ? 'bg-[#B42512]' : 'bg-[#12B418]'}`  }>
       {type === 'pause' ? (buttonPressed ? <PlayIcon /> : <PauseIcon />) : <StopIcon />}
     </Pressable>
   );

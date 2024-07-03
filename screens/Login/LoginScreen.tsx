@@ -8,6 +8,7 @@ import api from "../../api";
 import axios from "axios";
 import { ResetPasswordModal } from "../../components/ResetPasswordModal";
 import AppText from "../../components/AppText";
+import { AddPatientModal } from "../../components/AddPatientModal";
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState("");

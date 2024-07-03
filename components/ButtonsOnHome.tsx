@@ -15,7 +15,7 @@ const ButtonsOnHome =({ size ,onPress,icon,text}: any)=> {
   );
   else return(
     <View>
-      <Pressable onPress={onPress} className="rounded-lg justify-center w-[152px] h-32 bg-timer items-center" >
+      <Pressable onPress={onPress} className="rounded-lg justify-center w-[9.5rem] h-32 bg-timer items-center" >
         <Ionicons name={icon} size={60} color="white"/>       
         <AppText className="text-white text-2xl font-semibold">{text}</AppText>
       </Pressable>

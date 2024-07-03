@@ -10,6 +10,7 @@ import AppText from "../../components/AppText";
 export default function HomeScreen({ navigation }: any) {
   const [appointments, setAppointments] = useState([]);
   const { doctorInfo } = useContext(SessionContext);
+  console.log(doctorInfo)
 
   useEffect(() => {
     getAppointments();
@@ -103,7 +104,7 @@ export default function HomeScreen({ navigation }: any) {
                         appointment.patient.name
                       )}
                       date={formatDate(appointment.appointment_date)}
-                      specialty={appointment.hospital}
+                      location={appointment.hospital}
                       status={appointment.appointment_status}
                       context={appointment.appointment_context}
                     />
