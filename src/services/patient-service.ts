@@ -1,4 +1,6 @@
 import { Patient, buildPatientQueryParams, PatientQueryParams } from '../models/Patient';
+import { Appointment } from '../models/Appointment';
+import { Op } from 'sequelize';
 
 export class PatientService {
     static async getPatients(query: PatientQueryParams) {
@@ -13,6 +15,24 @@ export class PatientService {
 
         return patients;
         
+    }
+
+    static async getPatientsByDoctorId(doctorId: string) {
+        const Appointments = await Appointment.findAll({
+            where: { doctor_id: doctorId },
+            attributes: ['patient_id'],
+        });
+
+        const patientsId = Appointments.map((appointment) => appointment.patient_id);
+
+        const patients = await Patient.findAll({
+            where: { id: { [Op.in]: patientsId } },
+            attributes: ['id', 'name', 'date_of_birth', 'cpf'],
+        });
+
+        console.log('patientsSERVICE', patients);
+
+        return patients;
     }
 
     static async deletePatient(id: string) {
