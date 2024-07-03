@@ -32,7 +32,6 @@ const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose, appoint
         },
       });
 
-      console.log(response);
       onClose();
     } catch (error) {
       console.error('Erro ao enviar feedback:', error);

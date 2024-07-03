@@ -22,7 +22,7 @@ export default function HomeScreen({ navigation }: any) {
       );
       setAppointments(res.data);
     } catch (error) {
-      console.log(error);
+
     }
   };
 

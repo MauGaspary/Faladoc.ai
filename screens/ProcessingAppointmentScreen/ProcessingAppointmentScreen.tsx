@@ -91,7 +91,6 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
           setTimeout(() => {
             setModalVisibility(false);
           }, 5000);
-          console.log(error);
         }
       } catch (error) {
         console.error("Upload1 failed:", error);

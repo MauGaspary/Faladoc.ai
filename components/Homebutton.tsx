@@ -12,7 +12,7 @@ type ButtonProps = {
 
 const HomeButton =({ name ,onPress, disabled }: ButtonProps)=> {
   const something = () => {
-    console.log('something');
+    
   }
   
   return (

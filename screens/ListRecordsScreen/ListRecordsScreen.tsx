@@ -30,7 +30,6 @@ export default function ListRecordsScreen() {
       const res = await axios.get(url);
       setRawRecords(res.data); // Atualiza rawRecords com os dados recebidos
     } catch (error) {
-      console.log(error);
       setRawRecords([]); // Em caso de erro, limpa os registros
     }
   }

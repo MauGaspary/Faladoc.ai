@@ -31,9 +31,8 @@ const RegisterScreen = ({navigation}:any) => {
         );
         setName(res.data.name);
         setSpeciality(res.data.speciality);
-        console.log(res);
       } catch (error) {
-        console.log(error);
+
       }
     };
 
@@ -60,7 +59,6 @@ const RegisterScreen = ({navigation}:any) => {
       if (response.status !== 200) {
         throw new Error("Falha ao registrar");
       }
-      console.log('Registro realizado com sucesso!');
       navigation.navigate("Login");
     } catch (error) {
       if (axios.isAxiosError(error)) {

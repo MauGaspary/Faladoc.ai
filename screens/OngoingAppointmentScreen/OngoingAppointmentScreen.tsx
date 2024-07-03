@@ -53,7 +53,6 @@ export default function ConsultaAndamento({ navigation }: any) {
             }
           })
           .catch(function (error) {
-            console.log(error);
           });
       }, 1000);
       return () => clearInterval(timer);
@@ -159,7 +158,6 @@ export default function ConsultaAndamento({ navigation }: any) {
       setIsDiscardModalVisible(false);
       navigation.navigate("StartNewAppointment");
     } catch (error) {
-      console.log(error);
       Alert.alert(
         "Erro ao descartar gravação",
         "Não foi possível descartar a gravação do áudio"
