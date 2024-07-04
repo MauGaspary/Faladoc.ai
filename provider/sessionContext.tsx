@@ -27,7 +27,7 @@ const SessionContext = createContext<ContextType>({
   appoitmentInfos: {
     id: "",
     hospital: "",
-    contexto: "",
+    context: "",
     duration: 0,
   },
   setAppoitmentInfos: () => {},
@@ -55,7 +55,7 @@ export const SessionProvider = ({
   const [appoitmentInfos, setAppoitmentInfos] = useState<AppointmentDTO>({
     id: "",
     hospital: "",
-    contexto: "",
+    context: "",
     duration: 0,
   });
   const [doctorInfo, setDoctorInfo] = useState<DoctorDTO>({

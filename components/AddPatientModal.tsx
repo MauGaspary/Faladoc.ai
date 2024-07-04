@@ -13,8 +13,8 @@ export function AddPatientModal(this: any) {
   const [modalVisible, setModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
 
-  const [nome, setNome] = useState("");
-  const [dataNascimento, setDataNascimento] = useState("");
+  const [name, setName] = useState("");
+  const [birthDate, setbirthDate] = useState("");
 
   const [cpf, setCpf] = useState("");
   const [isCpfValid, setIsCpfValid] = useState(true);
@@ -26,49 +26,49 @@ export function AddPatientModal(this: any) {
     setIsCpfValid(isValidCPF(unmasked)); 
   };
 
-  function isValidCPF(documento: string) {
-    if (typeof documento !== "string") return false;
-    documento = documento.replace(/[\s.-]*/gim, "");
+  function isValidCPF(document: string) {
+    if (typeof document !== "string") return false;
+    document = document.replace(/[\s.-]*/gim, "");
     if (
-      !documento ||
-      documento.length != 11 ||
-      documento == "00000000000" ||
-      documento == "11111111111" ||
-      documento == "22222222222" ||
-      documento == "33333333333" ||
-      documento == "44444444444" ||
-      documento == "55555555555" ||
-      documento == "66666666666" ||
-      documento == "77777777777" ||
-      documento == "88888888888" ||
-      documento == "99999999999"
+      !document ||
+      document.length != 11 ||
+      document == "00000000000" ||
+      document == "11111111111" ||
+      document == "22222222222" ||
+      document == "33333333333" ||
+      document == "44444444444" ||
+      document == "55555555555" ||
+      document == "66666666666" ||
+      document == "77777777777" ||
+      document == "88888888888" ||
+      document == "99999999999"
     ) {
       return false;
     }
-    let soma = 0;
-    let resto;
-    for (let i = 1; i <= 9; i++) soma = soma + parseInt(documento.substring(i - 1, i)) * (11 - i);
-    resto = (soma * 10) % 11;
-    if (resto == 10 || resto == 11) resto = 0;
-    if (resto != parseInt(documento.substring(9, 10))) return false;
-    soma = 0;
-    for (let i = 1; i <= 10; i++) soma = soma + parseInt(documento.substring(i - 1, i)) * (12 - i);
-    resto = (soma * 10) % 11;
-    if (resto == 10 || resto == 11) resto = 0;
-    if (resto != parseInt(documento.substring(10, 11))) return false;
+    let sum = 0;
+    let remnant;
+    for (let i = 1; i <= 9; i++) sum = sum + parseInt(document.substring(i - 1, i)) * (11 - i);
+    remnant = (sum * 10) % 11;
+    if (remnant == 10 || remnant == 11) remnant = 0;
+    if (remnant != parseInt(document.substring(9, 10))) return false;
+    sum = 0;
+    for (let i = 1; i <= 10; i++) sum = sum + parseInt(document.substring(i - 1, i)) * (12 - i);
+    remnant = (sum * 10) % 11;
+    if (remnant == 10 || remnant == 11) remnant = 0;
+    if (remnant != parseInt(document.substring(10, 11))) return false;
     return true;
   }
 
   const handleSubmit = async () => {
-    if (!nome || !dataNascimento || !cpf) {
+    if (!name || !birthDate|| !cpf) {
       return;
     }
 
     setSuccessModalVisible(true);
 
     let patient = {
-      name: nome,
-      date_of_birth: dataNascimento.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$2-$1'),
+      name: name,
+      date_of_birth: birthDate.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$2-$1'),
       cpf: cpf.replace(/[\s.-]*/gim, ""),
     };
 
@@ -79,8 +79,8 @@ export function AddPatientModal(this: any) {
         throw new Error("Failed to create patient");
       }
       setCpf("");
-      setNome("");
-      setDataNascimento("");
+      setName("");
+      setbirthDate("");
       setPatientInfo(response.data);
       setSuccessModalVisible(true);
     } catch (error) {
@@ -115,8 +115,8 @@ export function AddPatientModal(this: any) {
                   className="flex-grow ml-2"
                   placeholder="Nome"
                   placeholderTextColor={`rgba(${0}, ${0}, ${0}, ${0.3})`}
-                  value={nome}
-                  onChangeText={setNome}
+                  value={name}
+                  onChangeText={setName}
                 />
               </View>
             </View>
@@ -130,8 +130,8 @@ export function AddPatientModal(this: any) {
                   maxLength={10}
                   placeholder="Data de Nascimento"
                   inputMode="numeric"
-                  value={dataNascimento}
-                  onChangeText={(masked: string, unmasked: string) => setDataNascimento(masked)}
+                  value={birthDate}
+                  onChangeText={(masked: string, unmasked: string) => setbirthDate(masked)}
                   mask={[/\d/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
                 />
               </View>
@@ -160,9 +160,9 @@ export function AddPatientModal(this: any) {
                   handleSubmit();
                   setModalVisible(false);
                 }}
-                disabled={cpf.length !== 14 || dataNascimento.length !== 10 || !nome}
+                disabled={cpf.length !== 14 || birthDate.length !== 10 || !name}
                 className={`bg-[#12ADB4] w-[80%] items-center p-2 rounded ${
-                  cpf.length !== 14 || dataNascimento.length !== 10 || !nome ? "opacity-50" : ""
+                  cpf.length !== 14 || birthDate.length !== 10 || !name ? "opacity-50" : ""
                 }`}
               >
                 <FontAwesome name="check" size={24} color="white" />

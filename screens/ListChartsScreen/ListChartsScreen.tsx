@@ -103,7 +103,7 @@ const ListChartsScreen = ({ navigation }: any) => {
               }
             >
               <AppointmentCard
-                type="prontuario"
+                type="chart"
                 pacientName={appointment.patient.name}
                 date={appointment.appointment_date}
                 location={appointment.location}

@@ -30,7 +30,6 @@ export default function ListRecordsScreen() {
       const res = await axios.get(url);
       setRawRecords(res.data); // Atualiza rawRecords com os dados recebidos
     } catch (error) {
-      console.log(error);
       setRawRecords([]); // Em caso de erro, limpa os registros
     }
   }
@@ -56,15 +55,15 @@ export default function ListRecordsScreen() {
 
   function formatarData(valor: string) {
     // Remove caracteres não numéricos e adiciona "-" automaticamente
-    const apenasDigitos = valor.replace(/\D/g, '');
-    let formatado = apenasDigitos;
-    if (apenasDigitos.length > 4) {
-      formatado = `${apenasDigitos.slice(0, 4)}-${apenasDigitos.slice(4)}`;
+    const onlyDigits = valor.replace(/\D/g, '');
+    let formatted = onlyDigits;
+    if (onlyDigits.length > 4) {
+      formatted = `${onlyDigits.slice(0, 4)}-${onlyDigits.slice(4)}`;
     }
-    if (apenasDigitos.length > 6) {
-      formatado = `${apenasDigitos.slice(0, 4)}-${apenasDigitos.slice(4, 6)}-${apenasDigitos.slice(6)}`;
+    if (onlyDigits.length > 6) {
+      formatted = `${onlyDigits.slice(0, 4)}-${onlyDigits.slice(4, 6)}-${onlyDigits.slice(6)}`;
     }
-    return formatado.slice(0, 10); // Limita a 10 caracteres (YYYY-MM-DD)
+    return formatted.slice(0, 10); // Limita a 10 caracteres (YYYY-MM-DD)
   }
 
   return (
@@ -93,7 +92,7 @@ export default function ListRecordsScreen() {
               context={item.appointment_context}
               location={item.hospital}
               status={item.appointment_status}
-              type="prontuario"
+              type="chart"
             />
           )}
           ListEmptyComponent={<ActivityIndicator size="large" />}
