@@ -106,7 +106,7 @@ export function AddPatientModal(this: any) {
           setModalVisible(!modalVisible);
         }}
       >
-        <View className="flex self-center border-[1px] rounded-[15px] border-[#069696] my-auto bg-white w-[80%] p-5 pt-10">
+        <View className="flex self-center border-2 rounded-lg border-[#069696] my-auto bg-white w-[80%] p-5 pt-10">
           <View className="gap-5">
             <View>
               <View className="border-2 rounded-full py-2 px-4 flex-row items-center border-[#069696]">
@@ -189,10 +189,10 @@ export function AddPatientModal(this: any) {
           setSuccessModalVisible(false);
         }}
       >
-        <View className="flex self-center border-[1px] rounded-[15px] border-lightGreen my-auto bg-white w-[80%] p-5">
+        <View className="flex self-center border-2 rounded-lg border-lightGreen my-auto bg-white w-[80%] p-5">
           <View className="items-center gap-7">
-            <View className="bg-[#00E733] rounded-full w-[70px] h-[70px] justify-center items-center">
-              <FontAwesome5 name="check-circle" size={60} color="white" />
+            <View className="bg-[#00E733] rounded-full w-[4.5rem] h-[4.5rem] justify-center items-center">
+              <FontAwesome5 name="check-circle" size={62} color="white" />
             </View>
             <AppText className="text-lg text-center font-bold opacity-30">Cadastro realizado com sucesso!</AppText>
           </View>
@@ -200,7 +200,7 @@ export function AddPatientModal(this: any) {
       </Modal>
 
       <Pressable
-        className="bg-[#12ADC4] w-[282px] rounded-[15px] flex flex-row p-3 justify-around"
+        className="bg-[#12ADC4] w-[17.625rem] rounded-xl gap-3 flex flex-row px-3 pb-3 justify-around"
         onPress={() => setModalVisible(true)}
       >
         <AppText className="text-white font-bold flex items-center">Cadastrar Novo Paciente</AppText>

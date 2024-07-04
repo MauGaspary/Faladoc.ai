@@ -92,7 +92,11 @@ export default function ListRecordsScreen() {
               context={item.appointment_context}
               location={item.hospital}
               status={item.appointment_status}
+<<<<<<< HEAD
+              type="prontuario"
+=======
               type="chart"
+>>>>>>> 76d2cc307ea1940a873521eaf403bc672b42f742
             />
           )}
           ListEmptyComponent={<ActivityIndicator size="large" />}
@@ -102,4 +106,8 @@ export default function ListRecordsScreen() {
       <Navbar />
     </View>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 76d2cc307ea1940a873521eaf403bc672b42f742

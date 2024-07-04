@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
-import { Text, View, Alert, Image,Keyboard, Pressable } from "react-native";
+import { Text, View, Alert, Image,Keyboard, Pressable, Dimensions } from "react-native";
 import { StopPauseButton } from "../../components/StopPauseButton";
 import { CancelConsultationButton } from "../../components/CancelConsultationButton";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
@@ -8,9 +8,16 @@ import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
 import axios from "axios";
 import MicPermissionModal from "../../components/MicPermissionModal";
+import { ConfirmationModal } from "../../components/ConfirmationModal";
 
 
-export default function ConsultaAndamento({ navigation }: any) {
+const screenWidth = Dimensions.get('window').width;
+
+const calculatedWidth = screenWidth * (25 * 16) / screenWidth; // Adjust this formula based on your design
+const calculatedHeight = screenWidth * (8.125 * 16) / screenWidth; // Adjust this formula based on your design
+
+
+export default function ConsultaAndamento({navigation}:any) {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [started, setStarted] = useState(true);
@@ -172,6 +179,7 @@ export default function ConsultaAndamento({ navigation }: any) {
     setIsMicPermissionModalVisible(true);
   };
 
+
   const handleMicPermissionModalClose = () => {
     setIsMicPermissionModalVisible(false);
   };
@@ -179,7 +187,7 @@ export default function ConsultaAndamento({ navigation }: any) {
   return (
     <Pressable className="h-full" onPress={handleScreenPress}>
     <View className="flex flex-col items-center justify-center h-full bg-background">
-      <View className="w-[400px] h-[130px] object-contain mb-10">
+    <View style={{width: calculatedWidth, height: calculatedHeight}} className="object-contain mb-10">
         {started && (
           <Image
           source={require("../../assets/photoaudio.png")}

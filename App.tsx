@@ -24,6 +24,7 @@ import ViewChartScreen from "./screens/ViewChartScreen/ViewChartScreen";
 import ListPatientsScreen from "./screens/ListPatientsScreen/ListPatientsScreen";
 
 import * as Font from 'expo-font';
+import ListRecordsScreen from "./screens/ListRecordsScreen/ListRecordsScreen";
 
 enableScreens();
 
@@ -37,22 +38,6 @@ NativeWindStyleSheet.setOutput({
 
 export default function App() {
 
-  async function loadFonts() {
-    await Font.loadAsync({
-      Poppins: require("./assets/fonts/Poppins/Poppins-Regular.ttf"),
-      "Poppins-Bold": require("./assets/fonts/Poppins/Poppins-Bold.ttf"),
-      "Poppins-SemiBold": require("./assets/fonts/Poppins/Poppins-SemiBold.ttf"),
-    });
-    setFontsLoaded(true);
-  }
-
-  useEffect(() => {
-    loadFonts();
-  }, []);
-
-  if (!fontsLoaded) {
-    return "Erro Fonte";
-  }
 
   return (
     <SessionProvider>

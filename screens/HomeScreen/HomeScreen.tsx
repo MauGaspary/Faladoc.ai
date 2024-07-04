@@ -10,6 +10,7 @@ import AppText from "../../components/AppText";
 export default function HomeScreen({ navigation }: any) {
   const [appointments, setAppointments] = useState([]);
   const { doctorInfo } = useContext(SessionContext);
+  console.log(doctorInfo)
 
   useEffect(() => {
     getAppointments();
