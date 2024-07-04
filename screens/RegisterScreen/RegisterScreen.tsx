@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView, View, Text, TouchableHighlight, ScrollView } from "react-native";
+import { KeyboardAvoidingView, View, Text, TouchableHighlight, ScrollView,Keyboard, Pressable } from "react-native";
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import HomeButton from "../../components/Homebutton";
@@ -39,7 +39,9 @@ const RegisterScreen = ({navigation}:any) => {
   const getPassword = (newPassword: string) => {
     setPassword(newPassword);
   };
-
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
   const handleRegister = async () => {
     if (!email.trim()) {
       setError("Por gentileza, insira seu email");
@@ -71,6 +73,7 @@ const RegisterScreen = ({navigation}:any) => {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <KeyboardAvoidingView className="bg-background rounded-t-[30px] pt-2 max-w-full px-3">
       <ScrollView className="pb-8">
         <AppText className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</AppText>
@@ -86,7 +89,7 @@ const RegisterScreen = ({navigation}:any) => {
                       placeholder="ESTADO"
                       selectedValue={selectedState}
                       onValueChange={(itemValue: string) => handleStateChange(itemValue)}
-                    />
+                      />
                   </View>
                 </View>
                 <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setName} value={name} editable={false}/>
@@ -106,6 +109,7 @@ const RegisterScreen = ({navigation}:any) => {
             </View>
       </ScrollView>
     </KeyboardAvoidingView>
+    </Pressable>
   );
 }
 

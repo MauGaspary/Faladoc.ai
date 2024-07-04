@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, ScrollView, Pressable } from "react-native";
+import { Text, View, ScrollView, Pressable,Keyboard } from "react-native";
 import { AppointmentCard } from "../../components/AppointmentCard";
 import { FiltersComponent } from "../../components/FiltersComponent";
 
@@ -57,7 +57,9 @@ const ListPatientsScreen = ({ navigation }: any) => {
   const normalizeString = (str: string) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   };
-
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
   const handleFilter = () => {
     const normalizedSearchTerm = normalizeString(searchTerm.toLowerCase());
     const filtered = appointments.filter((appointment) => {
@@ -76,6 +78,7 @@ const ListPatientsScreen = ({ navigation }: any) => {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <View className="flex-1 pt-4 bg-background ">
       <AppText className="text-2xl text-#505050-700 p-10 text-center">
         Listagem de Pacientes
@@ -106,13 +109,14 @@ const ListPatientsScreen = ({ navigation }: any) => {
                 date={appointment.appointment_date}
                 specialty={appointment.hospital}
                 status={appointment.appointment_status}
-              />
+                />
             </Pressable>
           ))}
         </View>
       </ScrollView>
       <Navbar />
     </View>
+    </Pressable>
   );
 };
 

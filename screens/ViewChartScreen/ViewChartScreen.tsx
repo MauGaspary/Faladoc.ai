@@ -6,6 +6,7 @@ import {
   Pressable,
   TextInput,
   LayoutAnimation,
+  Keyboard
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
@@ -97,6 +98,9 @@ export default function ViewChartScreen({ navigation }: any) {
   const handleEdit = () => {
     setIsEditing(true);
   };
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
 
   const handleConfirm = async () => {
     try {
@@ -160,6 +164,7 @@ export default function ViewChartScreen({ navigation }: any) {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <KeyboardAvoidingView className="flex-1 bg-background rounded-t-3xl pt-2 max-w-full">
       <ScrollView className="pb-8 mt-10">
         <AppText className="text-2xl text-gray-700 leading-12 text-left ml-6">
@@ -265,7 +270,7 @@ export default function ViewChartScreen({ navigation }: any) {
           <Pressable
             className="mt-6 flex-row rounded-full p-3 bg-[#438FE9] justify-center shadow-lg w-2/3"
             onPress={handleEvaluate}
-          >
+            >
             <View className="w-full justify-center items-center">
               <Text className="text-white">Avaliar o prontuário gerado</Text>
             </View>
@@ -282,5 +287,6 @@ export default function ViewChartScreen({ navigation }: any) {
 
       <Navbar />
     </KeyboardAvoidingView>
+  </Pressable>
   );
 }

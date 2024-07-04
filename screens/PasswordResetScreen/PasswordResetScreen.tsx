@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Keyboard, Pressable } from "react-native";
 import EnterButton from "../../components/EnterButton";
 import { PasswordInput } from "../../components/PasswordInput";
 import AppText from "../../components/AppText";
@@ -23,8 +23,11 @@ export default function PasswordResetScreen({ navigation }: any) {
       console.error(error);
     }
   }
-  
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <View className="bg-lightGreen h-full relative">
       <Image source={require("../../assets/splash.png")} className="w-[150] h-[150] absolute top-[30px] self-center" />
       <View className="flex-1 bg-background mt-[200] rounded-t-[30px] pt-12 h-full">
@@ -37,7 +40,7 @@ export default function PasswordResetScreen({ navigation }: any) {
                 handlePasswordReset();
               }}
               text="Confirmar nova senha"
-            />
+              />
           </View>
           <AppText>Não possui conta? </AppText>
           <AppText className="text-teal-600 underline cursor-pointer" onPress={() => {
@@ -48,5 +51,6 @@ export default function PasswordResetScreen({ navigation }: any) {
         </View>
       </View>
     </View>
+    </Pressable>
   );
 }
