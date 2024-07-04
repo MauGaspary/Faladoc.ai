@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, KeyboardAvoidingView } from "react-native";
+import { View, Text, KeyboardAvoidingView,Keyboard, Pressable } from "react-native";
 import Input from "../../components/Input";
 import StartConsultationButton from "../../components/StartConsultationButton";
 import { AddPatientModal } from "../../components/AddPatientModal";
@@ -25,11 +25,13 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
       hospital: text,
     });
   };
-
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
   const handleContext = (text: string) => {
     setAppoitmentInfos({
       ...appoitmentInfos,
-      contexto: text,
+      context: text,
     });
   };
 
@@ -44,7 +46,7 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
       patient_id: patientInfo.id,
       doctor_id: doctorInfo.id,
       hospital: appoitmentInfos.hospital,
-      appointment_context: appoitmentInfos.contexto,
+      appointment_context: appoitmentInfos.context,
     };
 
     try {
@@ -80,6 +82,7 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <KeyboardAvoidingView className="h-full">
       <View className="h-full bg-background items-center justify-center px-4">
         <AddPatientModal />
@@ -100,8 +103,8 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
 
         <Input
           iconName={"list-outline"}
-          placeholder={"Contexto da Consulta"}
-          value={appoitmentInfos.contexto}
+          placeholder={"Context da Consulta"}
+          value={appoitmentInfos.context}
           onChangeText={handleContext}
         />
 
@@ -118,6 +121,7 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
         onConfirm={handleStartRecording}
       />
     </KeyboardAvoidingView>
+    </Pressable>
   );
 };
 

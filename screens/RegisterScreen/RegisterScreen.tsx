@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView, View, Text, TouchableHighlight, ScrollView } from "react-native";
+import { KeyboardAvoidingView, View, Text, TouchableHighlight, ScrollView,Keyboard, Pressable } from "react-native";
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import HomeButton from "../../components/Homebutton";
@@ -13,7 +13,7 @@ const RegisterScreen = ({navigation}:any) => {
     const [password,setPassword] = useState("")
     const [name,setName] = useState("")
     const [email,setEmail] = useState("")
-    const [estado, setEstado] = useState("")
+    const [state, setState] = useState("")
     const [hospital, setHospital] = useState("")
     const [specialty, setSpeciality] = useState("")
     const [crm, setCRM] = useState("")
@@ -31,16 +31,17 @@ const RegisterScreen = ({navigation}:any) => {
         );
         setName(res.data.name);
         setSpeciality(res.data.speciality);
-        console.log(res);
       } catch (error) {
-        console.log(error);
+
       }
     };
 
   const getPassword = (newPassword: string) => {
     setPassword(newPassword);
   };
-
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
   const handleRegister = async () => {
     if (!email.trim()) {
       setError("Por gentileza, insira seu email");
@@ -60,7 +61,6 @@ const RegisterScreen = ({navigation}:any) => {
       if (response.status !== 200) {
         throw new Error("Falha ao registrar");
       }
-      console.log('Registro realizado com sucesso!');
       navigation.navigate("Login");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -73,6 +73,7 @@ const RegisterScreen = ({navigation}:any) => {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <KeyboardAvoidingView className="bg-background rounded-t-[30px] pt-2 max-w-full px-3">
       <ScrollView className="pb-8">
         <AppText className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</AppText>
@@ -88,11 +89,11 @@ const RegisterScreen = ({navigation}:any) => {
                       placeholder="ESTADO"
                       selectedValue={selectedState}
                       onValueChange={(itemValue: string) => handleStateChange(itemValue)}
-                    />
+                      />
                   </View>
                 </View>
-                <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setName} value={name}/>
-                <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality} value={specialty} />
+                <Input iconName={'person-outline'} placeholder={'Nome'} className={'px-15'} onChangeText={setName} value={name} editable={false}/>
+                <Input iconName={'medkit-outline'} placeholder={'Especialidade'} className={'px-15'} onChangeText={setSpeciality} value={specialty} editable={false} />
                 <View className="border-b-2 border-teal-600 w-4/5 my-2" />
 
                 <Input iconName={'business-outline'} placeholder={'Hospital'} className={'px-15'} value={hospital} onChangeText={setHospital}/>
@@ -108,6 +109,7 @@ const RegisterScreen = ({navigation}:any) => {
             </View>
       </ScrollView>
     </KeyboardAvoidingView>
+    </Pressable>
   );
 }
 

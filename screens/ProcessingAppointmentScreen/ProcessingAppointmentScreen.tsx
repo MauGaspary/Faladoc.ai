@@ -4,6 +4,8 @@ import {
   ActivityIndicator,
   Platform,
   Modal,
+  Keyboard,
+  Pressable
 } from "react-native";
 import HomeButton from "../../components/Homebutton";
 import { useContext, useEffect, useState } from "react";
@@ -41,7 +43,7 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
     const fileName = uriPath.split("/").pop();
 
     try {
-      const response = await fetch("http://localhost:8081/public/audio/test-02.wav");//Consertar
+      const response = await fetch("https://gabrielbohn99.github.io/whitelabel/test-02.wav");//Consertar
       // const response = await fetch(getAudioFileUri(uriPath));
       const blob = await response.blob();
       const formData = new FormData();
@@ -91,7 +93,6 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
           setTimeout(() => {
             setModalVisibility(false);
           }, 5000);
-          console.log(error);
         }
       } catch (error) {
         console.error("Upload1 failed:", error);
@@ -104,13 +105,15 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
       setWaitingResponse(false);
     }
   }
-
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
   const handleHomeButton = () => {
     setAppoitmentInfos({
       id: "",
       duration: 0,
       hospital: "",
-      contexto: "",
+      context: "",
     });
     setPatientInfo({
       id: "",
@@ -122,14 +125,15 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <View className="flex flex-col h-screen justify-around items-center bg-background">
       <AppText className="mt-10 text-black text-left text-lg">
         {"\n\n"}
         Paciente: {patientInfo.name}
         {"\n"}
-        Hospital: {appoitmentInfos.hospital}
+        Hospital: {appoitmentInfos.hospital ? appoitmentInfos.hospital : "Não informado"}
         {"\n"}
-        Contexto: {appoitmentInfos.contexto}
+        Context: {appoitmentInfos.context ? appoitmentInfos.context : "Não informado"}
         {"\n"}
         Duração: {formattedTime}
       </AppText>
@@ -157,13 +161,13 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         disabled={waitingResponse}
         name="Voltar para a tela inicial"
         onPress={handleHomeButton}
-      />
+        />
 
       {status === "success" ? (
         <Modal
-          animationType="none"
-          transparent={true}
-          visible={modalVisibility}
+        animationType="none"
+        transparent={true}
+        visible={modalVisibility}
         >
           <View className="flex self-center border-[1px] rounded-[15px] border-lightGreen my-auto bg-white w-[80%] p-5">
             <View className="items-center gap-7">
@@ -178,10 +182,10 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         </Modal>
       ) : status === "error" ? (
         <Modal
-          animationType="none"
-          transparent={true}
+        animationType="none"
+        transparent={true}
           visible={modalVisibility}
-        >
+          >
           <View className="flex self-center border-[1px] rounded-[15px] border-lightRed my-auto bg-white w-[80%] p-5">
             <View className="items-center gap-7">
               <View className="bg-[#FF0000] rounded-full w-[70px] h-[70px] justify-center items-center">
@@ -195,5 +199,6 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
         </Modal>
       ) : null}
     </View>
+    </Pressable>
   );
 }

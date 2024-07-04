@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect, useContext } from "react";
-import { Text, View, ScrollView, Pressable } from "react-native";
+import { Text, View, ScrollView, Pressable,Keyboard} from "react-native";
 import { AppointmentCard } from "../../components/AppointmentCard";
 import { FiltersComponent } from "../../components/FiltersComponent";
 
@@ -59,7 +59,9 @@ const ListChartsScreen = ({ navigation }: any) => {
   const normalizeString = (str: string) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   };
-
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
   const handleFilter = () => {
     const normalizedSearchTerm = normalizeString(searchTerm.toLowerCase());
     const filtered = appointments.filter((appointment) => {
@@ -78,6 +80,7 @@ const ListChartsScreen = ({ navigation }: any) => {
   };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <View className="flex-1 pt-4 bg-background">
       <AppText className="text-2xl text-#505050-700 p-10 text-center">
         Listagem de Prontuários
@@ -92,7 +95,7 @@ const ListChartsScreen = ({ navigation }: any) => {
             }}
         />
       </View>
-      <ScrollView className="px-4 mt-3 w-full h-90">
+      <ScrollView className="px-4 mt-3 w-full h-lvh">
         <View className="flex items-center justify-center h-full">
           {filteredAppointments.map((appointment, index) => (
             <Pressable
@@ -103,7 +106,7 @@ const ListChartsScreen = ({ navigation }: any) => {
               }
             >
               <AppointmentCard
-                type="prontuario"
+                type="chart"
                 pacientName={appointment.patient.name}
                 date={appointment.appointment_date}
                 location={appointment.location}
@@ -116,6 +119,7 @@ const ListChartsScreen = ({ navigation }: any) => {
       </ScrollView>
       <Navbar />
     </View>
+    </Pressable>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, ScrollView, Pressable } from "react-native";
+import { View, Text, ScrollView, Pressable,Keyboard } from "react-native";
 import SessionContext from "../../provider/sessionContext";
 import HomeButtons from "../../components/ButtonsOnHome";
 import Navbar from "../../components/Navbar";
@@ -23,7 +23,7 @@ export default function HomeScreen({ navigation }: any) {
       );
       setAppointments(res.data);
     } catch (error) {
-      console.log(error);
+
     }
   };
 
@@ -42,8 +42,12 @@ export default function HomeScreen({ navigation }: any) {
     const [year, month, day] = dateString.split("-");
     return `${day}/${month}/${year}`;
   };
+  const handleScreenPress = () => {
+    Keyboard.dismiss();
+  };
 
   return (
+    <Pressable className="h-full" onPress={handleScreenPress}>
     <View className="bg-background h-full">
       <View className="mx-11 mt-8">
         <AppText className="mb-2 mt-4 text-2xl leading-48 text-left">
@@ -62,14 +66,14 @@ export default function HomeScreen({ navigation }: any) {
           onPress={() => {
             navigation.navigate("StartNewAppointment");
           }}
-        ></HomeButtons>
+          ></HomeButtons>
         <View className="items-center w-full">
           <View className="flex-row w-full justify-between">
             <HomeButtons
               text="Prontuários"
               icon="document-outline"
               onPress={() => navigation.navigate("ListCharts")}
-            />
+              />
             <HomeButtons
               text="Pacientes"
               icon="person-outline"
@@ -99,7 +103,7 @@ export default function HomeScreen({ navigation }: any) {
                     }
                   >
                     <AppointmentCard
-                      type="prontuario"
+                      type="chart"
                       pacientName={getFirstAndLastName(
                         appointment.patient.name
                       )}
@@ -117,5 +121,6 @@ export default function HomeScreen({ navigation }: any) {
       </View>
       <Navbar />
     </View>
+    </Pressable>
   );
 }
