@@ -60,7 +60,7 @@ export function buildPatientQueryParams(query: PatientQueryParams) {
   }
 
   if (name) {
-    whereCondition['name'] = {[Op.like]: `%${name}%`};
+    whereCondition['name'] = {[Op.iLike]: `%${name}%`};
   }
   
   if (cpf) {

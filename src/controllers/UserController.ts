@@ -10,7 +10,7 @@ export class UserController {
       try {
         const { email, password, userType } = req.body;
         const newUser = await UserService.createLoginUser(email, password, userType);
-        res.status(201).json({ id: newUser.id });
+        res.status(200).json({ id: newUser.id });
       } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Erro ao criar login de usuário" });
@@ -44,14 +44,14 @@ export class UserController {
         const passwordResetToken = await PasswordResetModel.findOne({ where: { token: token } });
 
         if (!passwordResetToken) {
-            return res.status(400).json({ error: 'Token inválido.' });
+            return res.status(401).json({ error: 'Token inválido.' });
         }
 
 
  
         if (passwordResetToken.expiration_date < new Date()) {
             await PasswordResetModel.destroy({ where: { token: passwordResetToken.token } });
-            return res.status(400).json({ error: 'Solicitação expirada.' });
+            return res.status(403).json({ error: 'Solicitação expirada.' });
         }
 
         const user = await User.findOne({ where: { id: passwordResetToken.user_id } });

@@ -63,7 +63,7 @@ export class AppointmentsController {
     } catch (error ) {
       console.error("Erro ao deletar consulta", error);
       if (error instanceof Error) {
-        res.status(400).json({ error: error.message });
+        res.status(404).json({ error: error.message });
       } else {
         res.status(500).json({ error: 'Erro ao deletar consulta' });
       }
