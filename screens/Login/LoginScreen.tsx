@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Image, Pressable, Keyboard } from "react-native";
+import { View, Image, Pressable, Keyboard, Dimensions } from "react-native";
 import Input from "../../components/Input";
 import EnterButton from "../../components/EnterButton";
 import { PasswordInput } from "../../components/PasswordInput";
@@ -8,7 +8,18 @@ import api from "../../api";
 import axios from "axios";
 import { ResetPasswordModal } from "../../components/ResetPasswordModal";
 import AppText from "../../components/AppText";
-import { AddPatientModal } from "../../components/AddPatientModal";
+import ButtonsOnHome from "../../components/ButtonsOnHome";
+import { CancelConsultationButton } from "../../components/CancelConsultationButton";
+import { FilterInput } from "../../components/FilterInput";
+import { FiltersComponent } from "../../components/FiltersComponent";
+import Navbar from "../../components/Navbar";
+import { StopPauseButton } from "../../components/StopPauseButton";
+
+
+const screenWidth = Dimensions.get('window').width;
+
+const calculatedRadiusTop = screenWidth * (1.875 * 16) / screenWidth;
+
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState("");
@@ -80,8 +91,8 @@ export default function LoginScreen({ navigation }: any) {
         source={require("../../assets/splash.png")}
         className="w-36 h-36 mx-7 absolute top-7 self-center"
       />
-      <Pressable className="flex-1 bg-background mt-48 rounded-t-[30px] pt-12 h-full" onPress={handleScreenPress}>
-        <AppText className="mb-5 text-[40px] text-subtitle leading-48 text-left ml-8">
+      <Pressable style={{borderTopStartRadius: calculatedRadiusTop, borderTopEndRadius: calculatedRadiusTop}} className="flex-1 bg-background mt-48 pt-12 h-full" onPress={handleScreenPress}>
+        <AppText className="mb-5 text-5xl text-subtitle leading-48 text-left ml-8">
           Login
         </AppText>
         <View className="items-center px-8">

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect } from "react";
-import { Text, TextInput, View, Pressable, Platform } from "react-native";
+import { Text, TextInput, View, Pressable, Platform, Dimensions } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DatePicker from 'react-datepicker';
@@ -12,6 +12,11 @@ type FiltersComponentType = {
   enableNameFilter?: boolean; 
   enableDateFilter?: boolean; 
 };
+
+const screenWidth = Dimensions.get('window').width;
+
+// Calculate the width in pixels (assuming 1rem = 16px, adjust as needed)
+const calculatedRadius = screenWidth * (1.875 * 16) / screenWidth; // Adjust this formula based on your design
 
 export function FiltersComponent({ onFilter, enableNameFilter = true, enableDateFilter = true }: FiltersComponentType) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -43,7 +48,7 @@ export function FiltersComponent({ onFilter, enableNameFilter = true, enableDate
   };
 
   return (
-    <View className="border rounded-[1.875rem] py-3 px-4 mb-3 w-11/12 flex-col items-center bg-white z-10">
+    <View style={{borderRadius: calculatedRadius}} className="border py-3 px-4 mb-3 w-11/12 flex-col items-center bg-white z-10">
       <View className="flex flex-row items-center w-full">
         {enableNameFilter && (
           <View className={`flex-row items-center w-2/4 ${enableDateFilter ? 'border-r ' : ''}`}>
