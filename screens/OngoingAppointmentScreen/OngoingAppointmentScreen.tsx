@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Text, View, Alert, Image,Keyboard, Pressable } from "react-native";
 import { StopPauseButton } from "../../components/StopPauseButton";
 import { CancelConsultationButton } from "../../components/CancelConsultationButton";
-import CancelConsultationModal from "../../components/CancelConsultationModal";
 import { Audio, InterruptionModeIOS, InterruptionModeAndroid } from "expo-av";
 import SessionContext from "../../provider/sessionContext";
 import AppText from "../../components/AppText";
@@ -54,7 +53,6 @@ export default function ConsultaAndamento({ navigation }: any) {
             }
           })
           .catch(function (error) {
-            console.log(error);
           });
       }, 1000);
       return () => clearInterval(timer);
@@ -134,7 +132,8 @@ export default function ConsultaAndamento({ navigation }: any) {
           ...appoitmentInfos,
           duration: minutes * 60 + seconds,
         });
-        navigation.navigate('ProcessingAppointment');
+        setIsConfirmModalVisible(false);
+        navigation.navigate("ProcessingAppointment");
       }
     } catch (error) {
       console.error(error);
@@ -146,11 +145,11 @@ export default function ConsultaAndamento({ navigation }: any) {
   };
 
   const handleCancelConsultation = () => {
-    setIsModalVisible(true);
+    setIsDiscardModalVisible(true);
   };
 
-  const handleModalClose = () => {
-    setIsModalVisible(false);
+  const handleStopConsultation = () => {
+    setIsConfirmModalVisible(true);
   };
 
   const handleDiscardRecording = async () => {
@@ -159,10 +158,9 @@ export default function ConsultaAndamento({ navigation }: any) {
         await recording.stopAndUnloadAsync();
         setRecording(null);
       }
-      setIsModalVisible(false);
+      setIsDiscardModalVisible(false);
       navigation.navigate("StartNewAppointment");
     } catch (error) {
-      console.log(error);
       Alert.alert(
         "Erro ao descartar gravação",
         "Não foi possível descartar a gravação do áudio"
@@ -181,7 +179,6 @@ export default function ConsultaAndamento({ navigation }: any) {
   return (
     <Pressable className="h-full" onPress={handleScreenPress}>
     <View className="flex flex-col items-center justify-center h-full bg-background">
-
       <View className="w-[400px] h-[130px] object-contain mb-10">
         {started && (
           <Image
@@ -194,7 +191,9 @@ export default function ConsultaAndamento({ navigation }: any) {
         {recording && started ? (
           <AppText className="text-2xl font-semibold">Gravando</AppText>
         ) : (
-          !stopped && <AppText className="text-2xl font-semibold">Pausado</AppText>
+          !stopped && (
+            <AppText className="text-2xl font-semibold">Pausado</AppText>
+          )
         )}
       </View>
       <View className="mb-20">
@@ -208,16 +207,27 @@ export default function ConsultaAndamento({ navigation }: any) {
       <View className="flex flex-row mt-10 items-center justify-center">
         <StopPauseButton onPress={handlePauseButton} type="pause" />
         <View className="mx-5" />
-        <StopPauseButton onPress={handleRecordingStop} type="stop" />
+        <StopPauseButton onPress={handleStopConsultation} type="stop" />
       </View>
       <View>
         <CancelConsultationButton onPress={handleCancelConsultation} />
       </View>
       <StatusBar style="auto" />
-      <CancelConsultationModal
-        isVisible={isModalVisible}
-        onClose={handleModalClose}
+      <ConfirmationModal
+        isVisible={isConfirmModalVisible}
+        onClose={() => setIsConfirmModalVisible(false)}
+        onConfirm={handleRecordingStop}
+        text="Voce deseja realmente finalizar a consulta?"
+        cancelButtonText="Cancelar"
+        submitButtonText="Enviar"
+      />
+      <ConfirmationModal
+        isVisible={isDiscardModalVisible}
+        onClose={() => setIsDiscardModalVisible(false)}
         onConfirm={handleDiscardRecording}
+        text="Voce deseja realmente cancelar a consulta?"
+        cancelButtonText="Cancelar"
+        submitButtonText="Descartar"
       />
       <MicPermissionModal
         isVisible={isMicPermissionModalVisible}

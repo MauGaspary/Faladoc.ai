@@ -39,9 +39,9 @@ export function AppointmentCard({
 
   return (
     <>
-      {type == "prontuario" ? (
+      {type == "chart" ? (
         <View
-          className={`bg-white w-full h-24 py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem]${color}`}
+          className={`bg-white w-full h-24 py-2 px-4 rounded-md shadow-sm mb-4 border-r-[16px] ${color}`}
         >
           <AppText numberOfLines={1} className="text-lg font-bold  text-gray-900 space-y-4">
             {pacientName} - {date}
@@ -50,7 +50,7 @@ export function AppointmentCard({
           <AppText numberOfLines={1} className="text-timer font-semibold space-y-4">{location}</AppText>
         </View>
       ) : (
-        type == "paciente" && (
+        type == "pacient" && (
           <View
             className={`bg-white w-full h-24 py-2 px-4 rounded-md shadow-sm mb-4 border-r-[1rem] ${color}`}
           >
@@ -66,4 +66,4 @@ export function AppointmentCard({
       )}
     </>
   );
-}
+} 

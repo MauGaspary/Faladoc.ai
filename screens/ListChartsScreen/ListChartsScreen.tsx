@@ -95,7 +95,7 @@ const ListChartsScreen = ({ navigation }: any) => {
             }}
         />
       </View>
-      <ScrollView className="px-4 mt-3 w-full h-90">
+      <ScrollView className="px-4 mt-3 w-full h-lvh">
         <View className="flex items-center justify-center h-full">
           {filteredAppointments.map((appointment, index) => (
             <Pressable
@@ -106,7 +106,7 @@ const ListChartsScreen = ({ navigation }: any) => {
               }
             >
               <AppointmentCard
-                type="prontuario"
+                type="chart"
                 pacientName={appointment.patient.name}
                 date={appointment.appointment_date}
                 location={appointment.location}

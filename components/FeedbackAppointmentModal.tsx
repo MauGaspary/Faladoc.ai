@@ -1,27 +1,25 @@
 //@ts-nocheck
-import React, { useState, useContext } from 'react';
-import { Modal, View, Pressable, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, View, TouchableOpacity, TextInput } from 'react-native';
 import AppText from "./AppText";
 import RatingIcon from './RatingIcon';
-import SessionContext from "../provider/sessionContext";
 import axios from 'axios';
 
 interface Props {
   isVisible: boolean;
   onClose: () => void;
+  appointmentId: string;
 }
 
-const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose }) => {
+const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose, appointmentId }) => {
   const [feedback, setFeedback] = useState('');
   const [rating, setRating] = useState(null);
-  const { appoitmentInfos } = useContext(SessionContext);
 
   const handleRatingPress = (value) => {
-    setRating({ value }); 
+    setRating({ value });
   };
 
   const handleSubmit = async () => {
-    const appointmentId = appoitmentInfos.id; 
     const data = {
       feedback_score: rating?.value || 0,
       feedback_text: feedback
@@ -34,7 +32,6 @@ const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose }) => {
         },
       });
 
-      console.log(response);
       onClose();
     } catch (error) {
       console.error('Erro ao enviar feedback:', error);
@@ -57,9 +54,7 @@ const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose }) => {
     ];
 
     return emojis.map((emoji, index) => (
-      <View
-        className= "items-center"
-      >
+      <View className="items-center" key={index}>
         <RatingIcon
           imageSource={emoji.imageSource}
           backgroundColor={emoji.backgroundColor}
@@ -70,7 +65,6 @@ const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose }) => {
         {index === 4 && <AppText className="mt-1 text-sm mr-2">Ótimo</AppText>}
       </View>
     ));
-    
   };
 
   return (
@@ -117,5 +111,3 @@ const FeedbackAppointmentModal: React.FC<Props> = ({ isVisible, onClose }) => {
 };
 
 export default FeedbackAppointmentModal;
-
-

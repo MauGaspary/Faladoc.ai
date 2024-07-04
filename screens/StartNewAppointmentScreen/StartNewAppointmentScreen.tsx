@@ -31,7 +31,7 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
   const handleContext = (text: string) => {
     setAppoitmentInfos({
       ...appoitmentInfos,
-      contexto: text,
+      context: text,
     });
   };
 
@@ -46,7 +46,7 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
       patient_id: patientInfo.id,
       doctor_id: doctorInfo.id,
       hospital: appoitmentInfos.hospital,
-      appointment_context: appoitmentInfos.contexto,
+      appointment_context: appoitmentInfos.context,
     };
 
     try {
@@ -103,8 +103,8 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
 
         <Input
           iconName={"list-outline"}
-          placeholder={"Contexto da Consulta"}
-          value={appoitmentInfos.contexto}
+          placeholder={"Context da Consulta"}
+          value={appoitmentInfos.context}
           onChangeText={handleContext}
         />
 

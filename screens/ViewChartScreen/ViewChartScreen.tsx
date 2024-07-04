@@ -5,7 +5,6 @@ import {
   Text,
   Pressable,
   TextInput,
-  Modal,
   LayoutAnimation,
   Keyboard
 } from "react-native";
@@ -15,25 +14,26 @@ import axios from "axios";
 import { useRoute } from "@react-navigation/native";
 import Navbar from "../../components/Navbar";
 import AppText from "../../components/AppText";
+import FeedbackAppointmentModal from "../../components/FeedbackAppointmentModal";
 
 export default function ViewChartScreen({ navigation }: any) {
   const route = useRoute();
   const { id } = route.params as { id: string };
 
-  const calcularIdade = (dataNascimento: string) => {
-    const hoje = new Date();
-    const nascimento = new Date(dataNascimento);
-    let idade = hoje.getFullYear() - nascimento.getFullYear();
-    const mes = hoje.getMonth() - nascimento.getMonth();
-    if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
-      idade--;
+  const estimateAge = (birthDate: string) => {
+    const today = new Date();
+    const birthday = new Date(birthDate);
+    let age = today.getFullYear() - birthday.getFullYear();
+    const month = today.getMonth() - birthday.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < birthday.getDate())) {
+      age--;
     }
-    return idade;
+    return age;
   };
 
-  const formatarData = (data: string) => {
-    const [ano, mes, dia] = data.split("-");
-    return `${dia}/${mes}/${ano}`;
+  const formatData = (data: string) => {
+    const [year, month, day] = data.split("-");
+    return `${day}/${month}/${year}`;
   };
 
   const [patient, setPatient] = useState({ name: "", date_of_birth: "" });
@@ -45,16 +45,17 @@ export default function ViewChartScreen({ navigation }: any) {
     appointment_status: "",
   });
 
-  const idade = calcularIdade(patient.date_of_birth);
-  const dataNascimentoFormatada = formatarData(patient.date_of_birth);
+  const age = estimateAge(patient.date_of_birth);
+  const birtDateFormatted = formatData(patient.date_of_birth);
 
-  const [diagnostico, setDiagnostico] = useState("");
-  const [tempDiagnostico, setTempDiagnostico] = useState("");
-  const [inputHeight, setInputHeight] = useState(0); // Novo estado para controlar a altura do TextInput
+  const [diagnostic, setDiagnostic] = useState("");
+  const [tempDiagnostic, setTempDiagnostic] = useState("");
+  const [inputHeight, setInputHeight] = useState(0);
 
   const [isEditing, setIsEditing] = useState(false);
   const [isEdited, setIsEdited] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showingOriginal, setShowingOriginal] = useState(false);
 
   useEffect(() => {
     getAppointment();
@@ -82,15 +83,13 @@ export default function ViewChartScreen({ navigation }: any) {
         patient_id: patient_id,
       });
 
-      console.log(medical_record_original);
-      console.log(medical_record_final);
-
       const patientResponse = await axios.get(
-        `http://3.22.75.73:3000/patients/id/${appointmentResponse.data.patient_id}`
+        `http://3.22.75.73:3000/patients/${appointmentResponse.data.patient_id}`
       );
       setPatient(patientResponse.data);
-      setDiagnostico(appointmentResponse.data.medical_record_final || "");
-      setTempDiagnostico(appointmentResponse.data.medical_record_final || "");
+
+      setDiagnostic(medical_record_original || "");
+      setTempDiagnostic(medical_record_final || "");
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
     }
@@ -107,13 +106,13 @@ export default function ViewChartScreen({ navigation }: any) {
     try {
       const updatedAppointment = {
         ...appointment,
-        medical_record_final: tempDiagnostico,
+        medical_record_final: tempDiagnostic,
       };
       await axios.patch(
         `http://3.22.75.73:3000/appointments/${id}`,
         updatedAppointment
       );
-      setDiagnostico(tempDiagnostico);
+      setDiagnostic(tempDiagnostic);
       setIsEditing(false);
       setIsEdited(false);
     } catch (error) {
@@ -122,7 +121,7 @@ export default function ViewChartScreen({ navigation }: any) {
   };
 
   const handleTextChange = (text: string) => {
-    setTempDiagnostico(text);
+    setTempDiagnostic(text);
     setIsEdited(true);
   };
 
@@ -153,6 +152,17 @@ export default function ViewChartScreen({ navigation }: any) {
     setIsModalVisible(false);
   };
 
+  const toggleChart = () => {
+    if (showingOriginal) {
+      setDiagnostic(appointment.medical_record_final);
+      setTempDiagnostic(appointment.medical_record_final);
+      setIsEditing(false);
+    } else {
+      setDiagnostic(appointment.medical_record_original);
+    }
+    setShowingOriginal(!showingOriginal);
+  };
+
   return (
     <Pressable className="h-full" onPress={handleScreenPress}>
     <KeyboardAvoidingView className="flex-1 bg-background rounded-t-3xl pt-2 max-w-full">
@@ -167,7 +177,7 @@ export default function ViewChartScreen({ navigation }: any) {
               Paciente: {patient.name ? patient.name : "carregando..."}{" "}
             </AppText>
             <AppText className="text-lg text-gray-500 ml-5 mt-3">
-              Idade: {patient.date_of_birth && idade}
+              Idade: {patient.date_of_birth && age}
             </AppText>
             <AppText className="text-lg text-gray-500 ml-5 mt-3 mb-2">
               Data da Consulta: {appointment.appointment_date}
@@ -175,58 +185,80 @@ export default function ViewChartScreen({ navigation }: any) {
           </View>
         </View>
 
-        <View className="flex-column justify-between ">
-          <View className="flex-row justify-between items-center">
-            <AppText className="text-2xl text-gray-700 leading-12 text-left ml-6 mt-10">
+        <View className="flex-column justify-between">
+          <View className="flex-row items-center justify-between mb-2">
+            <AppText className="text-2xl text-gray-700 leading-12 text-left ml-6 mt-10 w-full">
               Prontuário
-              <Pressable onPress={handleEdit} className="ml-2">
-                <Ionicons name="pencil" size={30} color="#505050" />
-              </Pressable>
             </AppText>
+            {!showingOriginal && (
+                <Pressable onPress={handleEdit} className=" ml-8 flex-row mt-10 mr-6">
+                  <AppText className="text-2xl text-gray-700 underline">Editar</AppText>
+                  <Ionicons name="pencil" size={30} color="#505050" />
+                </Pressable>
+              )}
           </View>
 
           <View className="flex-1 bg-[#D0EFF0] mx-6 justify-center">
             <View className="h-auto bg-white rounded-3xl">
-              {isEditing ? (
-                <>
-                  <TextInput
-                    className="text-lg text-timer ml-5 mr-5 mt-3 mb-5 border border-gray-300 rounded px-2 py-1"
-                    value={tempDiagnostico}
-                    onChangeText={handleTextChange}
-                    multiline
-                    onContentSizeChange={(e) =>
-                      handleContentSizeChange(
-                        e.nativeEvent.contentSize.width,
-                        e.nativeEvent.contentSize.height
-                      )
-                    }
-                    style={{ height: Math.max(35, inputHeight) }} // Definindo a altura dinâmica
-                    />
-                  <Pressable
-                    className={`mt-3 p-2 rounded ${
-                      isEdited ? "bg-gray-700" : "bg-gray-300"
-                    }`}
-                    onPress={handleConfirm}
-                    disabled={!isEdited}
-                  >
-                    <AppText className="text-black text-center bg-[#D0EFF0]">
-                      Confirmar
-                    </AppText>
-                  </Pressable>
-                </>
-              ) : (
+              {showingOriginal ? (
                 <AppText className="text-lg text-timer ml-5 mr-5 mt-3 mb-5">
-                  {diagnostico}
+                  {diagnostic}
                 </AppText>
+              ) : (
+                <>
+                  {isEditing ? (
+                    <>
+                      <TextInput
+                        className="text-lg text-timer ml-5 mr-5 mt-3 mb-5 border border-gray-300 rounded px-2 py-1"
+                        value={tempDiagnostic}
+                        onChangeText={handleTextChange}
+                        multiline
+                        onContentSizeChange={(e) =>
+                          handleContentSizeChange(
+                            e.nativeEvent.contentSize.width,
+                            e.nativeEvent.contentSize.height
+                          )
+                        }
+                        style={{ height: Math.max(35, inputHeight) }}
+                      />
+                      <Pressable
+                        className={`mt-3 p-2 rounded ${
+                          isEdited ? "bg-gray-700" : "bg-gray-300"
+                        }`}
+                        onPress={handleConfirm}
+                        disabled={!isEdited}
+                      >
+                        <AppText className="text-black text-center bg-[#D0EFF0]">
+                          Confirmar
+                        </AppText>
+                      </Pressable>
+                    </>
+                  ) : (
+                    <AppText className="text-lg text-timer ml-5 mr-5 mt-3 mb-5">
+                      {diagnostic}
+                    </AppText>
+                  )}
+                </>
               )}
             </View>
           </View>
-          </View>
+        </View>
 
-        <View>
+        <View className="items-center">
+          <Pressable
+            className="mt-6 flex-row rounded-full p-3 bg-teal-600 justify-center shadow-lg w-2/3"
+            onPress={toggleChart}
+          >
+            <View className="w-full justify-center items-center">
+              <Text className="text-white">
+                {showingOriginal ? "Ver prontuário atual" : "Ver prontuário original"}
+              </Text>
+            </View>
+          </Pressable>
+
           {appointment.appointment_status === "WAITING_APPROVAL" && (
             <Pressable
-            className="mt-10 flex-row rounded-full p-3 bg-teal-600 justify-center shadow-lg w-full"
+              className="mt-10 flex-row rounded-full p-3 bg-teal-600 justify-center shadow-lg w-2/3"
               onPress={handleApprove}
             >
               <View className="w-full justify-center items-center">
@@ -236,7 +268,7 @@ export default function ViewChartScreen({ navigation }: any) {
           )}
 
           <Pressable
-            className="mt-6 flex-row rounded-full p-3 bg-teal-600 justify-center shadow-lg w-full"
+            className="mt-6 flex-row rounded-full p-3 bg-[#438FE9] justify-center shadow-lg w-2/3"
             onPress={handleEvaluate}
             >
             <View className="w-full justify-center items-center">
@@ -246,21 +278,12 @@ export default function ViewChartScreen({ navigation }: any) {
         </View>
       </ScrollView>
 
-      <Modal
-        visible={isModalVisible}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={handleCloseModal}
+      <FeedbackAppointmentModal
+        isVisible={isModalVisible}
+        onClose={handleCloseModal}
+        appointmentId={id}
       >
-        <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
-          <View className="bg-white p-10 rounded-3xl w-3/4">
-            <Text className="text-xl mb-4">Avaliação do Prontuário</Text>
-            <Pressable onPress={handleCloseModal}>
-              <Text className="text-blue-500">Fechar</Text>
-            </Pressable>
-          </View>
-        </View>
-      </Modal>
+      </FeedbackAppointmentModal>
 
       <Navbar />
     </KeyboardAvoidingView>

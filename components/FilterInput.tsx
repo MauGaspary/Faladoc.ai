@@ -14,7 +14,7 @@ type FilterInputType = {
 
 export function FilterInput({ isPatientSelected }: FilterInputType) {
   const [searchTerm, setSearchTerm] = useState("");
-  const { patientInfo, setPatientInfo } = useContext(SessionContext);
+  const { patientInfo, setPatientInfo, doctorInfo } = useContext(SessionContext);
   const [patients, setPatients] = useState<PatientDTO[]>([]);
   const timeoutId = useRef(null);
 
@@ -31,7 +31,7 @@ export function FilterInput({ isPatientSelected }: FilterInputType) {
         try {
           const response = await axios.get(
             // `${process.env.EXPO_PUBLIC_API_URL}/patients/${text}`
-            `http://3.22.75.73:3000/patients?name=${text}`
+            `http://3.22.75.73:3000/patients?name=${text}&doctor_id=${doctorInfo.id}`
           );
           setPatients(response.data);
         } catch (error) {

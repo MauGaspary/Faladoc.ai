@@ -65,7 +65,7 @@ export default function ResetPasswordCodeScreen({ navigation }: any) {
             <AppText className="text-lg text-white">Não recebeu o código?</AppText>
             <AppText
               className="ml-2 text-lg text-background underline"
-              onPress={() => console.log("Reenviar")}
+              // onPress={() => console.log("Reenviar")}
             >
               Reenviar
             </AppText>
