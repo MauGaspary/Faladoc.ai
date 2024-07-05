@@ -24,7 +24,6 @@ import ViewChartScreen from "./screens/ViewChartScreen/ViewChartScreen";
 import ListPatientsScreen from "./screens/ListPatientsScreen/ListPatientsScreen";
 
 import { useFonts } from "expo-font";
-import AppLoading from 'expo-app-loading';
 import { ActivityIndicator } from "react-native";
 
 
