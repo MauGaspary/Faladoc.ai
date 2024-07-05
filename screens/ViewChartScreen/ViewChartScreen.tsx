@@ -89,7 +89,7 @@ export default function ViewChartScreen({ navigation }: any) {
       setPatient(patientResponse.data);
 
       setDiagnostic(medical_record_original || "");
-      setTempDiagnostic(medical_record_final || "");
+      setTempDiagnostic(medical_record_final || medical_record_original);
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
     }
@@ -98,8 +98,11 @@ export default function ViewChartScreen({ navigation }: any) {
   const handleEdit = () => {
     setIsEditing(true);
   };
+
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
 
   const handleConfirm = async () => {
@@ -166,7 +169,7 @@ export default function ViewChartScreen({ navigation }: any) {
   return (
     <Pressable className="h-full" onPress={handleScreenPress}>
     <KeyboardAvoidingView className="flex-1 bg-background rounded-t-3xl pt-2 max-w-full">
-      <ScrollView className="pb-8 mt-10">
+      <ScrollView className="pb-20 mt-10 h-80">
         <AppText className="text-2xl text-gray-700 leading-12 text-left ml-6">
           Informações da Consulta
         </AppText>
@@ -235,7 +238,7 @@ export default function ViewChartScreen({ navigation }: any) {
                     </>
                   ) : (
                     <AppText className="text-lg text-timer ml-5 mr-5 mt-3 mb-5">
-                      {diagnostic}
+                      {tempDiagnostic}
                     </AppText>
                   )}
                 </>

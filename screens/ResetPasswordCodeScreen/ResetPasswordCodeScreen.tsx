@@ -16,9 +16,11 @@ export default function ResetPasswordCodeScreen({ navigation }: any) {
   const [code, setCode] = useState<string>("");
 
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
-  
+
   useEffect(() => {
     if (code.length === 4) {
       handleCode();
@@ -65,7 +67,6 @@ export default function ResetPasswordCodeScreen({ navigation }: any) {
             <AppText className="text-lg text-white">Não recebeu o código?</AppText>
             <AppText
               className="ml-2 text-lg text-background underline"
-              // onPress={() => console.log("Reenviar")}
             >
               Reenviar
             </AppText>

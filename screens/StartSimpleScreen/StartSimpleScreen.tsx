@@ -11,7 +11,9 @@ import { AddPatientModal } from '../../components/AddPatientModal';
 import AppText from "../../components/AppText";
 
 const handleScreenPress = () => {
-  Keyboard.dismiss();
+  if (Keyboard.isVisible()) {
+    Keyboard.dismiss();
+  }
 };
 
 

@@ -24,6 +24,7 @@ export default function ConsultaAndamento({navigation}:any) {
   const [stopped, setStopped] = useState(false);
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isDiscardModalVisible, setIsDiscardModalVisible] = useState(false);
   const [isMicPermissionModalVisible, setIsMicPermissionModalVisible] = useState(false);
   const { setUri, patientInfo, appoitmentInfos, setAppoitmentInfos } = useContext(SessionContext);
 
@@ -77,9 +78,10 @@ export default function ConsultaAndamento({navigation}:any) {
     }
   };
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
-
   const handleRecordingStart = async () => {
     const { granted } = await Audio.getPermissionsAsync();
 
@@ -139,7 +141,7 @@ export default function ConsultaAndamento({navigation}:any) {
           ...appoitmentInfos,
           duration: minutes * 60 + seconds,
         });
-        setIsConfirmModalVisible(false);
+        setIsModalVisible(false);
         navigation.navigate("ProcessingAppointment");
       }
     } catch (error) {
@@ -156,7 +158,7 @@ export default function ConsultaAndamento({navigation}:any) {
   };
 
   const handleStopConsultation = () => {
-    setIsConfirmModalVisible(true);
+    setIsModalVisible(true);
   };
 
   const handleDiscardRecording = async () => {
@@ -222,8 +224,8 @@ export default function ConsultaAndamento({navigation}:any) {
       </View>
       <StatusBar style="auto" />
       <ConfirmationModal
-        isVisible={isConfirmModalVisible}
-        onClose={() => setIsConfirmModalVisible(false)}
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
         onConfirm={handleRecordingStop}
         text="Voce deseja realmente finalizar a consulta?"
         cancelButtonText="Cancelar"

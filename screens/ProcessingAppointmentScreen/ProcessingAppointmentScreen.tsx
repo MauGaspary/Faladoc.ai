@@ -106,7 +106,9 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
     }
   }
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
   const handleHomeButton = () => {
     setAppoitmentInfos({
@@ -121,7 +123,7 @@ export default function ProcessingAppointmentScreen({ navigation }: any) {
       date_of_birth: "",
       cpf: "",
     });
-    navigation.navigate("StartNewAppointment");
+    navigation.navigate("Home");
   };
 
   return (

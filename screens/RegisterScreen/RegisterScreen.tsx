@@ -40,7 +40,9 @@ const RegisterScreen = ({navigation}:any) => {
     setPassword(newPassword);
   };
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
   const handleRegister = async () => {
     if (!email.trim()) {
@@ -74,10 +76,9 @@ const RegisterScreen = ({navigation}:any) => {
 
   return (
     <Pressable className="h-full" onPress={handleScreenPress}>
-    <KeyboardAvoidingView className="bg-background rounded-t-[30px] pt-2 max-w-full px-3">
-      <ScrollView className="pb-8">
+    <KeyboardAvoidingView className="bg-background pt-2 max-w-full px-3">
+      <ScrollView className="h-screen">
         <AppText className="text-[40px] text-[#505050] leading-48 text-left ml-[30] my-4">Cadastro</AppText>
-        <AppText className="text-[20px] text-[#505050] leading-48 text-left font-semibold">Digite o CRM e o Estado de Registro</AppText>
             <View className="bg-[#D0EFF0] items-center">
                 <View className="w-full flex-row justify-center space-x-2">
                   <View className="w-2/5">

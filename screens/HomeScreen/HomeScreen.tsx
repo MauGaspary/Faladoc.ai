@@ -10,7 +10,6 @@ import AppText from "../../components/AppText";
 export default function HomeScreen({ navigation }: any) {
   const [appointments, setAppointments] = useState([]);
   const { doctorInfo } = useContext(SessionContext);
-  console.log(doctorInfo)
 
   useEffect(() => {
     getAppointments();
@@ -19,7 +18,7 @@ export default function HomeScreen({ navigation }: any) {
   const getAppointments = async () => {
     try {
       const res = await axios.get(
-        `http://3.22.75.73:3000/appointments?doctor_id=${doctorInfo.id}&appointment_status=PROCESSING`
+        `http://3.22.75.73:3000/appointments?doctor_id=${doctorInfo.id}&appointment_status=WAITING_APPROVAL`
       );
       setAppointments(res.data);
     } catch (error) {
@@ -42,8 +41,11 @@ export default function HomeScreen({ navigation }: any) {
     const [year, month, day] = dateString.split("-");
     return `${day}/${month}/${year}`;
   };
+
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
 
   return (
@@ -84,9 +86,9 @@ export default function HomeScreen({ navigation }: any) {
       </View>
       <View className="mx-11 mt-7">
         <AppText className="text-subtitle text-base font-semibold">
-          Prontuários em processamento
+          Prontuários recentes
         </AppText>
-        <ScrollView className="mt-3 w-full h-80">
+        <ScrollView className="mt-3 w-full h-96">
           <View className="flex items-center justify-center h-full">
             {appointments.length === 0 ? (
               <AppText className="text-base text-subtitle mt-24">

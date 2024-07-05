@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Text, TextInput, View } from "react-native";
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 import { ScrollView, Pressable } from "react-native";
@@ -12,40 +12,65 @@ type FilterInputType = {
   isPatientSelected: boolean
 };
 
+interface Patient {
+  id: string;
+  date_of_birth: string;
+  name: string;
+  cpf: string;
+}
+
+
 export function FilterInput({ isPatientSelected }: FilterInputType) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [patients, setPatients] = useState<Patient[]>([]);
+  const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const { patientInfo, setPatientInfo, doctorInfo } = useContext(SessionContext);
-  const [patients, setPatients] = useState<PatientDTO[]>([]);
   const timeoutId = useRef(null);
 
-  const handleSearch = (text: string) => {
-    setSearchTerm(text);
-
-    if (timeoutId.current) {
-      clearTimeout(timeoutId.current);
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `http://3.22.75.73:3000/patients/doctor/${doctorInfo.id}`
+      );
+      const data = await response.data;
+      setPatients(data);
+      setFilteredPatients(data);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
     }
-
-
-    timeoutId.current = setTimeout(async () => {
-      if (text.length >= 1) {
-        try {
-          const response = await axios.get(
-            // `${process.env.EXPO_PUBLIC_API_URL}/patients/${text}`
-            `http://3.22.75.73:3000/patients?name=${text}&doctor_id=${doctorInfo.id}`
-          );
-          setPatients(response.data);
-        } catch (error) {
-          console.error("Failed to fetch data:", error);
-          setPatients([]);
-        }
-      }
-    }, 500);
   };
+  
+  useEffect(() => {
+    handleSearch();
+  }, [searchTerm, patients]);
+
+  const normalizeString = (str: string) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
+  const handleSearch = () => {
+    const normalizedSearchTerm = normalizeString(searchTerm.toLowerCase());
+    const filtered = patients.filter((patient) => {
+      const normalizedPatientName = normalizeString(
+        patient?.name?.toLowerCase()
+      );
+
+      return normalizedPatientName.includes(normalizedSearchTerm); 
+    });
+
+    setFilteredPatients(filtered);
+  };
+
 
   const selectPatient = (patient: PatientDTO) => {
     setPatientInfo(patient);
     setSearchTerm("");
     setPatients([]);
+    setFilteredPatients([]);
   };
 
   return (
@@ -73,7 +98,7 @@ export function FilterInput({ isPatientSelected }: FilterInputType) {
                 placeholder="Pesquisar paciente"
                 placeholderTextColor="gray"
                 value={searchTerm}
-                onChangeText={handleSearch}
+                onChangeText={setSearchTerm}
               />
             </View>
 
@@ -82,8 +107,8 @@ export function FilterInput({ isPatientSelected }: FilterInputType) {
                 className="w-full mt-1 border-t border-lightGreen max-h-32"
                 showsVerticalScrollIndicator={false}
               >
-                {patients.length ? (
-                  patients.map((patient) => (
+                {filteredPatients.length ? (
+                  filteredPatients.map((patient) => (
                     <Pressable
                       className="w-full border-b border-lightGreen"
                       onPress={() => selectPatient(patient)}

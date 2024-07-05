@@ -24,7 +24,9 @@ export default function PasswordResetScreen({ navigation }: any) {
     }
   }
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
   return (
     <Pressable className="h-full" onPress={handleScreenPress}>

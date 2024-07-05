@@ -26,7 +26,9 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
     });
   };
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
   const handleContext = (text: string) => {
     setAppoitmentInfos({
@@ -103,7 +105,7 @@ const StartNewAppointmentScreen = ({ navigation }: any) => {
 
         <Input
           iconName={"list-outline"}
-          placeholder={"Context da Consulta"}
+          placeholder={"Contexto da Consulta"}
           value={appoitmentInfos.context}
           onChangeText={handleContext}
         />

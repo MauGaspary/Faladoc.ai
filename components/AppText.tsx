@@ -1,4 +1,3 @@
-// AppText.tsx
 import React from 'react';
 import { Text, TextProps, StyleSheet } from 'react-native';
 
@@ -12,7 +11,7 @@ const AppText: React.FC<TextProps> = ({ children, style, ...props }) => {
 
 const styles = StyleSheet.create({
   default: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
   },
 });
 

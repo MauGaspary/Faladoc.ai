@@ -4,9 +4,10 @@ import {StyleSheet, Text, View,Keyboard, Pressable } from 'react-native';
 import AppText from "../../components/AppText";
 
 const handleScreenPress = () => {
-  Keyboard.dismiss();
+  if (Keyboard.isVisible()) {
+    Keyboard.dismiss();
+  }
 };
-
 
 const SignInScreen = () => {
   return (

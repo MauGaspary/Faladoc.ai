@@ -23,8 +23,10 @@ import ListChartsScreen from "./screens/ListChartsScreen/ListChartsScreen";
 import ViewChartScreen from "./screens/ViewChartScreen/ViewChartScreen";
 import ListPatientsScreen from "./screens/ListPatientsScreen/ListPatientsScreen";
 
-import * as Font from 'expo-font';
-import ListRecordsScreen from "./screens/ListRecordsScreen/ListRecordsScreen";
+import { useFonts } from "expo-font";
+import AppLoading from 'expo-app-loading';
+import { ActivityIndicator } from "react-native";
+
 
 enableScreens();
 
@@ -37,7 +39,18 @@ NativeWindStyleSheet.setOutput({
 });
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'Poppins-Regular': require('./assets/fonts/Poppins/Poppins-Regular.ttf'),
+    'Poppins-Bold': require('./assets/fonts/Poppins/Poppins-Bold.ttf'),
+  });
 
+  if (!fontsLoaded) {
+    return <ActivityIndicator
+    size={70}
+    color={"grey"}
+    className="mt-10 mb-10"
+  />;
+  }
 
   return (
     <SessionProvider>
@@ -66,6 +79,8 @@ export default function App() {
           <Stack.Screen name='ProcessingAppointment' component={ProcessingAppointmentScreen} options={{ headerShown: false }}/>
           
           <Stack.Screen name='ListRecords' component={ListRecordsScreen} options={{ headerShown: false }}/>
+
+          <Stack.Screen name='ViewPatients' component={ListPatientsScreen} options={{ headerShown: false }}/>
         </Stack.Navigator>
       </NavigationContainer>
     </SessionProvider>

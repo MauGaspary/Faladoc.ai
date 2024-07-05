@@ -8,18 +8,9 @@ import api from "../../api";
 import axios from "axios";
 import { ResetPasswordModal } from "../../components/ResetPasswordModal";
 import AppText from "../../components/AppText";
-import ButtonsOnHome from "../../components/ButtonsOnHome";
-import { CancelConsultationButton } from "../../components/CancelConsultationButton";
-import { FilterInput } from "../../components/FilterInput";
-import { FiltersComponent } from "../../components/FiltersComponent";
-import Navbar from "../../components/Navbar";
-import { StopPauseButton } from "../../components/StopPauseButton";
-
 
 const screenWidth = Dimensions.get('window').width;
-
 const calculatedRadiusTop = screenWidth * (1.875 * 16) / screenWidth;
-
 
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState("");

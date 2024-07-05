@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Poppins', 'system-ui', 'sans-serif'],
+        poppins: 'Poppins'
       },
       colors: {
         invalid: '#F17777',

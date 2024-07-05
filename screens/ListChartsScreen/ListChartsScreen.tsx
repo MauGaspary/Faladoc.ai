@@ -60,7 +60,9 @@ const ListChartsScreen = ({ navigation }: any) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   };
   const handleScreenPress = () => {
-    Keyboard.dismiss();
+    if (Keyboard.isVisible()) {
+      Keyboard.dismiss();
+    }
   };
   const handleFilter = () => {
     const normalizedSearchTerm = normalizeString(searchTerm.toLowerCase());
@@ -95,7 +97,7 @@ const ListChartsScreen = ({ navigation }: any) => {
             }}
         />
       </View>
-      <ScrollView className="px-4 mt-3 w-full h-lvh">
+      <ScrollView className="px-4 mt-3 w-full h-80 pb-6">
         <View className="flex items-center justify-center h-full">
           {filteredAppointments.map((appointment, index) => (
             <Pressable
