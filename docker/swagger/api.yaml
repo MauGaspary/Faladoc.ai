@@ -5,6 +5,7 @@ info:
     This is a sample Faladoc Ai Server based on the OpenAPI 3.0 specification.
   version: 1.0.11
 servers:
+  - url: http://3.22.75.73:3000/
   - url: http://localhost:3000/
 tags:
   - name: login
@@ -17,8 +18,10 @@ tags:
     description: Operations about user
   - name: patients
     description: Operations about user
+  - name: passwordReset
+    description: Resets the password
 paths:
-  /login: # meu
+  /login:
     post:
       tags:
         - login
@@ -55,6 +58,7 @@ paths:
           description: Email ou senha inválidos
         '404':
           description: Usuário não encontrado
+  # esse endpoint não funciona porque o swagger não permite que um get contenha body
   /users:
     get:
       tags:
@@ -108,58 +112,12 @@ paths:
               schema:
                 type: object
                 properties:
-                  email:
+                  id:
                     type: string
-                    example: andre@email.com
-                  password: 
-                    type: string
-                    example: senha@123
-                  userType:
-                    type: string
-                    example: DOCTOR
+                    example: a1b4e89e-f637-4cb5-b956-04f7e72c99ca
         '500':
           description: Erro ao criar login de usuário
-  /users/{token}:
-    patch:
-      tags:
-        - users
-      summary: createUser
-      description: Returns a User
-      parameters:
-        - name: token
-          in: path
-          description: jwt token
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                password: 
-                  type: string
-                  example: senha@123
-              required:
-                - password
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  email:
-                    type: string
-                    example: andre@email.com
-                  userType:
-                    type: string
-                    example: DOCTOR
-        '500':
-          description: Erro ao buscar usuário
-  /doctors: # meu
+  /doctors:
     get:
       tags:
         - doctors
@@ -180,7 +138,6 @@ paths:
         - doctors
       summary: createDoctor
       description: create a doctor account
-      # operationId: placeOrder
       requestBody:
         content:
           application/json:
@@ -203,18 +160,61 @@ paths:
         - appointments
       summary: getAppointments
       description: Returns all appointments
-      # TODO: essa request recebe um query.param que não sei o que é.
       responses:
         '200':
           description: successful operation
           content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  email:
-                    type: string
-                    example: andre@email.com
+               schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                        type: string
+                        example: 123e4567-e89b-12d3-a456-426614174004
+                    doctor_id:
+                        type: string
+                        example: 123e4567-e89b-12d3-a456-426614174004
+                    patient_id:
+                        type: string
+                        example: 123e4567-e89b-12d3-a456-426614174004
+                    appointment_context:
+                        type: string
+                        example: Consulta de Rotina
+                    appointment_date:
+                        type: string
+                        example: 2021-08-23
+                    duration:
+                        type: number
+                        example: 57
+                    hospital:
+                        type: string
+                        example: Santa Casa
+                    appointment_status:
+                        type: string
+                        example: APPROVED
+                    feedback_score:
+                        type: number
+                        example: 5
+                    feedback_text:
+                        type: string
+                        example: "Ótimo atendimento"
+                    patient:
+                        type: object
+                        properties:
+                            id:
+                                type: string
+                                example: 123e4567-e89b-12d3-a456-426614174004
+                            name:
+                                type: string
+                                example: André da Silva
+                            date_of_birth:
+                                type: string
+                                example: 1990-01-01
+                            cpf:
+                                type: string
+                                example: 42030243078
         '404':
           description: Usuário não encontrado
         '500':
@@ -250,8 +250,23 @@ paths:
           description: successful operation
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Doctor'
+               schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                        type: string
+                        example: 123e4567-e89b-12d3-a456-426614174004
+                    name:
+                      type: string
+                      example: André da Silva
+                    date_of_birth:
+                      type: string
+                      example: 1990-01-01
+                    cpf:
+                      type: string
+                      example: 42030243078
         '400':
           description: Invalid input
         '422':
@@ -313,19 +328,41 @@ paths:
           description: successful operation
         '500':
           description: Erro ao deletar consulta
-  /patients/{name}:
+  /patients:
     get:
       tags:
         - patients
-      summary: getAppointments
+      summary: Get patients
       description: Returns a patient by name
       parameters:
         - name: name
-          in: path
-          description: doctor name
-          required: true
+          in: query
+          description: Get patients by name
           schema:
             type: string
+          required: false
+          explode: true
+        - cpf: cpf
+          in: query
+          description: Get patients by cpf
+          schema:
+            type: string
+          required: false
+          explode: true
+        - date_of_birth: date_of_birth
+          in: query
+          description: Get patients by date_of_birth
+          schema:
+            type: string
+          required: false
+          explode: true
+        - id: id
+          in: query
+          description: Get patients by id
+          schema:
+            type: string
+          required: false
+          explode: true
       responses:
         '200':
           description: successful operation
@@ -350,8 +387,7 @@ paths:
                       example: 42030243078
         '500':
           description: Erro ao buscar pacientes
-  /patients:
-     post:
+    post:
       tags:
         - patients
       summary: createPatient
@@ -398,6 +434,75 @@ paths:
           description: Invalid input
         '422':
           description: Validation exception
+  /passwordReset:
+    post:
+      tags:
+        - passwordReset
+      summary: Create a token to reset password
+      description: creates a token to reset the password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "andre@email.com"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: Código de recuperação de senha enviado com sucesso
+                  code:
+                    type: integer
+                    format: int32
+                    example: 7400
+        '400':
+          description: "Erro ao criar token de recuperação de senha"
+  /users/{token}:
+    patch:
+      tags:
+        - passwordReset
+      summary: resetPassword
+      description: Recives a token from /passwordReset route and reset the password
+      parameters:
+        - name: token
+          in: path
+          description: code to reset password
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password: 
+                  type: string
+                  example: senha@123
+              required:
+                - password
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Senha alterada com sucesso.
+        '500':
+          description: Erro ao buscar usuário
 components:
   schemas:
     Doctor:
