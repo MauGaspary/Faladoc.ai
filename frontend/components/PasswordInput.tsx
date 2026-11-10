@@ -1,0 +1,76 @@
+import React, { useEffect, useState } from "react";
+
+import { Text, View } from "react-native";
+import { TextInput } from "react-native";
+import { Feather } from "@expo/vector-icons";
+
+import AppText from "./AppText";
+
+type PasswordInputProps = {
+  mode: 'login' | 'register';
+  getPassword: (e:string) => void;
+};
+
+export function PasswordInput({ mode, getPassword }: PasswordInputProps) {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [hidePassword, setHidePassword] = useState(true);
+
+  const passwordValidations = [
+    { rule: "A senha deve conter no mínimo 8 caracteres.", isValid: password.length >= 8 },
+    { rule: "Deve conter ao menos um caractere especial.", isValid: /\W/.test(password) },
+    { rule: "Deve conter ao menos um número.", isValid: /\d/.test(password) },
+    { rule: "As senhas não coincidem.", isValid: password === confirmPassword && confirmPassword.length > 0 },
+  ];
+
+  useEffect(() => {
+    getPassword(password);
+  }, [password]);
+
+  return (
+    <View className="flex items-center w-full">
+      <View className="flex-row w-full border-2 border-lightGreen rounded-full justify-between p-3 m-3 bg-white">
+        <View className="flex-row justify-between items-center gap-1 w-full">
+          <Feather name="lock" size={24} color="black" />
+          <TextInput secureTextEntry={hidePassword} onChangeText={setPassword} placeholder="Senha" className="text-subtitle w-4/5" placeholderTextColor="gray"/>
+            <Feather
+              name={hidePassword ? "eye-off" : "eye"}
+              size={24}
+              color="black"
+              onPress={() => setHidePassword(!hidePassword)}
+              />
+        </View>
+      </View>
+      {mode === "register" && (
+        <>
+          <View className="justify-start">
+            {passwordValidations.map(({ rule, isValid }, index) => (
+              <View key={index} className={`flex-row justify-start`}>
+                <Feather name={isValid ? "check" : "x"} size={16} color={isValid ? "green" : "red"} />
+                <AppText className={`${isValid ? "text-green-600" : "text-red-600"} text-[1rem]`}>{rule}</AppText>
+              </View>
+            ))}
+          </View>
+
+          <View className="w-full flex-row border-2 border-lightGreen rounded-full justify-between p-3 m-3 bg-white">
+            <View className="flex-row justify-between items-center gap-1 w-full">
+              <Feather name="lock" size={24} color="black" />
+              <TextInput
+                secureTextEntry={hidePassword}
+                onChangeText={setConfirmPassword}
+                placeholder="Confirmar senha"
+                className="ml-2 text-subtitle w-4/5"
+              />
+              <Feather
+                name={hidePassword ? "eye-off" : "eye"}
+                size={24}
+                color="black"
+                onPress={() => setHidePassword(!hidePassword)}
+                />
+            </View>
+          </View>
+        </>
+      )}
+    </View>
+  );
+}

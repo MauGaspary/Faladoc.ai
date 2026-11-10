@@ -1,0 +1,19 @@
+FROM node:20.11.1
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install --no-cache
+RUN npm install @expo/ngrok
+
+COPY . .
+
+ENV CI=1
+
+EXPOSE 19000
+EXPOSE 19001
+EXPOSE 19002
+EXPOSE 8081
+
+CMD ["npm", "start"]
